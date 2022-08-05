@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">KISapi</string>
+    <string name="api_key"></string>
+    <string name="api_key_secret"></string>
+</resources>
