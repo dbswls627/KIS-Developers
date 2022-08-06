@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         db = AppDatabase.getInstance(this)
-        
+
         b = findViewById(R.id.button)
         b2 = findViewById(R.id.button2)
         b3 = findViewById(R.id.button3)
@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
                      Util.API_KEY_SECRET
                  )
              ) {
-                 db?.TokenTimeDao()!!.insert(TokenTime("Bearer",it,System.currentTimeMillis().plus(80000).toString()))
+                 db?.TokenTimeDao()!!.insert(TokenTime("Bearer",it,System.currentTimeMillis().plus(80000000).toString()))
              }
          }
         //해쉬
@@ -53,6 +53,7 @@ class MainActivity : AppCompatActivity() {
         //주식잔고
         b3!!.setOnClickListener {
             RetrofitManager.instance.getInquireBalance(
+                "Bearer "+db!!.TokenTimeDao().getToken(),
                 InquireBalance(
                     "73754150",
                     "01",

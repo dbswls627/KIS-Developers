@@ -21,15 +21,16 @@ interface IRetrofit {
     fun getToken(@Body gd: TokenHeader): Call<Token>
 
     @GET("/uapi/domestic-stock/v1/trading/inquire-balance")
+
     @Headers(
         "content-type: application/json",
-        "authorization: Bearer ",
         "appkey: ${Util.API_KEY}",
         "appsecret: ${Util.API_KEY_SECRET}",
         "tr_id: TTTC8434R",
         "custtype: P"
     )
     fun getInquireBalance(
+        @Header("Authorization") token: String,
         @Query("CANO") CANO: String,
         @Query("ACNT_PRDT_CD") ACNT_PRDT_CD: String,
         @Query("AFHR_FLPR_YN") AFHR_FLPR_YN: String,

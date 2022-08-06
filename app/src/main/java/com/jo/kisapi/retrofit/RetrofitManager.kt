@@ -59,9 +59,10 @@ class RetrofitManager {
 
     }
 
-    fun getInquireBalance(inquireBalance: InquireBalance, completion: (String) -> Unit) {
+    fun getInquireBalance(token:String,inquireBalance: InquireBalance, completion: (String) -> Unit) {
 
         val call = iRetrofit?.getInquireBalance(
+            token,
             inquireBalance.CANO,
             inquireBalance.ACNT_PRDT_CD,
             inquireBalance.AFHR_FLPR_YN,
