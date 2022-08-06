@@ -15,7 +15,7 @@
         android:theme="@style/Theme.KISapi"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".Activity.MainActivity"
+            android:name=".activity.MainActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

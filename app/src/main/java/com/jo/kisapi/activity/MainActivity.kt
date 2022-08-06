@@ -1,11 +1,11 @@
-package com.jo.kisapi.Activity
+package com.jo.kisapi.activity
 
 import android.os.Bundle
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.jo.kisapi.*
-import com.jo.kisapi.Retrofit.RetrofitManager
+import com.jo.kisapi.retrofit.RetrofitManager
 
 class MainActivity : AppCompatActivity() {
 

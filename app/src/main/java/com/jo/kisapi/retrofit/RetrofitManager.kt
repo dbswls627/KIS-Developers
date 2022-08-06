@@ -1,4 +1,4 @@
-package com.jo.kisapi.Retrofit
+package com.jo.kisapi.retrofit
 
 import android.util.Log
 import com.google.gson.JsonElement
