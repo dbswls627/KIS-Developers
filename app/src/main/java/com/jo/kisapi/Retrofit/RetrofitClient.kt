@@ -1,4 +1,4 @@
-package com.jo.kisapi
+package com.jo.kisapi.Retrofit
 
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit

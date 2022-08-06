@@ -1,7 +1,11 @@
-package com.jo.kisapi
+package com.jo.kisapi.Retrofit
 
 import android.util.Log
 import com.google.gson.JsonElement
+import com.jo.kisapi.HashKey
+import com.jo.kisapi.InquireBalance
+import com.jo.kisapi.Token
+import com.jo.kisapi.TokenHeader
 import com.jo.kisapi.Util.BASE_URL
 import retrofit2.Call
 import retrofit2.Response
@@ -25,8 +29,6 @@ class RetrofitManager {
             //응답 성공
             override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
                 Log.d("로그","성공")
-                Log.d("로그",response.toString())
-                Log.d("로그",response.body().toString())
               //  completion(response.raw().toString())
             }
             //응답 실패
@@ -48,10 +50,8 @@ class RetrofitManager {
         call.enqueue(object : retrofit2.Callback<Token>{
             //응답 성공
             override fun onResponse(call: Call<Token>, response: Response<Token>) {
-                Log.d("로그","성공")
                 Log.d("로그",response.body()!!.toString())
-                Log.d("로그",response.toString())
-                //  completion(response.raw().toString())
+                  completion(response.body()!!.access_token)
             }
             //응답 실패
             override fun onFailure(call: Call<Token>, t: Throwable) {
