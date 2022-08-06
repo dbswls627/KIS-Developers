@@ -6,8 +6,11 @@ import androidx.room.OnConflictStrategy.REPLACE
 
 @Dao
 interface TokenTimeDao {
- @Query("select * from TokenTime")
- fun getLiveData(): LiveData<List<TokenTime>>
+ @Query("select time from TokenTime")
+ fun getTime(): String
+
+ @Query("select token from TokenTime")
+ fun getToken(): String
 
  @Insert(onConflict = REPLACE)
  fun insert(tokenTime: TokenTime)

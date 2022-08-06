@@ -2,16 +2,14 @@ package com.jo.kisapi.retrofit
 
 import android.util.Log
 import com.google.gson.JsonElement
-import com.jo.kisapi.HashKey
-import com.jo.kisapi.InquireBalance
-import com.jo.kisapi.Token
-import com.jo.kisapi.TokenHeader
+import com.jo.kisapi.*
 import com.jo.kisapi.Util.BASE_URL
 import retrofit2.Call
 import retrofit2.Response
 
 
 class RetrofitManager {
+
     companion object {
         val instance = RetrofitManager()
     }
@@ -44,7 +42,6 @@ class RetrofitManager {
     fun getToken(token: TokenHeader?, completion: (String) -> Unit) {
 
       //  val term: TokenHeader = (token.let { it } ?: null) as TokenHeader   //let 비어잇으면 "" 아니면 it
-
         val call = iRetrofit?.getToken(token!!).let { it } ?: return
 
         call.enqueue(object : retrofit2.Callback<Token>{
