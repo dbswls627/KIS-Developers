@@ -17,8 +17,17 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent"/>
     <Button
-        android:text="조회"
+        android:text="주식잔고 조회"
         android:id="@+id/button3"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"/>
+    <Button
+        android:text="매수가능금액 조회"
+        android:id="@+id/button4"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"/>
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"/>
 </LinearLayout>

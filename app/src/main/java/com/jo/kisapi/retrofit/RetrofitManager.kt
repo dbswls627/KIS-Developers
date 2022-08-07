@@ -80,9 +80,40 @@ class RetrofitManager {
             //응답 성공
             override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
                 Log.d("로그","성공")
+
+                Log.d("로그", response.body()!!.asJsonObject.get("output2").asJsonArray[0].asJsonObject["dnca_tot_amt"].toString())   //예수금
+                completion(response.body().toString())
+            }
+            //응답 실패
+            override fun onFailure(call: Call<JsonElement>, t: Throwable) {
+                TODO("Not yet implemented")
+            }
+
+        })
+
+    }
+
+    fun getInquireOrder(token:String,inquireOrder: InquireOrder, completion: (String) -> Unit) {
+
+        val call = iRetrofit?.getInquireOrder(
+            token,
+            inquireOrder.CANO,
+            inquireOrder.ACNT_PRDT_CD,
+            inquireOrder.PDNO,
+            inquireOrder.ORD_UNPR,
+            inquireOrder.ORD_DVSN,
+            inquireOrder.CMA_EVLU_AMT_ICLD_YN,
+            inquireOrder.OVRS_ICLD_YN
+
+        ).let { it } ?: return
+
+        call.enqueue(object : retrofit2.Callback<JsonElement>{
+            //응답 성공
+            override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
+                Log.d("로그","성공")
                 Log.d("로그",response.toString())
-                Log.d("로그",response.body().toString())
-                //  completion(response.raw().toString())
+
+                completion(response.body().toString())
             }
             //응답 실패
             override fun onFailure(call: Call<JsonElement>, t: Throwable) {

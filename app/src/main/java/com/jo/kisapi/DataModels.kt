@@ -1,5 +1,7 @@
 package com.jo.kisapi
 
+import retrofit2.http.Query
+
 data class HashKey(
     val CANO: String,
     val ACNT_PRDT_CD: String)
@@ -26,5 +28,15 @@ data class InquireBalance(
     val PRCS_DVSN: String,
     val CTX_AREA_FK100: String?,
     val CTX_AREA_NK100: String?
+)
+
+data class InquireOrder(
+    val CANO: String,
+    val ACNT_PRDT_CD: String,
+    val PDNO: String,
+    val ORD_UNPR: String,
+    val ORD_DVSN: String,
+    val CMA_EVLU_AMT_ICLD_YN: String,
+    val OVRS_ICLD_YN: String,
 )
 

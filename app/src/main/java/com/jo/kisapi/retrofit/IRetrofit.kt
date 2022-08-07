@@ -10,6 +10,7 @@ import retrofit2.http.*
 
 interface IRetrofit {
 
+    //해쉬키
     @POST("/uapi/hashkey")
     @Headers("content-type: application/json",
         "appkey: ${Util.API_KEY}",
@@ -20,8 +21,8 @@ interface IRetrofit {
     @POST("/oauth2/tokenP")
     fun getToken(@Body gd: TokenHeader): Call<Token>
 
+    //주식잔고 조회
     @GET("/uapi/domestic-stock/v1/trading/inquire-balance")
-
     @Headers(
         "content-type: application/json",
         "appkey: ${Util.API_KEY}",
@@ -42,5 +43,25 @@ interface IRetrofit {
         @Query("PRCS_DVSN") PRCS_DVSN: String,
         @Query("CTX_AREA_FK100") CTX_AREA_FK100: String?,
         @Query("CTX_AREA_NK100") CTX_AREA_NK100: String?,
+    ): Call<JsonElement>
+
+    //매수가능금액 조회
+    @GET("/uapi/domestic-stock/v1/trading/inquire-psbl-order")
+    @Headers(
+        "content-type: application/json",
+        "appkey: ${Util.API_KEY}",
+        "appsecret: ${Util.API_KEY_SECRET}",
+        "tr_id: TTTC8908R",
+        "custtype: P"
+    )
+    fun getInquireOrder(
+        @Header("Authorization") token: String,
+        @Query("CANO") CANO: String,
+        @Query("ACNT_PRDT_CD") ACNT_PRDT_CD: String,
+        @Query("PDNO") PDNO: String,
+        @Query("ORD_UNPR") ORD_UNPR: String,
+        @Query("ORD_DVSN") ORD_DVSN: String,
+        @Query("CMA_EVLU_AMT_ICLD_YN") CMA_EVLU_AMT_ICLD_YN: String,
+        @Query("OVRS_ICLD_YN") OVRS_ICLD_YN: String
     ): Call<JsonElement>
 }
