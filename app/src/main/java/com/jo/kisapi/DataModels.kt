@@ -44,9 +44,9 @@ data class output1(
     val HLDG_QTY: String,
     val PCHS_AVG_PRIC: String,
     val PRPR: String,
+    val PCHS_AMT: String,
     val EVLU_AMT: String,
     val EVLU_PFLS_AMT: String,
-    val EVLU_PFLS_RT: String,
-    val EVLU_ERNG_RT: String,
+    val EVLU_PFLS_RT: String
 )
 

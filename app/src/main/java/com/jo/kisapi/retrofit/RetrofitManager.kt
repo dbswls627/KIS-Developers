@@ -82,21 +82,22 @@ class RetrofitManager {
             //응답 성공
             override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
                 Log.d("로그","성공")
+                Log.d("로그",response.body().toString())
 
                 val jsonArray: JsonArray = response.body()!!.asJsonObject.get("output1").asJsonArray
                 var arrayList =  ArrayList<output1>()
                 for (i in 0 until jsonArray.size()) {
                     var jsonObject: JsonObject = jsonArray[i].asJsonObject
                         arrayList.add(output1(
-                        jsonObject["pdno"].toString(),
-                        jsonObject["prdt_name"].toString(),
-                        jsonObject["hldg_qty"].toString(),          //매입 개수
-                        jsonObject["pchs_avg_pric"].toString(),     //매입 평균가
-                        jsonObject["prpr"].toString(),              //현재가
-                        jsonObject["evlu_amt"].toString(),         //평가금액
-                        jsonObject["evlu_pfls_amt"].toString(), //평가손익금액
-                        jsonObject["evlu_pfls_rt"].toString(),     //평가손익률
-                        jsonObject["evlu_erng_rt"].toString() //평가수익률
+                        jsonObject["pdno"].toString().replace("\"",""),
+                        jsonObject["prdt_name"].toString().replace("\"",""),
+                        jsonObject["hldg_qty"].toString().replace("\"",""),          //매입 개수
+                        jsonObject["pchs_avg_pric"].toString().replace("\"",""),     //매입 평균가
+                        jsonObject["prpr"].toString().replace("\"",""),              //현재가
+                        jsonObject["pchs_amt"].toString().replace("\"",""),          //매입금액
+                        jsonObject["evlu_amt"].toString().replace("\"",""),         //평가금액
+                        jsonObject["evlu_pfls_amt"].toString().replace("\"",""),  //평가손익금액
+                        jsonObject["evlu_pfls_rt"].toString().replace("\"","")     //평가손익률
                     ))
                 }
                 if (arrayList != null) {

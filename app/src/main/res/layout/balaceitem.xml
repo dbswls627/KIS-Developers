@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/border"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/prdt_name"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@drawable/border"
+                android:ellipsize="end"
+                android:ems="6"
+                android:maxLines="1"
+                android:padding="5dp"
+                android:text="케이뱅크"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/evlu_pfls_amt"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@drawable/border"
+                android:ellipsize="end"
+                android:ems="6"
+                android:gravity="right"
+                android:maxLines="1"
+                android:padding="5dp"
+                android:text="평가손익" />
+
+            <TextView
+                android:id="@+id/hldg_qty"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@drawable/border"
+                android:ellipsize="end"
+                android:ems="6"
+                android:gravity="right"
+                android:maxLines="1"
+                android:padding="5dp"
+                android:text="잔고수량" />
+
+            <TextView
+                android:id="@+id/pchs_avg_pric"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@drawable/border"
+                android:ellipsize="end"
+                android:ems="6"
+                android:gravity="right"
+                android:maxLines="1"
+                android:padding="5dp"
+                android:text="매입가" />
+
+            <TextView
+                android:id="@+id/pchs_amt"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@drawable/border"
+                android:ellipsize="end"
+                android:ems="6"
+                android:gravity="right"
+                android:maxLines="1"
+                android:padding="5dp"
+                android:text="매입금액" />
+
+        </LinearLayout>
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/border"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@drawable/border"
+                android:ellipsize="end"
+                android:ems="6"
+                android:maxLines="1"
+                android:padding="5dp"
+                android:text=""
+                android:textSize="15dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/evlu_pfls_rt"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@drawable/border"
+                android:ellipsize="end"
+                android:ems="6"
+                android:gravity="right"
+                android:maxLines="1"
+                android:padding="5dp"
+                android:text="평가수익률" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@drawable/border"
+                android:ellipsize="end"
+                android:ems="6"
+                android:gravity="right"
+                android:maxLines="1"
+                android:padding="5dp"
+                android:text="" />
+
+            <TextView
+                android:id="@+id/prpr"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@drawable/border"
+                android:ellipsize="end"
+                android:ems="6"
+                android:gravity="right"
+                android:maxLines="1"
+                android:padding="5dp"
+                android:text="현재가" />
+
+            <TextView
+                android:id="@+id/evlu_amt"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@drawable/border"
+                android:ellipsize="end"
+                android:ems="6"
+                android:gravity="right"
+                android:maxLines="1"
+                android:padding="5dp"
+                android:text="    평가금액" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

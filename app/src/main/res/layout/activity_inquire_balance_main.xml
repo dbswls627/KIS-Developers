@@ -1,9 +1,243 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".activity.InquireBalanceMainActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:padding="5dp"
+            android:background="@drawable/grayborder"
+            android:textSize="15dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="매입금액" />
+
+        <TextView
+            android:padding="5dp"
+            android:background="@drawable/border"
+            android:textSize="15dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2" />
+
+        <TextView
+            android:padding="5dp"
+            android:background="@drawable/grayborder"
+            android:textSize="15dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="손익" />
+
+        <TextView
+            android:padding="5dp"
+            android:background="@drawable/border"
+            android:text=""
+            android:textSize="15dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:padding="5dp"
+            android:background="@drawable/grayborder"
+            android:textSize="15dp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="평가금액"/>
+        <TextView
+            android:padding="5dp"
+            android:background="@drawable/border"
+            android:textSize="15dp"
+            android:layout_weight="2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:padding="5dp"
+            android:background="@drawable/grayborder"
+            android:textSize="15dp"
+            android:layout_weight="1"
+            android:text="수익률"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:padding="5dp"
+            android:background="@drawable/border"
+            android:textSize="15dp"
+            android:layout_weight="2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:padding="5dp"
+            android:background="@drawable/grayborder"
+            android:textSize="15dp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="추정자산"/>
+        <TextView
+            android:padding="5dp"
+            android:background="@drawable/border"
+            android:textSize="15dp"
+            android:layout_weight="2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:padding="5dp"
+            android:background="@drawable/grayborder"
+            android:textSize="15dp"
+            android:layout_weight="1"
+            android:text="예수금"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:padding="5dp"
+            android:background="@drawable/border"
+            android:textSize="15dp"
+            android:layout_weight="2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:background="@drawable/grayborder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:padding="5dp"
+            android:background="@drawable/border"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:ellipsize="end"
+            android:ems="6"
+            android:maxLines="1"
+            android:text="종목명"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:padding="5dp"
+            android:background="@drawable/border"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:ellipsize="end"
+            android:ems="6"
+            android:maxLines="1"
+            android:text="평가손익" />
+
+        <TextView
+            android:padding="5dp"
+            android:background="@drawable/border"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:ellipsize="end"
+            android:ems="6"
+            android:maxLines="1"
+            android:text="잔고수량" />
+
+        <TextView
+            android:padding="5dp"
+            android:background="@drawable/border"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:ellipsize="end"
+            android:ems="6"
+            android:maxLines="1"
+            android:text="매입가" />
+
+        <TextView
+            android:padding="5dp"
+            android:background="@drawable/border"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:ellipsize="end"
+            android:ems="6"
+            android:maxLines="1"
+            android:text="매입금액" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:background="@drawable/grayborder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:padding="5dp"
+            android:background="@drawable/border"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:ellipsize="end"
+            android:ems="6"
+            android:maxLines="1"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:padding="5dp"
+            android:background="@drawable/border"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:ellipsize="end"
+            android:ems="6"
+            android:maxLines="1"
+            android:text="평가수익률" />
+
+        <TextView
+            android:padding="5dp"
+            android:background="@drawable/border"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:ellipsize="end"
+            android:ems="6"
+            android:maxLines="1"/>
+
+        <TextView
+            android:padding="5dp"
+            android:background="@drawable/border"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:ellipsize="end"
+            android:ems="6"
+            android:maxLines="1"
+            android:text="현재가" />
+
+        <TextView
+            android:padding="5dp"
+            android:background="@drawable/border"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:ellipsize="end"
+            android:ems="6"
+            android:maxLines="1"
+            android:text="평가금액" />
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/re"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>

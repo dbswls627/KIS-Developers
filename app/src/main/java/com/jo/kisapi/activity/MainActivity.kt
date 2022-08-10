@@ -1,5 +1,6 @@
 package com.jo.kisapi.activity
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.widget.Button
@@ -55,29 +56,8 @@ class MainActivity : AppCompatActivity() {
 
         //주식잔고 조회
         b3!!.setOnClickListener {
-            RetrofitManager.instance.getInquireBalance(
-                "Bearer "+db!!.TokenTimeDao().getToken(),
-                InquireBalance(
-                    "73754150",
-                    "01",
-                    "N",
-                    "",
-                    "01",
-                    "01",
-                    "N",
-                    "N",
-                    "01",
-                    "",
-                    "")
-            ) {
-                var str = ""
-                it.forEach {
-                    str += "종목명 : " + it.PRDT_NAME+"\n"
-                    str += "매입개수 : " + it.HLDG_QTY+"\n"
-                    str += "평가금액 : " + it.EVLU_AMT+"\n"
-                }
-                mTextView!!.text = str
-            }
+            val intent = Intent(this,InquireBalanceMainActivity::class.java)
+            startActivity(intent)
         }
 
         //매수가능금액 조회
