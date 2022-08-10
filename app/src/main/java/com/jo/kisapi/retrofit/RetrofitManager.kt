@@ -1,9 +1,12 @@
 package com.jo.kisapi.retrofit
 
 import android.util.Log
+import com.google.gson.JsonArray
 import com.google.gson.JsonElement
+import com.google.gson.JsonObject
 import com.jo.kisapi.*
 import com.jo.kisapi.Util.BASE_URL
+import org.json.JSONArray
 import retrofit2.Call
 import retrofit2.Response
 
@@ -39,9 +42,8 @@ class RetrofitManager {
 
     }
 
-    fun getToken(token: TokenHeader?, completion: (String) -> Unit) {
+    fun getToken(token: TokenBody?, completion: (String) -> Unit) {
 
-      //  val term: TokenHeader = (token.let { it } ?: null) as TokenHeader   //let 비어잇으면 "" 아니면 it
         val call = iRetrofit?.getToken(token!!).let { it } ?: return
 
         call.enqueue(object : retrofit2.Callback<Token>{
@@ -52,14 +54,14 @@ class RetrofitManager {
             }
             //응답 실패
             override fun onFailure(call: Call<Token>, t: Throwable) {
-                TODO("Not yet implemented")
+
             }
 
         })
 
     }
 
-    fun getInquireBalance(token:String,inquireBalance: InquireBalance, completion: (String) -> Unit) {
+    fun getInquireBalance(token:String,inquireBalance: InquireBalance, completion: (ArrayList<output1>) -> Unit) {
 
         val call = iRetrofit?.getInquireBalance(
             token,
@@ -81,8 +83,25 @@ class RetrofitManager {
             override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
                 Log.d("로그","성공")
 
-                Log.d("로그", response.body()!!.asJsonObject.get("output2").asJsonArray[0].asJsonObject["dnca_tot_amt"].toString())   //예수금
-                completion(response.body().toString())
+                val jsonArray: JsonArray = response.body()!!.asJsonObject.get("output1").asJsonArray
+                var arrayList =  ArrayList<output1>()
+                for (i in 0 until jsonArray.size()) {
+                    var jsonObject: JsonObject = jsonArray[i].asJsonObject
+                        arrayList.add(output1(
+                        jsonObject["pdno"].toString(),
+                        jsonObject["prdt_name"].toString(),
+                        jsonObject["hldg_qty"].toString(),          //매입 개수
+                        jsonObject["pchs_avg_pric"].toString(),     //매입 평균가
+                        jsonObject["prpr"].toString(),              //현재가
+                        jsonObject["evlu_amt"].toString(),         //평가금액
+                        jsonObject["evlu_pfls_amt"].toString(), //평가손익금액
+                        jsonObject["evlu_pfls_rt"].toString(),     //평가손익률
+                        jsonObject["evlu_erng_rt"].toString() //평가수익률
+                    ))
+                }
+                if (arrayList != null) {
+                    completion(arrayList)
+                }
             }
             //응답 실패
             override fun onFailure(call: Call<JsonElement>, t: Throwable) {

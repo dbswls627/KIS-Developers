@@ -3,7 +3,7 @@ package com.jo.kisapi.retrofit
 import com.google.gson.JsonElement
 import com.jo.kisapi.HashKey
 import com.jo.kisapi.Token
-import com.jo.kisapi.TokenHeader
+import com.jo.kisapi.TokenBody
 import com.jo.kisapi.Util
 import retrofit2.Call
 import retrofit2.http.*
@@ -19,7 +19,7 @@ interface IRetrofit {
     fun getHashKey(@Body gd: HashKey): Call<JsonElement>
 
     @POST("/oauth2/tokenP")
-    fun getToken(@Body gd: TokenHeader): Call<Token>
+    fun getToken(@Body gd: TokenBody): Call<Token>
 
     //주식잔고 조회
     @GET("/uapi/domestic-stock/v1/trading/inquire-balance")

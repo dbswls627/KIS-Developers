@@ -2,7 +2,6 @@ package com.jo.kisapi.activity
 
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -37,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         //토큰 갱신
          if (db!!.TokenTimeDao().getTime()!!.toLong() < System.currentTimeMillis()){
              RetrofitManager.instance.getToken(
-                 TokenHeader(
+                 TokenBody(
                      "client_credentials",
                      appkey = Util.API_KEY,
                      Util.API_KEY_SECRET
@@ -52,7 +51,6 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "gd", Toast.LENGTH_SHORT).show()
             }
         }
-
 
 
         //주식잔고 조회
@@ -72,7 +70,13 @@ class MainActivity : AppCompatActivity() {
                     "",
                     "")
             ) {
-                mTextView!!.text= it
+                var str = ""
+                it.forEach {
+                    str += "종목명 : " + it.PRDT_NAME+"\n"
+                    str += "매입개수 : " + it.HLDG_QTY+"\n"
+                    str += "평가금액 : " + it.EVLU_AMT+"\n"
+                }
+                mTextView!!.text = str
             }
         }
 

@@ -6,15 +6,13 @@ data class HashKey(
     val CANO: String,
     val ACNT_PRDT_CD: String)
 
-data class TokenHeader(
+data class TokenBody(
     val grant_type: String,
     val appkey: String,
     val appsecret: String)
 
 data class Token(
-    val access_token: String,
-    val token_type: String,
-    val expires_in: String)
+    val access_token: String)
 
 data class InquireBalance(
     val CANO: String,
@@ -38,5 +36,17 @@ data class InquireOrder(
     val ORD_DVSN: String,
     val CMA_EVLU_AMT_ICLD_YN: String,
     val OVRS_ICLD_YN: String,
+)
+
+data class output1(
+    val PDNO: String,
+    val PRDT_NAME: String,
+    val HLDG_QTY: String,
+    val PCHS_AVG_PRIC: String,
+    val PRPR: String,
+    val EVLU_AMT: String,
+    val EVLU_PFLS_AMT: String,
+    val EVLU_PFLS_RT: String,
+    val EVLU_ERNG_RT: String,
 )
 
