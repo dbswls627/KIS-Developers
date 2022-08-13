@@ -1,28 +1,51 @@
-package com.jo.kisapi.retrofit
+package com.jo.kisapi
 
+import android.app.Application
 import android.util.Log
 import com.google.gson.JsonArray
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
-import com.jo.kisapi.*
-import com.jo.kisapi.Util.BASE_URL
-import org.json.JSONArray
+import com.jo.kisapi.retrofit.IRetrofit
+import com.jo.kisapi.retrofit.RetrofitClient
 import retrofit2.Call
 import retrofit2.Response
 
+class Repository(application: Application) {
 
-class RetrofitManager {
+    private val iRetrofit: IRetrofit? = RetrofitClient.getClient(Util.BASE_URL)?.create(IRetrofit::class.java)
 
-    companion object {
-        val instance = RetrofitManager()
+    private val db: AppDatabase = AppDatabase.getInstance(application)!!
+
+    suspend fun insert(token: TokenTime) {
+        db.TokenTimeDao().insert(token)
     }
 
-    private val iRetrofit: IRetrofit? =
-        RetrofitClient.getClient(BASE_URL)?.create(IRetrofit::class.java)
+    suspend fun getToken() {
+        db.TokenTimeDao().getToken()
+    }
 
-    fun getHashKey(hashKey: HashKey?, completion: (String) -> Unit) {
+    suspend fun getTime() = db.TokenTimeDao().getTime()
 
-       // val term: HashKey = (hashKey.let { it } ?: null) as HashKey   //let 비어잇으면 "" 아니면 it
+    suspend fun getToken(body: TokenBody) = iRetrofit!!.getToken(body)
+
+    suspend fun getInquireBalance(token: String,inquireBalance: InquireBalance) = iRetrofit?.getInquireBalance(
+        token,
+        inquireBalance.CANO,
+        inquireBalance.ACNT_PRDT_CD,
+        inquireBalance.AFHR_FLPR_YN,
+        inquireBalance.OFL_YN,
+        inquireBalance.INQR_DVSN,
+        inquireBalance.UNPR_DVSN,
+        inquireBalance.FUND_STTL_ICLD_YN,
+        inquireBalance.FNCG_AMT_AUTO_RDPT_YN,
+        inquireBalance.PRCS_DVSN,
+        inquireBalance.CTX_AREA_FK100,
+        inquireBalance.CTX_AREA_NK100
+    )
+
+   /* fun getHashKey(hashKey: HashKey?, completion: (String) -> Unit) {
+
+        // val term: HashKey = (hashKey.let { it } ?: null) as HashKey   //let 비어잇으면 "" 아니면 it
 
         val call = iRetrofit?.getHashKey(hashKey!!).let { it } ?: return
 
@@ -30,7 +53,7 @@ class RetrofitManager {
             //응답 성공
             override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
                 Log.d("로그","성공")
-              //  completion(response.raw().toString())
+                //  completion(response.raw().toString())
             }
             //응답 실패
             override fun onFailure(call: Call<JsonElement>, t: Throwable) {
@@ -50,7 +73,7 @@ class RetrofitManager {
             //응답 성공
             override fun onResponse(call: Call<Token>, response: Response<Token>) {
                 Log.d("로그",response.body()!!.toString())
-                  completion(response.body()!!.access_token)
+                completion(response.body()!!.access_token)
             }
             //응답 실패
             override fun onFailure(call: Call<Token>, t: Throwable) {
@@ -88,7 +111,7 @@ class RetrofitManager {
                 var arrayList =  ArrayList<output1>()
                 for (i in 0 until jsonArray.size()) {
                     var jsonObject: JsonObject = jsonArray[i].asJsonObject
-                        arrayList.add(output1(
+                    arrayList.add(output1(
                         jsonObject["pdno"].toString().replace("\"",""),
                         jsonObject["prdt_name"].toString().replace("\"",""),
                         jsonObject["hldg_qty"].toString().replace("\"",""),          //매입 개수
@@ -142,5 +165,5 @@ class RetrofitManager {
 
         })
 
-    }
+    }*/
 }

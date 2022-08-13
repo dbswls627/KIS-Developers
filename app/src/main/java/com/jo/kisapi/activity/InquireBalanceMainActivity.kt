@@ -8,7 +8,7 @@ import com.jo.kisapi.Adapter
 import com.jo.kisapi.AppDatabase
 import com.jo.kisapi.InquireBalance
 import com.jo.kisapi.R
-import com.jo.kisapi.retrofit.RetrofitManager
+
 import java.util.ArrayList
 
 class InquireBalanceMainActivity : AppCompatActivity() {
@@ -24,7 +24,7 @@ class InquireBalanceMainActivity : AppCompatActivity() {
         db = AppDatabase.getInstance(this)!!
         re!!.layoutManager = LinearLayoutManager(this)
 
-        RetrofitManager.instance.getInquireBalance(
+       /* RetrofitManager.instance.getInquireBalance(
             "Bearer "+db!!.TokenTimeDao().getToken(),
             InquireBalance(
                 "73754150",
@@ -40,6 +40,6 @@ class InquireBalanceMainActivity : AppCompatActivity() {
                 "")
         ) {
             re!!.adapter = Adapter(it)
-        }
+        }*/
     }
 }

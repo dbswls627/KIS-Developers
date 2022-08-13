@@ -6,6 +6,7 @@ import com.jo.kisapi.Token
 import com.jo.kisapi.TokenBody
 import com.jo.kisapi.Util
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.*
 
 interface IRetrofit {
@@ -18,8 +19,9 @@ interface IRetrofit {
     )
     fun getHashKey(@Body gd: HashKey): Call<JsonElement>
 
+    //토큰
     @POST("/oauth2/tokenP")
-    fun getToken(@Body gd: TokenBody): Call<Token>
+    suspend  fun getToken(@Body body: TokenBody): Response<Token>
 
     //주식잔고 조회
     @GET("/uapi/domestic-stock/v1/trading/inquire-balance")
@@ -30,7 +32,7 @@ interface IRetrofit {
         "tr_id: TTTC8434R",
         "custtype: P"
     )
-    fun getInquireBalance(
+    suspend fun getInquireBalance(
         @Header("Authorization") token: String,
         @Query("CANO") CANO: String,
         @Query("ACNT_PRDT_CD") ACNT_PRDT_CD: String,
@@ -43,7 +45,7 @@ interface IRetrofit {
         @Query("PRCS_DVSN") PRCS_DVSN: String,
         @Query("CTX_AREA_FK100") CTX_AREA_FK100: String?,
         @Query("CTX_AREA_NK100") CTX_AREA_NK100: String?,
-    ): Call<JsonElement>
+    ): Response<JsonElement>
 
     //매수가능금액 조회
     @GET("/uapi/domestic-stock/v1/trading/inquire-psbl-order")

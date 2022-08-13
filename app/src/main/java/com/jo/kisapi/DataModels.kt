@@ -1,6 +1,7 @@
 package com.jo.kisapi
 
-import retrofit2.http.Query
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
 data class HashKey(
     val CANO: String,
@@ -49,4 +50,13 @@ data class output1(
     val EVLU_PFLS_AMT: String,
     val EVLU_PFLS_RT: String
 )
+
+@Entity
+data class TokenTime(
+    @PrimaryKey
+    var type:String,
+    var token:String,
+    var time:String
+)
+
 

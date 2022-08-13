@@ -1,15 +1,14 @@
 package com.jo.kisapi.activity
 
-import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.jo.kisapi.*
-import com.jo.kisapi.retrofit.RetrofitManager
 
 
 class MainActivity : AppCompatActivity() {
@@ -19,14 +18,16 @@ class MainActivity : AppCompatActivity() {
     var b3: Button? = null
     var b4: Button? = null
     var mTextView: TextView? = null
-    var db : AppDatabase? = null
-
+    var db: AppDatabase? = null
+    private lateinit var viewModelFactory: MyViewModel.Factory
+    private lateinit var viewModel: MyViewModel
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        db = AppDatabase.getInstance(this)
+        val tokenTimeDao: TokenTimeDao
+        viewModelFactory = MyViewModel.Factory(Repository(this.application))
+        viewModel = ViewModelProvider(this,viewModelFactory)[MyViewModel::class.java]
 
         b = findViewById(R.id.button)
         b2 = findViewById(R.id.button2)
@@ -34,19 +35,10 @@ class MainActivity : AppCompatActivity() {
         b4 = findViewById(R.id.button4)
         mTextView = findViewById(R.id.text)
 
+
         //토큰 갱신
-         if (db!!.TokenTimeDao().getTime()!!.toLong() < System.currentTimeMillis()){
-             RetrofitManager.instance.getToken(
-                 TokenBody(
-                     "client_credentials",
-                     appkey = Util.API_KEY,
-                     Util.API_KEY_SECRET
-                 )
-             ) {
-                 db?.TokenTimeDao()!!.insert(TokenTime("Bearer",it,System.currentTimeMillis().plus(80000000).toString()))
-             }
-         }
-        //해쉬
+        viewModel.getTokenCheck()
+        /*  //해쉬
         b!!.setOnClickListener {
             RetrofitManager.instance.getHashKey(HashKey("73754150", "01")) {
                 Toast.makeText(this, "gd", Toast.LENGTH_SHORT).show()
@@ -78,5 +70,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+    }*/
     }
+
 }
