@@ -2,13 +2,14 @@ package com.jo.kisapi.activity
 
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.TextView
+import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.jo.kisapi.*
+import com.jo.kisapi.application.KISApplication
+import com.jo.kisapi.viewmodel.MyViewModel
 
 
 class MainActivity : AppCompatActivity() {
@@ -18,16 +19,15 @@ class MainActivity : AppCompatActivity() {
     var b3: Button? = null
     var b4: Button? = null
     var mTextView: TextView? = null
-    var db: AppDatabase? = null
-    private lateinit var viewModelFactory: MyViewModel.Factory
-    private lateinit var viewModel: MyViewModel
+
+    private val viewModel: MyViewModel by viewModels {
+        MyViewModel.Factory((application as KISApplication).repository)
+    }
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val tokenTimeDao: TokenTimeDao
-        viewModelFactory = MyViewModel.Factory(Repository(this.application))
-        viewModel = ViewModelProvider(this,viewModelFactory)[MyViewModel::class.java]
 
         b = findViewById(R.id.button)
         b2 = findViewById(R.id.button2)
@@ -38,6 +38,8 @@ class MainActivity : AppCompatActivity() {
 
         //토큰 갱신
         viewModel.getTokenCheck()
+
+        
         /*  //해쉬
         b!!.setOnClickListener {
             RetrofitManager.instance.getHashKey(HashKey("73754150", "01")) {

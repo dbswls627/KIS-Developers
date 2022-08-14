@@ -1,12 +1,11 @@
-package com.jo.kisapi
+package com.jo.kisapi.viewmodel
 
-import android.app.Application
-import android.util.Log
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
+import com.jo.kisapi.*
+import com.jo.kisapi.repository.Repository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -18,11 +17,13 @@ class MyViewModel(private val repository: Repository) : ViewModel() {
     private fun getToken(){
         CoroutineScope(Dispatchers.IO).launch{
             try {
-                repository.getToken(TokenBody(
+                repository.getToken(
+                    TokenBody(
                     "client_credentials",
                     appkey = Util.API_KEY,
                     Util.API_KEY_SECRET
-                )).let {
+                )
+                ).let {
                     repository.insert(TokenTime("Bearer",it.body()!!.access_token,System.currentTimeMillis().plus(80000000).toString()))
                 }
             }catch (e:Exception){
@@ -34,13 +35,14 @@ class MyViewModel(private val repository: Repository) : ViewModel() {
     fun getTokenCheck() {
         CoroutineScope(Dispatchers.IO).launch{
             try {
+
                 repository.getTime().let {
                     if (it.toLong() < System.currentTimeMillis()) {
                         getToken()
                     }
                 }
-            }catch (e:Exception){
-
+            }catch (e:NumberFormatException){
+                getToken()   //저장된 토큰이 없을 때
             }
         }
 
@@ -61,12 +63,14 @@ class MyViewModel(private val repository: Repository) : ViewModel() {
                         "N",
                         "01",
                         "",
-                        "")).let {
+                        "")
+                ).let {
                     val jsonArray: JsonArray = it!!.body()!!.asJsonObject.get("output1").asJsonArray
                     var arrayList =  ArrayList<output1>()
                     for (i in 0 until jsonArray.size()) {
                         var jsonObject: JsonObject = jsonArray[i].asJsonObject
-                        arrayList.add(output1(
+                        arrayList.add(
+                            output1(
                             jsonObject["pdno"].toString().replace("\"",""),
                             jsonObject["prdt_name"].toString().replace("\"",""),
                             jsonObject["hldg_qty"].toString().replace("\"",""),          //매입 개수
@@ -76,7 +80,8 @@ class MyViewModel(private val repository: Repository) : ViewModel() {
                             jsonObject["evlu_amt"].toString().replace("\"",""),         //평가금액
                             jsonObject["evlu_pfls_amt"].toString().replace("\"",""),  //평가손익금액
                             jsonObject["evlu_pfls_rt"].toString().replace("\"","")     //평가손익률
-                        ))
+                        )
+                        )
                     } }
 
             }catch (e:Exception){

@@ -1,14 +1,13 @@
-package com.jo.kisapi
+package com.jo.kisapi.adapter
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import java.io.Serializable
+import com.jo.kisapi.R
+import com.jo.kisapi.output1
 import java.util.*
 
 

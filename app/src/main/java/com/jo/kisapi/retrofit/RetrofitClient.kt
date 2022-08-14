@@ -10,7 +10,6 @@ object RetrofitClient {
 
     fun getClient(baseUrl: String): Retrofit? {
 
-
         if (retrofitClient == null) {
 
             retrofitClient = Retrofit.Builder()

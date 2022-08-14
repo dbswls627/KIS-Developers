@@ -1,30 +1,22 @@
-package com.jo.kisapi
+package com.jo.kisapi.repository
 
-import android.app.Application
-import android.util.Log
-import com.google.gson.JsonArray
-import com.google.gson.JsonElement
-import com.google.gson.JsonObject
+import com.jo.kisapi.*
 import com.jo.kisapi.retrofit.IRetrofit
 import com.jo.kisapi.retrofit.RetrofitClient
-import retrofit2.Call
-import retrofit2.Response
 
-class Repository(application: Application) {
+class Repository(private val tokenTimeDao: TokenTimeDao) {
 
     private val iRetrofit: IRetrofit? = RetrofitClient.getClient(Util.BASE_URL)?.create(IRetrofit::class.java)
 
-    private val db: AppDatabase = AppDatabase.getInstance(application)!!
-
     suspend fun insert(token: TokenTime) {
-        db.TokenTimeDao().insert(token)
+        tokenTimeDao.insert(token)
     }
 
     suspend fun getToken() {
-        db.TokenTimeDao().getToken()
+        tokenTimeDao.getToken()
     }
 
-    suspend fun getTime() = db.TokenTimeDao().getTime()
+    suspend fun getTime() = tokenTimeDao.getTime()
 
     suspend fun getToken(body: TokenBody) = iRetrofit!!.getToken(body)
 
