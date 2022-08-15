@@ -5,13 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.jo.kisapi.R
 import com.jo.kisapi.output1
 import java.util.*
 
 
-class Adapter(var list: ArrayList<output1> ) :
+class Adapter(var list: LiveData<List<output1>> ) :
 
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var context: Context? = null
@@ -38,18 +40,22 @@ class Adapter(var list: ArrayList<output1> ) :
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        (holder as BalanaceList).prdt_name.text = list[position].PRDT_NAME
-        holder .hldg_qty.text = list[position].HLDG_QTY
-        holder .pchs_avg_pric.text = list[position].PCHS_AVG_PRIC
-        holder .prpr.text = list[position].PRPR
-        holder .pchs_amt.text = list[position].PCHS_AMT
-        holder .evlu_amt.text = list[position].EVLU_AMT
-        holder .evlu_pfls_amt.text = list[position].EVLU_PFLS_AMT
-        holder .evlu_pfls_rt.text = list[position].EVLU_PFLS_RT
+        (holder as BalanaceList).prdt_name.text = list.value!![position].prdt_name
+        holder .pchs_avg_pric.text = list.value!![position].pchs_avg_pric   //매입평균금액
+        holder .prpr.text = list.value!![position].prpr                     //현재가
+        holder .hldg_qty.text = list.value!![position].hldg_qty             //보유수량
+        holder .pchs_amt.text = list.value!![position].pchs_amt             //매입금액
+        holder .evlu_amt.text = list.value!![position].evlu_amt             //평가금액
+        holder .evlu_pfls_amt.text = list.value!![position].evlu_pfls_amt   //평가손익금액
+        holder .evlu_pfls_rt.text = list.value!![position].evlu_pfls_rt     //평가손익률
     }
 
     override fun getItemCount(): Int {
-        return list.size
+        return try {
+            list.value!!.size
+        }catch (e:Exception){
+            0
+        }
     }
 }
 

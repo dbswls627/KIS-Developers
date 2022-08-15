@@ -1,10 +1,7 @@
 package com.jo.kisapi.retrofit
 
 import com.google.gson.JsonElement
-import com.jo.kisapi.HashKey
-import com.jo.kisapi.Token
-import com.jo.kisapi.TokenBody
-import com.jo.kisapi.Util
+import com.jo.kisapi.*
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
@@ -45,7 +42,7 @@ interface IRetrofit {
         @Query("PRCS_DVSN") PRCS_DVSN: String,
         @Query("CTX_AREA_FK100") CTX_AREA_FK100: String?,
         @Query("CTX_AREA_NK100") CTX_AREA_NK100: String?,
-    ): Response<JsonElement>
+    ): Response<InquireBalance>
 
     //매수가능금액 조회
     @GET("/uapi/domestic-stock/v1/trading/inquire-psbl-order")

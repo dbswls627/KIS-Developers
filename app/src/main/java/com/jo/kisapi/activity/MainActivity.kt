@@ -1,5 +1,6 @@
 package com.jo.kisapi.activity
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.widget.Button
@@ -39,22 +40,22 @@ class MainActivity : AppCompatActivity() {
         //토큰 갱신
         viewModel.getTokenCheck()
 
-        
-        /*  //해쉬
-        b!!.setOnClickListener {
-            RetrofitManager.instance.getHashKey(HashKey("73754150", "01")) {
-                Toast.makeText(this, "gd", Toast.LENGTH_SHORT).show()
-            }
-        }
-
-
         //주식잔고 조회
         b3!!.setOnClickListener {
-            val intent = Intent(this,InquireBalanceMainActivity::class.java)
+            val intent = Intent(this,InquireBalanceActivity::class.java)
             startActivity(intent)
         }
 
-        //매수가능금액 조회
+        //해쉬
+        /*b!!.setOnClickListener {
+            RetrofitManager.instance.getHashKey(HashKey("73754150", "01")) {
+                Toast.makeText(this, "gd", Toast.LENGTH_SHORT).show()
+            }
+        }*/
+
+
+
+        /*//매수가능금액 조회
         b4!!.setOnClickListener {
             RetrofitManager.instance.getInquireOrder(
                 "Bearer "+db!!.TokenTimeDao().getToken(),
@@ -70,9 +71,8 @@ class MainActivity : AppCompatActivity() {
             ) {
                 mTextView!!.text= it
             }
-        }
+        }*/
 
-    }*/
     }
 
 }

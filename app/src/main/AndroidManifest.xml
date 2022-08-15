@@ -16,7 +16,7 @@
         android:theme="@style/Theme.KISapi"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".activity.InquireBalanceMainActivity"
+            android:name=".activity.InquireBalanceActivity"
             android:exported="true" />
 
         <activity
