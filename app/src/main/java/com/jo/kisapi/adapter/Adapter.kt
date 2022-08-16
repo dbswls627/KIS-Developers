@@ -13,7 +13,7 @@ import com.jo.kisapi.output1
 import java.util.*
 
 
-class Adapter(var list: LiveData<List<output1>> ) :
+class Adapter(var list: MutableLiveData<List<output1>> ) :
 
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var context: Context? = null

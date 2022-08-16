@@ -1,6 +1,5 @@
 package com.jo.kisapi.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -10,16 +9,22 @@ import com.jo.kisapi.output1
 import com.jo.kisapi.output2
 import com.jo.kisapi.repository.Repository
 import kotlinx.coroutines.launch
+import kotlin.math.round
+import kotlin.math.roundToLong
 
 class InquireBalanceViewModel(private val repository: Repository) : ViewModel() {
-
+    val sumPchsAmt = MutableLiveData<Int>(0)
+    val sumEvluAmt = MutableLiveData<Int>(0)
+    val sumAmt = MutableLiveData<Int>(0)
+    val sumEvluPflsAmt = MutableLiveData<Int>(0)
+    val rt = MutableLiveData<Float>(0.0f)
     var output1List = MutableLiveData<List<output1>>()
     var output2 = MutableLiveData<output2>()
 
     fun getInquireBalance() {
 
         viewModelScope.launch {
-          //  try {
+            try {
                 repository.getInquireBalance(
                     "Bearer " + repository.getToken(),
                     InquireBalanceRequest(
@@ -37,15 +42,25 @@ class InquireBalanceViewModel(private val repository: Repository) : ViewModel() 
                     )
                 ).let {
 
-                    output2.value =  it!!.body()!!.output2[0]
                     output1List.value = it!!.body()!!.output1
+                    output2.value = it!!.body()!!.output2[0]
+                    sumEvluAmt.value = 0
+                    sumPchsAmt.value = 0
+                    sumEvluPflsAmt.value = 0
+                    (it.body()!!.output1).forEach {
+                        sumPchsAmt.value = sumPchsAmt.value?.plus(it.pchs_amt.toInt())
+                        sumEvluAmt.value = sumEvluAmt.value?.plus(it.evlu_amt.toInt())
+                        sumEvluPflsAmt.value = sumEvluPflsAmt.value?.plus(it.evlu_pfls_amt.toInt())
+                    }
+                    sumAmt.value = sumEvluAmt.value!!.plus(it.body()!!.output2[0].dnca_tot_amt.toInt())
+                    rt.value = round((sumEvluPflsAmt.value!!.toFloat() * 1000).div(sumPchsAmt.value!!)).div(10)
                 }
 
-           /* } catch (e: Exception) {
-                Log.d("로그", e.toString())
-            }*/
+            } catch (e: Exception) {
+            }
         }
     }
+
 
     class Factory(private val repository: Repository) : ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jo.kisapi.R
 import com.jo.kisapi.adapter.Adapter
@@ -12,6 +13,8 @@ import com.jo.kisapi.application.KISApplication
 import com.jo.kisapi.databinding.ActivityInquireBalanceBinding
 import com.jo.kisapi.output1
 import com.jo.kisapi.viewmodel.InquireBalanceViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class InquireBalanceActivity : AppCompatActivity() {
 
@@ -25,19 +28,14 @@ class InquireBalanceActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_inquire_balance)
         binding.lifecycleOwner = this
+        binding.inquireBalanceViewModel = viewModel
         binding.re!!.layoutManager = LinearLayoutManager(this)
 
         viewModel.getInquireBalance()
-        viewModel.output1List.observe(this, {
-            binding.re!!.adapter = Adapter(viewModel.output1List)
-            binding.dncaTotAmt!!.text = viewModel.output2.value!!.dnca_tot_amt
-
-            /*var  sumPchsAmt = 0
-            (viewModel.output1List as ArrayList<output1>).forEach {
-                sumPchsAmt += it.pchs_amt.toInt()
-            }*/
-
-        })
+        lifecycleScope.launch {
+            delay(1000)
+            viewModel.getInquireBalance()
+        }
     }
 }
 
