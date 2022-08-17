@@ -9,6 +9,7 @@ import com.jo.kisapi.output1
 import com.jo.kisapi.output2
 import com.jo.kisapi.repository.Repository
 import kotlinx.coroutines.launch
+import java.text.DecimalFormat
 import kotlin.math.round
 import kotlin.math.roundToLong
 
@@ -20,11 +21,12 @@ class InquireBalanceViewModel(private val repository: Repository) : ViewModel() 
     val rt = MutableLiveData<Float>(0.0f)
     var output1List = MutableLiveData<List<output1>>()
     var output2 = MutableLiveData<output2>()
+    val dec = DecimalFormat("#,###원")
 
     fun getInquireBalance() {
 
         viewModelScope.launch {
-            try {
+          /*  try {*/
                 repository.getInquireBalance(
                     "Bearer " + repository.getToken(),
                     InquireBalanceRequest(
@@ -56,8 +58,8 @@ class InquireBalanceViewModel(private val repository: Repository) : ViewModel() 
                     rt.value = round((sumEvluPflsAmt.value!!.toFloat() * 1000).div(sumPchsAmt.value!!)).div(10)
                 }
 
-            } catch (e: Exception) {
-            }
+            /*} catch (e: Exception) {
+            }*/
         }
     }
 

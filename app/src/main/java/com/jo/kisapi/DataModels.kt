@@ -45,19 +45,19 @@ data class InquireBalance(
 data class output1(
     val pdno: String,
     val prdt_name: String,
-    val hldg_qty: String,           //보유수량
-    val pchs_avg_pric: String,      //매입평균금액
-    val prpr: String,               //현재가
-    val pchs_amt: String,           //매입금액
-    val evlu_amt: String,           //평가금액
-    val evlu_pfls_amt: String,      //평가손익금액
-    val evlu_pfls_rt: String        //평가손익률
+    val hldg_qty: Int,           //보유수량
+    val pchs_avg_pric: Int,      //매입평균금액
+    val prpr: Int,               //현재가
+    val pchs_amt: Int,           //매입금액
+    val evlu_amt: Int,           //평가금액
+    val evlu_pfls_amt: Int,      //평가손익금액
+    val evlu_pfls_rt: Float        //평가손익률
 )
 
 data class output2(
-    val dnca_tot_amt: String,   //예수금 총액
-    val tot_evlu_amt: String,   //총평가 금액
-    val nass_amt: String        //순자산 금액
+    val dnca_tot_amt: Int,   //예수금 총액
+    val tot_evlu_amt: Int,   //총평가 금액
+    val nass_amt: Int        //순자산 금액
 )
 
 @Entity

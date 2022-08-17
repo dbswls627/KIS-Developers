@@ -16,6 +16,7 @@
             android:orientation="horizontal">
 
             <TextView
+                android:textColor="@color/black"
                 android:id="@+id/prdt_name"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -41,6 +42,7 @@
                 android:text="평가손익" />
 
             <TextView
+                android:textColor="@color/black"
                 android:id="@+id/hldg_qty"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -53,6 +55,7 @@
                 android:text="잔고수량" />
 
             <TextView
+                android:textColor="@color/black"
                 android:id="@+id/pchs_avg_pric"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -65,6 +68,7 @@
                 android:text="매입가" />
 
             <TextView
+                android:textColor="@color/black"
                 android:id="@+id/pchs_amt"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -110,6 +114,7 @@
                 android:text="평가수익률" />
 
             <TextView
+                android:textColor="@color/black"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:background="@drawable/border"
@@ -121,6 +126,7 @@
                 android:text="" />
 
             <TextView
+                android:textColor="@color/black"
                 android:id="@+id/prpr"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -133,6 +139,7 @@
                 android:text="현재가" />
 
             <TextView
+                android:textColor="@color/black"
                 android:id="@+id/evlu_amt"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"

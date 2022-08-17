@@ -29,13 +29,14 @@
                 android:textSize="15dp" />
 
             <TextView
-                android:text="@{InquireBalanceViewModel.sumPchsAmt.toString()}"
+                android:gravity="right"
+                android:text="@{InquireBalanceViewModel.dec.format(InquireBalanceViewModel.sumPchsAmt)}"
                 android:id="@+id/pchs_amt"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:background="@drawable/border"
-                android:gravity="center_horizontal"
+                android:textColor="@color/black"
                 android:padding="5dp"
                 android:textSize="15dp" />
 
@@ -56,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:background="@drawable/border"
-                android:gravity="center_horizontal"
+                android:gravity="right"
                 android:padding="5dp"
                 android:textSize="15dp" />
         </LinearLayout>
@@ -77,15 +78,16 @@
                 android:textSize="15dp"/>
 
             <TextView
-                android:text="@{InquireBalanceViewModel.sumEvluAmt.toString()}"
+                android:gravity="right"
                 android:id="@+id/evlu_amt"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:background="@drawable/border"
-                android:gravity="center_horizontal"
+                android:text="@{InquireBalanceViewModel.dec.format(InquireBalanceViewModel.sumEvluAmt)}"
+                android:textColor="@color/black"
                 android:padding="5dp"
-                android:textSize="15dp"/>
+                android:textSize="15dp" />
 
             <TextView
                 android:layout_width="0dp"
@@ -98,15 +100,16 @@
                 android:textSize="15dp"/>
 
             <TextView
-               setTextColor2="@{InquireBalanceViewModel.rt}"
+                setTextColor2="@{InquireBalanceViewModel.rt}"
                 android:id="@+id/evlu_pfls_rt"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:background="@drawable/border"
-                android:gravity="center_horizontal"
+                android:gravity="right"
+
                 android:padding="5dp"
-                android:textSize="15dp"/>
+                android:textSize="15dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -125,15 +128,16 @@
                 android:textSize="15dp"/>
 
             <TextView
-                android:text="@{InquireBalanceViewModel.sumAmt.toString()}"
                 android:id="@+id/sumAmt"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:background="@drawable/border"
-                android:gravity="center_horizontal"
+                android:gravity="right"
+                android:textColor="@color/black"
                 android:padding="5dp"
-                android:textSize="15dp"/>
+                android:text="@{InquireBalanceViewModel.dec.format(InquireBalanceViewModel.sumAmt)}"
+                android:textSize="15dp" />
 
             <TextView
                 android:layout_width="0dp"
@@ -146,14 +150,15 @@
                 android:textSize="15dp"/>
 
             <TextView
+                android:textColor="@color/black"
                 android:id="@+id/dnca_tot_amt"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:background="@drawable/border"
-                android:gravity="center_horizontal"
+                android:gravity="right"
                 android:padding="5dp"
-                android:text="@{InquireBalanceViewModel.output2.dnca_tot_amt}"
+                android:text="@{InquireBalanceViewModel.dec.format(InquireBalanceViewModel.output2.dnca_tot_amt)}"
                 android:textSize="15dp"/>
         </LinearLayout>
 
@@ -164,6 +169,7 @@
             android:orientation="horizontal">
 
             <TextView
+                android:gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:background="@drawable/border"
