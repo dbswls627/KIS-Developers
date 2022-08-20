@@ -1,6 +1,10 @@
 package com.jo.kisapi.repository
 
 import com.jo.kisapi.*
+import com.jo.kisapi.dataModel.InquireBalanceRequest
+import com.jo.kisapi.dataModel.OrderRequest
+import com.jo.kisapi.dataModel.TokenBody
+import com.jo.kisapi.dataModel.TokenTime
 import com.jo.kisapi.retrofit.IRetrofit
 import com.jo.kisapi.retrofit.RetrofitClient
 
@@ -32,4 +36,11 @@ class Repository(private val tokenTimeDao: TokenTimeDao) {
         inquireBalanceRequest.CTX_AREA_FK100,
         inquireBalanceRequest.CTX_AREA_NK100
     )
+
+    suspend fun order(token: String,tr_id: String, orderRequest: OrderRequest) = iRetrofit!!.order(
+        token,
+        tr_id,
+        orderRequest
+    )
+
 }

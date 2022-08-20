@@ -4,9 +4,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.jo.kisapi.InquireBalanceRequest
-import com.jo.kisapi.output1
-import com.jo.kisapi.output2
+import com.jo.kisapi.dataModel.InquireBalanceRequest
+import com.jo.kisapi.dataModel.output1
+import com.jo.kisapi.dataModel.output2
 import com.jo.kisapi.repository.Repository
 import kotlinx.coroutines.launch
 import java.text.DecimalFormat

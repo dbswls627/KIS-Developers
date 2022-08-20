@@ -7,6 +7,10 @@ import androidx.lifecycle.viewModelScope
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.jo.kisapi.*
+import com.jo.kisapi.Util.buy
+import com.jo.kisapi.dataModel.OrderRequest
+import com.jo.kisapi.dataModel.TokenBody
+import com.jo.kisapi.dataModel.TokenTime
 import com.jo.kisapi.repository.Repository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -45,6 +49,25 @@ class MyViewModel(private val repository: Repository) : ViewModel() {
                 }
             }catch (e:NumberFormatException){
                 getToken()   //저장된 토큰이 없을 때
+            }
+        }
+
+    }
+    fun order(){
+        viewModelScope.launch {
+            repository.order(
+                "Bearer " + repository.getToken(),
+                buy,
+                OrderRequest(
+                    "73754150",
+                    "01",
+                    "011690",
+                    "01",
+                    "1",
+                    "0",
+                    "")
+            ).let {
+                Log.d("test", it.body()!!.toString())
             }
         }
 

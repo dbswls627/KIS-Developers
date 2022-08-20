@@ -10,7 +10,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.jo.kisapi.R
-import com.jo.kisapi.output1
+import com.jo.kisapi.dataModel.output1
 import java.text.DecimalFormat
 import java.util.*
 

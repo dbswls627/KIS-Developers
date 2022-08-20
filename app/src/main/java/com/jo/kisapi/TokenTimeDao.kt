@@ -3,6 +3,7 @@ package com.jo.kisapi
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import androidx.room.OnConflictStrategy.REPLACE
+import com.jo.kisapi.dataModel.TokenTime
 
 @Dao
 interface TokenTimeDao {

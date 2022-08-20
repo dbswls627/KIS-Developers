@@ -8,10 +8,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jo.kisapi.R
-import com.jo.kisapi.adapter.Adapter
 import com.jo.kisapi.application.KISApplication
 import com.jo.kisapi.databinding.ActivityInquireBalanceBinding
-import com.jo.kisapi.output1
 import com.jo.kisapi.viewmodel.InquireBalanceViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -31,11 +29,14 @@ class InquireBalanceActivity : AppCompatActivity() {
         binding.inquireBalanceViewModel = viewModel
         binding.re!!.layoutManager = LinearLayoutManager(this)
 
-        viewModel.getInquireBalance()
-        lifecycleScope.launch {
-            delay(1000)
-            viewModel.getInquireBalance()
-        }
+
+            lifecycleScope.launch {
+                repeat(10) {
+                    viewModel.getInquireBalance()
+                    delay(1000)
+                    Log.d("로그", it.toString())
+                }
+            }
     }
 }
 

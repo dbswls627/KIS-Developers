@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jo.kisapi.adapter.Adapter
+import com.jo.kisapi.dataModel.output1
 import java.text.DecimalFormat
 
 object BindingAdapter {
@@ -30,7 +31,7 @@ object BindingAdapter {
     fun setTextColor1(textView: TextView, int: Int) {
         if (int > 0 )         textView.setTextColor(Color.RED)
         else if (int < 0 )         textView.setTextColor(Color.BLUE)
-        textView.text = DecimalFormat("#,###원").format(int)
+        textView.text = DecimalFormat("#,###").format(int)
 
     }
 
@@ -41,6 +42,19 @@ object BindingAdapter {
         if (float > 0 )         textView.setTextColor(Color.RED)
         else if (float < 0 )         textView.setTextColor(Color.BLUE)
         textView.text = "$float %"
+
+    }
+
+    @JvmStatic
+    @SuppressLint("ResourceAsColor")
+    @BindingAdapter("setTextColor3")
+    fun setTextColor3(textView: TextView, int: Int) {
+        when {
+            int > 0 -> textView.setTextColor(Color.RED)
+            int < 0 -> textView.setTextColor(Color.BLUE)
+            else -> textView.setTextColor(Color.BLACK)
+        }
+        textView.text = DecimalFormat("#,###").format(int)
 
     }
 }

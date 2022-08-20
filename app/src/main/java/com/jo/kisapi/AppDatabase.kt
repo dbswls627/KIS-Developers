@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.jo.kisapi.dataModel.TokenTime
 import kotlinx.coroutines.CoroutineScope
 
 @Database(entities = [TokenTime::class], version = 1)

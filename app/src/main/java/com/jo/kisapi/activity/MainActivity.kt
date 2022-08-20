@@ -3,23 +3,30 @@ package com.jo.kisapi.activity
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.jo.kisapi.*
 import com.jo.kisapi.application.KISApplication
+import com.jo.kisapi.dataModel.HashKeyBody
+import com.jo.kisapi.dataModel.OrderRequest
+import com.jo.kisapi.retrofit.IRetrofit
+import com.jo.kisapi.retrofit.RetrofitClient
 import com.jo.kisapi.viewmodel.MyViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class MainActivity : AppCompatActivity() {
 
     private var b: Button? = null
-    var b2: Button? = null
+    var test: Button? = null
     var b3: Button? = null
     var b4: Button? = null
-    var mTextView: TextView? = null
 
     private val viewModel: MyViewModel by viewModels {
         MyViewModel.Factory((application as KISApplication).repository)
@@ -31,10 +38,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         b = findViewById(R.id.button)
-        b2 = findViewById(R.id.button2)
         b3 = findViewById(R.id.button3)
         b4 = findViewById(R.id.button4)
-        mTextView = findViewById(R.id.text)
+        test = findViewById(R.id.test)
 
 
         //토큰 갱신
@@ -45,13 +51,25 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this,InquireBalanceActivity::class.java)
             startActivity(intent)
         }
-
+         val iRetrofit: IRetrofit? = RetrofitClient.getClient(Util.BASE_URL)?.create(
+            IRetrofit::class.java)
         //해쉬
-        /*b!!.setOnClickListener {
-            RetrofitManager.instance.getHashKey(HashKey("73754150", "01")) {
-                Toast.makeText(this, "gd", Toast.LENGTH_SHORT).show()
+        b!!.setOnClickListener {
+            lifecycleScope.launch(Dispatchers.IO) {
+                val a = iRetrofit?.getHashKey(OrderRequest(
+                    "73754150",
+                    "01",
+                    "011690",
+                    "01",
+                    "1",
+                    "0",
+                    ""))?.body()?.HASH.toString()
+                Log.d("테스트",a)
             }
-        }*/
+        }
+        test!!.setOnClickListener {
+            viewModel.order()
+        }
 
 
 
