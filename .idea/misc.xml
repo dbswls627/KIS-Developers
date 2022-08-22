@@ -4,6 +4,13 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/AndroidStudioProjects/KISapi/app/src/main/res/layout/activity_main.xml" value="0.2608695652173913" />
+        <entry key="..\:/KISapi/app/src/main/res/drawable/border.xml" value="0.24144736842105263" />
+        <entry key="..\:/KISapi/app/src/main/res/drawable/grayborder.xml" value="0.24144736842105263" />
+        <entry key="..\:/KISapi/app/src/main/res/drawable/round_corner.xml" value="0.24144736842105263" />
+        <entry key="..\:/KISapi/app/src/main/res/layout/activity_inquire_balance.xml" value="0.21" />
+        <entry key="..\:/KISapi/app/src/main/res/layout/activity_inquire_balance_main.xml" value="0.17383879781420766" />
+        <entry key="..\:/KISapi/app/src/main/res/layout/activity_main.xml" value="0.1118421052631579" />
+        <entry key="..\:/KISapi/app/src/main/res/layout/balaceitem.xml" value="0.1305921052631579" />
       </map>
     </option>
   </component>
