@@ -1,30 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".activity.MainActivity"
-    android:orientation="vertical">
-    <Button
-        android:text="getHash"
-        android:id="@+id/button"
-        android:layout_height="wrap_content"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".activity.MainActivity">
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="getHash" />
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_height="wrap_content"
+            android:text="주식잔고 조회"
         android:layout_width="match_parent"/>
 
-    <Button
-        android:text="주식잔고 조회"
-        android:id="@+id/button3"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"/>
-    <Button
-        android:text="매수가능금액 조회"
-        android:id="@+id/button4"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"/>
-    <Button
-        android:text="주식 주문 하기 테스트 "
-        android:id="@+id/test"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-</LinearLayout>
+        <Button
+            android:id="@+id/button4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="매수가능금액 조회" />
+
+        <Button
+            android:id="@+id/test"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="주식 매수 테스트 " />
+
+        <Button
+            android:id="@+id/test2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="주식 매도 테스트 " />
+
+        <Button
+            android:id="@+id/test3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="주식 체결 조회 " />
+    </LinearLayout>
+</layout>

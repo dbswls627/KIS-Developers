@@ -1,8 +1,5 @@
 package com.jo.kisapi.dataModel
 
-import retrofit2.http.Header
-import retrofit2.http.Query
-
 data class InquireBalanceRequest(
     val CANO: String,
     val ACNT_PRDT_CD: String,
@@ -35,4 +32,21 @@ data class OrderRequest(
     val ORD_QTY: String,
     val ORD_UNPR: String,
     val ALGO_NO: String?
+)
+
+data class TradingHistoryRequest(
+    val CANO: String,
+    val ACNT_PRDT_CD: String,
+    val INQR_STRT_DT: String,
+    val INQR_END_DT: String,
+    val SLL_BUY_DVSN_CD: String,
+    val INQR_DVSN: String,
+    val PDNO: String,
+    val CCLD_DVSN: String,
+    val ORD_GNO_BRNO: String,
+    val ODNO: String,
+    val INQR_DVSN_3: String,
+    val INQR_DVSN_1: String,
+    val CTX_AREA_FK100: String,
+    val CTX_AREA_NK100: String
 )

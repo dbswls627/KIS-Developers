@@ -63,9 +63,32 @@ interface IRetrofit {
         @Body orderRequest: OrderRequest
     ): Response<JsonElement>
 
-
-
-
+    //주식 체결 조회
+    @GET("/uapi/domestic-stock/v1/trading/inquire-daily-ccld")
+    @Headers(
+        "content-type: application/json",
+        "appkey: ${Util.API_KEY}",
+        "appsecret: ${Util.API_KEY_SECRET}",
+        "tr_id: TTTC8001R",
+        "custtype: P"
+    )
+    suspend fun getTradingHistory(
+        @Header("Authorization") token: String,
+        @Query("CANO") CANO: String,
+        @Query("ACNT_PRDT_CD") ACNT_PRDT_CD: String,
+        @Query("INQR_STRT_DT") INQR_STRT_DT: String,
+        @Query("INQR_END_DT") INQR_END_DT: String,
+        @Query("SLL_BUY_DVSN_CD") SLL_BUY_DVSN_CD: String,
+        @Query("INQR_DVSN") INQR_DVSN: String,
+        @Query("PDNO") PDNO: String,
+        @Query("CCLD_DVSN") CCLD_DVSN: String,
+        @Query("ORD_GNO_BRNO") IORD_GNO_BRNO: String,
+        @Query("ODNO") ODNO: String,
+        @Query("INQR_DVSN_3") INQR_DVSN_3: String,
+        @Query("INQR_DVSN_1") INQR_DVSN_1: String,
+        @Query("CTX_AREA_FK100") CTX_AREA_FK100: String,
+        @Query("CTX_AREA_NK100") CTX_AREA_NK100: String,
+    ): Response<JsonElement>
 
 
 

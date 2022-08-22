@@ -13,7 +13,7 @@ data class output1(
     val pdno: String,
     val prdt_name: String,
     val hldg_qty: Int,           //보유수량
-    val pchs_avg_pric: Int,      //매입평균금액
+    val pchs_avg_pric: Float,      //매입평균금액
     val prpr: Int,               //현재가
     val pchs_amt: Int,           //매입금액
     val evlu_amt: Int,           //평가금액

@@ -1,10 +1,7 @@
 package com.jo.kisapi.repository
 
 import com.jo.kisapi.*
-import com.jo.kisapi.dataModel.InquireBalanceRequest
-import com.jo.kisapi.dataModel.OrderRequest
-import com.jo.kisapi.dataModel.TokenBody
-import com.jo.kisapi.dataModel.TokenTime
+import com.jo.kisapi.dataModel.*
 import com.jo.kisapi.retrofit.IRetrofit
 import com.jo.kisapi.retrofit.RetrofitClient
 
@@ -43,4 +40,21 @@ class Repository(private val tokenTimeDao: TokenTimeDao) {
         orderRequest
     )
 
+    suspend fun getTradingHistory(token: String, tradingHistoryRequest: TradingHistoryRequest) = iRetrofit?.getTradingHistory(
+        token,
+        tradingHistoryRequest.CANO,
+        tradingHistoryRequest.ACNT_PRDT_CD,
+        tradingHistoryRequest.INQR_STRT_DT,
+        tradingHistoryRequest.INQR_END_DT,
+        tradingHistoryRequest.SLL_BUY_DVSN_CD,
+        tradingHistoryRequest.INQR_DVSN,
+        tradingHistoryRequest.PDNO,
+        tradingHistoryRequest.CCLD_DVSN,
+        tradingHistoryRequest.ORD_GNO_BRNO,
+        tradingHistoryRequest.ODNO,
+        tradingHistoryRequest.INQR_DVSN_3,
+        tradingHistoryRequest.INQR_DVSN_1,
+        tradingHistoryRequest.CTX_AREA_FK100,
+        tradingHistoryRequest.CTX_AREA_NK100
+    )
 }

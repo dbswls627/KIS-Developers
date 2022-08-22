@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 
 class InquireBalanceActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityInquireBalanceBinding // xml 파일명이 CamelCase 표기로 바뀌고 Binding이 붙습니다.
+    private lateinit var binding: ActivityInquireBalanceBinding
 
     private val viewModel: InquireBalanceViewModel by viewModels {
         InquireBalanceViewModel.Factory((application as KISApplication).repository)

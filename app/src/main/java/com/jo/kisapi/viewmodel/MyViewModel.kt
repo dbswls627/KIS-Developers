@@ -4,18 +4,15 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.google.gson.JsonArray
-import com.google.gson.JsonObject
-import com.jo.kisapi.*
+import com.jo.kisapi.Util
 import com.jo.kisapi.Util.buy
+import com.jo.kisapi.Util.sell
 import com.jo.kisapi.dataModel.OrderRequest
 import com.jo.kisapi.dataModel.TokenBody
 import com.jo.kisapi.dataModel.TokenTime
+import com.jo.kisapi.dataModel.TradingHistoryRequest
 import com.jo.kisapi.repository.Repository
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.lang.Exception
 
 
 class MyViewModel(private val repository: Repository) : ViewModel() {
@@ -47,13 +44,14 @@ class MyViewModel(private val repository: Repository) : ViewModel() {
                         getToken()
                     }
                 }
-            }catch (e:NumberFormatException){
+            } catch (e: NumberFormatException) {
                 getToken()   //저장된 토큰이 없을 때
             }
         }
 
     }
-    fun order(){
+
+    fun orderBuy() {
         viewModelScope.launch {
             repository.order(
                 "Bearer " + repository.getToken(),
@@ -65,12 +63,60 @@ class MyViewModel(private val repository: Repository) : ViewModel() {
                     "01",
                     "1",
                     "0",
-                    "")
+                    ""
+                )
             ).let {
                 Log.d("test", it.body()!!.toString())
             }
         }
 
+    }
+
+    fun orderSell() {
+        viewModelScope.launch {
+            repository.order(
+                "Bearer " + repository.getToken(),
+                sell,
+                OrderRequest(
+                    "73754150",
+                    "01",
+                    "011690",
+                    "01",
+                    "1",
+                    "0",
+                    ""
+                )
+            ).let {
+                Log.d("test", it.body()!!.toString())
+            }
+        }
+
+    }
+
+    fun getTradingHistory() {
+        viewModelScope.launch {
+            repository.getTradingHistory(
+                "Bearer " + repository.getToken(),
+                TradingHistoryRequest(
+                    "73754150",
+                    "01",
+                    "20220801",
+                    "20220822",
+                    "00",
+                    "00",
+                    "",
+                    "00",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    ""
+                )
+            ).let {
+                Log.d("test", it!!.body().toString())
+            }
+        }
     }
 
 
