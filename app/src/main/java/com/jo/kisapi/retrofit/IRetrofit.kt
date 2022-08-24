@@ -90,19 +90,8 @@ interface IRetrofit {
         @Query("CTX_AREA_NK100") CTX_AREA_NK100: String,
     ): Response<JsonElement>
 
-
-
-
-
-
-
-
-
-
-
-
-
-     /*  @GET("/uapi/domestic-stock/v1/trading/inquire-psbl-order")
+    //매수가능금액 조회
+       @GET("/uapi/domestic-stock/v1/trading/inquire-psbl-order")
        @Headers(
            "content-type: application/json",
            "appkey: ${Util.API_KEY}",
@@ -110,7 +99,7 @@ interface IRetrofit {
            "tr_id: TTTC8908R",
            "custtype: P"
        )
-       fun getInquireOrder(
+       suspend fun getCash(
            @Header("Authorization") token: String,
            @Query("CANO") CANO: String,
            @Query("ACNT_PRDT_CD") ACNT_PRDT_CD: String,
@@ -119,7 +108,7 @@ interface IRetrofit {
            @Query("ORD_DVSN") ORD_DVSN: String,
            @Query("CMA_EVLU_AMT_ICLD_YN") CMA_EVLU_AMT_ICLD_YN: String,
            @Query("OVRS_ICLD_YN") OVRS_ICLD_YN: String
-       ): Call<JsonElement>*/
+       ): Response<Cash>
 
 
 
@@ -132,5 +121,5 @@ interface IRetrofit {
 
 
 
-    //매수가능금액 조회
+
 }

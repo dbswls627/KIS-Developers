@@ -101,7 +101,7 @@ class MyViewModel(private val repository: Repository) : ViewModel() {
                     "73754150",
                     "01",
                     "20220801",
-                    "20220822",
+                    "20220823",
                     "00",
                     "00",
                     "",

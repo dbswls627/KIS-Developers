@@ -57,4 +57,15 @@ class Repository(private val tokenTimeDao: TokenTimeDao) {
         tradingHistoryRequest.CTX_AREA_FK100,
         tradingHistoryRequest.CTX_AREA_NK100
     )
+
+    suspend fun getCash(token: String,cashRequest: CashRequest ) = iRetrofit!!.getCash(
+        token,
+        cashRequest.CANO,
+        cashRequest.ACNT_PRDT_CD,
+        cashRequest.PDNO,
+        cashRequest.ORD_UNPR,
+        cashRequest.ORD_DVSN,
+        cashRequest.CMA_EVLU_AMT_ICLD_YN,
+        cashRequest.OVRS_ICLD_YN
+    )
 }

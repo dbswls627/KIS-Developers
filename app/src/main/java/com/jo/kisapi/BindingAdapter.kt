@@ -47,14 +47,15 @@ object BindingAdapter {
 
     @JvmStatic
     @SuppressLint("ResourceAsColor")
-    @BindingAdapter("setTextColor3")
-    fun setTextColor3(textView: TextView, int: Int) {
+    @BindingAdapter("sumAmt", "sumEvluPflsAmt")
+    fun setTextColor3(textView: TextView, sumAmt: Int, sumEvluPflsAmt: Int) {
         when {
-            int > 0 -> textView.setTextColor(Color.RED)
-            int < 0 -> textView.setTextColor(Color.BLUE)
+            sumEvluPflsAmt > 0 -> textView.setTextColor(Color.RED)
+            sumEvluPflsAmt < 0 -> textView.setTextColor(Color.BLUE)
             else -> textView.setTextColor(Color.BLACK)
         }
-        textView.text = DecimalFormat("#,###").format(int)
+        textView.text = DecimalFormat("#,###").format(sumAmt)
 
     }
 }
+

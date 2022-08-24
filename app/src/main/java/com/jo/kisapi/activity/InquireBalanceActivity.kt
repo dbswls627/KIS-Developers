@@ -11,6 +11,7 @@ import com.jo.kisapi.R
 import com.jo.kisapi.application.KISApplication
 import com.jo.kisapi.databinding.ActivityInquireBalanceBinding
 import com.jo.kisapi.viewmodel.InquireBalanceViewModel
+import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -29,12 +30,16 @@ class InquireBalanceActivity : AppCompatActivity() {
         binding.inquireBalanceViewModel = viewModel
         binding.re!!.layoutManager = LinearLayoutManager(this)
 
-
+        lifecycleScope.launch {
+            async {
+                viewModel.getCash()
+                viewModel.getInquireBalance()
+            }
+        }
             lifecycleScope.launch {
-                repeat(10) {
-                    viewModel.getInquireBalance()
+                while(true) {
                     delay(1000)
-                    Log.d("로그", it.toString())
+                    viewModel.getInquireBalance()
                 }
             }
     }

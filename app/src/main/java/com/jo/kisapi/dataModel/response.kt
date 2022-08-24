@@ -1,5 +1,7 @@
 package com.jo.kisapi.dataModel
 
+import com.google.gson.annotations.SerializedName
+
 data class Token(
     val access_token: String
 )
@@ -38,4 +40,15 @@ data class output(
 
 data class Hash(
     val HASH: String
+)
+
+data class Cash(
+    @SerializedName("output")
+    val cashOutput: CashOutput
+)
+
+
+data class CashOutput(
+    @SerializedName("max_buy_amt")
+    val max_buy_amt:Int
 )

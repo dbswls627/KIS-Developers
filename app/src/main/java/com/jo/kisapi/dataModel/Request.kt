@@ -50,3 +50,13 @@ data class TradingHistoryRequest(
     val CTX_AREA_FK100: String,
     val CTX_AREA_NK100: String
 )
+
+data class CashRequest(
+    val CANO: String,
+    val ACNT_PRDT_CD: String,
+    val PDNO: String,
+    val ORD_UNPR: String,
+    val ORD_DVSN: String,
+    val CMA_EVLU_AMT_ICLD_YN: String,
+    val OVRS_ICLD_YN: String
+)
