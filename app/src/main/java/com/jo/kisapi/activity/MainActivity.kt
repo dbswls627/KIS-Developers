@@ -1,23 +1,20 @@
 package com.jo.kisapi.activity
 
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.os.SystemClock
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.lifecycleScope
 import com.jo.kisapi.*
 import com.jo.kisapi.application.KISApplication
-import com.jo.kisapi.dataModel.OrderRequest
 import com.jo.kisapi.databinding.ActivityMainBinding
-import com.jo.kisapi.retrofit.IRetrofit
-import com.jo.kisapi.retrofit.RetrofitClient
 import com.jo.kisapi.viewmodel.MyViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 
 class MainActivity : AppCompatActivity() {
@@ -43,10 +40,8 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, InquireBalanceActivity::class.java)
             startActivity(intent)
         }
-        val iRetrofit: IRetrofit? = RetrofitClient.getClient(Util.BASE_URL)?.create(
-            IRetrofit::class.java
-        )
-        //해쉬
+
+/*        //해쉬
         binding.button!!.setOnClickListener {
             lifecycleScope.launch(Dispatchers.IO) {
                 val a = iRetrofit?.getHashKey(
@@ -62,36 +57,36 @@ class MainActivity : AppCompatActivity() {
                 )?.body()?.HASH.toString()
                 Log.d("테스트", a)
             }
-        }
-        binding.test!!.setOnClickListener {
+        }*/
+        binding.test!!.setOnClickListener { //주식 매수
             viewModel.orderBuy()
         }
-        binding.test2!!.setOnClickListener {
+        binding.test2!!.setOnClickListener { //주식 매도
             viewModel.orderSell()
         }
-        binding.test3.setOnClickListener {
+        binding.test3.setOnClickListener {  //주식 체결 내역
             viewModel.getTradingHistory()
         }
+        binding.test4.setOnClickListener {
 
+            val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
+            val intent = Intent(this, AlarmReceiver::class.java)  // 1
+            val pendingIntent = PendingIntent.getBroadcast(     // 2
+                this, AlarmReceiver.NOTIFICATION_ID, intent,
+                 PendingIntent.FLAG_IMMUTABLE
+            )
 
-        /*//매수가능금액 조회
-        b4!!.setOnClickListener {
-            RetrofitManager.instance.getInquireOrder(
-                "Bearer "+db!!.TokenTimeDao().getToken(),
-                InquireOrder(
-                    "73754150",
-                    "01",
-                    "005930",
-                    "70000",
-                    "00",
-                    "N",
-                    "N"
-                   )
-            ) {
-                mTextView!!.text= it
-            }
-        }*/
+                val triggerTime = (SystemClock.elapsedRealtime()  // 4
+                        + 5 * 1000)
+                alarmManager.set(   // 5
+                    AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                    triggerTime,
+                    pendingIntent
+                )
+                "Onetime Alarm On"
+            Log.d("test", "toastMessage")
 
+        }
     }
 
 }
