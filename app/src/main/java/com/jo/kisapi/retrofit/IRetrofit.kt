@@ -1,9 +1,8 @@
 package com.jo.kisapi.retrofit
 
 import com.google.gson.JsonElement
-import com.jo.kisapi.*
+import com.jo.kisapi.Util
 import com.jo.kisapi.dataModel.*
-import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -61,7 +60,7 @@ interface IRetrofit {
         @Header("Authorization") token: String,
         @Header("tr_id") tr_id: String,
         @Body orderRequest: OrderRequest
-    ): Response<JsonElement>
+    ): Response<OrderResponse>
 
     //주식 체결 조회
     @GET("/uapi/domestic-stock/v1/trading/inquire-daily-ccld")
@@ -91,35 +90,58 @@ interface IRetrofit {
     ): Response<JsonElement>
 
     //매수가능금액 조회
-       @GET("/uapi/domestic-stock/v1/trading/inquire-psbl-order")
-       @Headers(
-           "content-type: application/json",
-           "appkey: ${Util.API_KEY}",
-           "appsecret: ${Util.API_KEY_SECRET}",
-           "tr_id: TTTC8908R",
-           "custtype: P"
-       )
-       suspend fun getCash(
-           @Header("Authorization") token: String,
-           @Query("CANO") CANO: String,
-           @Query("ACNT_PRDT_CD") ACNT_PRDT_CD: String,
-           @Query("PDNO") PDNO: String,
-           @Query("ORD_UNPR") ORD_UNPR: String,
-           @Query("ORD_DVSN") ORD_DVSN: String,
-           @Query("CMA_EVLU_AMT_ICLD_YN") CMA_EVLU_AMT_ICLD_YN: String,
-           @Query("OVRS_ICLD_YN") OVRS_ICLD_YN: String
-       ): Response<Cash>
+    @GET("/uapi/domestic-stock/v1/trading/inquire-psbl-order")
+    @Headers(
+        "content-type: application/json",
+        "appkey: ${Util.API_KEY}",
+        "appsecret: ${Util.API_KEY_SECRET}",
+        "tr_id: TTTC8908R",
+        "custtype: P"
+    )
+    suspend fun getCash(
+        @Header("Authorization") token: String,
+        @Query("CANO") CANO: String,
+        @Query("ACNT_PRDT_CD") ACNT_PRDT_CD: String,
+        @Query("PDNO") PDNO: String,
+        @Query("ORD_UNPR") ORD_UNPR: String,
+        @Query("ORD_DVSN") ORD_DVSN: String,
+        @Query("CMA_EVLU_AMT_ICLD_YN") CMA_EVLU_AMT_ICLD_YN: String,
+        @Query("OVRS_ICLD_YN") OVRS_ICLD_YN: String
+    ): Response<Cash>
 
 
+    //일자별 현재가 조회
+    @GET(" /uapi/domestic-stock/v1/quotations/inquire-daily-price")
+    @Headers(
+        "content-type: application/json",
+        "appkey: ${Util.API_KEY}",
+        "appsecret: ${Util.API_KEY_SECRET}",
+        "tr_id: FHKST01010400",
+        "custtype: P"
+    )
+    suspend fun getDailyPrice(
+        @Header("Authorization") token: String,
+        @Query("FID_COND_MRKT_DIV_CODE") FID_COND_MRKT_DIV_CODE: String,
+        @Query("FID_INPUT_ISCD") FID_INPUT_ISCD: String,
+        @Query("FID_PERIOD_DIV_CODE") FID_PERIOD_DIV_CODE: String,
+        @Query("FID_ORG_ADJ_PRC") FID_ORG_ADJ_PRC: String,
+    ): Response<DailyPrice>
 
 
-
-
-
-
-
-
-
+    // 현재가 조회
+    @GET("/uapi/domestic-stock/v1/quotations/inquire-price")
+    @Headers(
+        "content-type: application/json",
+        "appkey: ${Util.API_KEY}",
+        "appsecret: ${Util.API_KEY_SECRET}",
+        "tr_id: FHKST01010100",
+        "custtype: P"
+    )
+    suspend fun getCurrentPrice(
+        @Header("Authorization") token: String,
+        @Query("FID_COND_MRKT_DIV_CODE") FID_COND_MRKT_DIV_CODE: String,
+        @Query("FID_INPUT_ISCD") FID_INPUT_ISCD: String,
+    ): Response<CurrentPrice>
 
 
 }

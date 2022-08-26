@@ -30,8 +30,9 @@ data class output2(
 )
 
 data class OrderResponse(
-    val msg: String,
-    val output:output
+    @SerializedName("msg1")
+    val msg1: String,
+    val output: output
 )
 
 data class output(
@@ -50,5 +51,25 @@ data class Cash(
 
 data class CashOutput(
     @SerializedName("max_buy_amt")
-    val max_buy_amt:Int
+    val max_buy_amt: Int
+)
+
+data class DailyPrice(
+    @SerializedName("output")
+    val DailyPriceList: List<Dailyprpr>
+)
+
+data class Dailyprpr(
+    val stck_oprc: String,
+    val stck_hgpr: String,
+    val stck_lwpr: String
+)
+
+data class CurrentPrice(
+    @SerializedName("output")
+    val prpr:prpr
+)
+
+data class prpr(
+    val stck_prpr: String
 )

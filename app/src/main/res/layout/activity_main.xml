@@ -25,7 +25,7 @@
                     android:layout_height="60dp"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:text="자동 매매 1"
+                    android:text="변동성 돌파 전략"
                     android:textSize="30dp" />
 
                 <TextView
@@ -94,21 +94,22 @@
             android:text="주식 매수 테스트 " />
 
         <Button
-            android:id="@+id/test2"
+            android:id="@+id/test5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="주식 매도 테스트 " />
+            android:text="매수 후 자동 매도 테스트" />
 
         <Button
             android:id="@+id/test3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="주식 체결 조회 " />
-
         <Button
-            android:id="@+id/test4"
+            android:id="@+id/test6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text=" 알림테스트 " />
+            android:text="현재가 조회 " />
+
+
     </LinearLayout>
 </layout>

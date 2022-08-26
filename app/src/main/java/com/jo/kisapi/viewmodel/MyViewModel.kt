@@ -1,9 +1,8 @@
 package com.jo.kisapi.viewmodel
 
 import android.util.Log
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
+import android.widget.Toast
+import androidx.lifecycle.*
 import com.jo.kisapi.Util
 import com.jo.kisapi.Util.buy
 import com.jo.kisapi.Util.sell
@@ -17,8 +16,9 @@ import kotlinx.coroutines.launch
 
 class MyViewModel(private val repository: Repository) : ViewModel() {
 
-    private fun getToken(){
+    val msg = MutableLiveData<String>()
 
+    private fun getToken(){
         viewModelScope.launch{
             try {
                 repository.getToken(
@@ -66,10 +66,12 @@ class MyViewModel(private val repository: Repository) : ViewModel() {
                     ""
                 )
             ).let {
-                Log.d("test", it.body()!!.toString())
+                msg.value = it.body()!!.msg1
+                it.body()?.output?.odno.let { odno ->
+                    Log.d("test",odno.toString())
+                }
             }
         }
-
     }
 
     fun orderSell() {
@@ -81,13 +83,13 @@ class MyViewModel(private val repository: Repository) : ViewModel() {
                     "73754150",
                     "01",
                     "011690",
-                    "01",
+                    "06",
                     "1",
                     "0",
                     ""
                 )
             ).let {
-                Log.d("test", it.body()!!.toString())
+
             }
         }
 
@@ -115,6 +117,30 @@ class MyViewModel(private val repository: Repository) : ViewModel() {
                 )
             ).let {
                 Log.d("test", it!!.body().toString())
+            }
+        }
+    }
+
+    fun getDailyPrice(){
+        viewModelScope.launch {
+            repository.getDailyPrice(
+                "Bearer " + repository.getToken(),
+                "005930"
+            ).let {
+                Log.d("test" , it.body()!!.DailyPriceList[0].stck_oprc)
+                Log.d("test" , it.body()!!.DailyPriceList[1].stck_hgpr)
+                Log.d("test" , it.body()!!.DailyPriceList[1].stck_lwpr)
+            }
+        }
+    }
+
+    fun getCurrentPrice(){
+        viewModelScope.launch {
+            repository.getCurrentPrice(
+                "Bearer " + repository.getToken(),
+                "005930"
+            ).let {
+               Log.d("test",it.body()!!.prpr.stck_prpr)
             }
         }
     }

@@ -1,6 +1,7 @@
 package com.jo.kisapi.repository
 
-import com.jo.kisapi.*
+import com.jo.kisapi.TokenTimeDao
+import com.jo.kisapi.Util
 import com.jo.kisapi.dataModel.*
 import com.jo.kisapi.retrofit.IRetrofit
 import com.jo.kisapi.retrofit.RetrofitClient
@@ -58,7 +59,7 @@ class Repository(private val tokenTimeDao: TokenTimeDao) {
         tradingHistoryRequest.CTX_AREA_NK100
     )
 
-    suspend fun getCash(token: String,cashRequest: CashRequest ) = iRetrofit!!.getCash(
+    suspend fun getCash(token: String, cashRequest: CashRequest) = iRetrofit!!.getCash(
         token,
         cashRequest.CANO,
         cashRequest.ACNT_PRDT_CD,
@@ -67,5 +68,19 @@ class Repository(private val tokenTimeDao: TokenTimeDao) {
         cashRequest.ORD_DVSN,
         cashRequest.CMA_EVLU_AMT_ICLD_YN,
         cashRequest.OVRS_ICLD_YN
+    )
+
+    suspend fun getDailyPrice(token: String, FID_INPUT_ISCD: String) = iRetrofit!!.getDailyPrice(
+        token,
+        "J",
+        FID_INPUT_ISCD,
+        "D",
+        "0"
+        )
+
+    suspend fun getCurrentPrice(token: String, FID_INPUT_ISCD: String) = iRetrofit!!.getCurrentPrice(
+        token,
+        "J",
+        FID_INPUT_ISCD,
     )
 }
