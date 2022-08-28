@@ -2,72 +2,94 @@ package com.jo.kisapi.repository
 
 import com.jo.kisapi.TokenTimeDao
 import com.jo.kisapi.Util
-import com.jo.kisapi.dataModel.*
+import com.jo.kisapi.Util.API_KEY
+import com.jo.kisapi.Util.API_KEY_SECRET
+import com.jo.kisapi.Util.CANO
+import com.jo.kisapi.dataModel.OrderRequest
+import com.jo.kisapi.dataModel.TokenBody
+import com.jo.kisapi.dataModel.TokenTime
 import com.jo.kisapi.retrofit.IRetrofit
 import com.jo.kisapi.retrofit.RetrofitClient
 
 class Repository(private val tokenTimeDao: TokenTimeDao) {
 
-    private val iRetrofit: IRetrofit? = RetrofitClient.getClient(Util.BASE_URL)?.create(IRetrofit::class.java)
+    private val iRetrofit: IRetrofit? =
+        RetrofitClient.getClient(Util.BASE_URL)?.create(IRetrofit::class.java)
 
     suspend fun insert(token: TokenTime) {
         tokenTimeDao.insert(token)
     }
 
-    suspend fun getToken() =tokenTimeDao.getToken()
+    suspend fun tokenCheck() = tokenTimeDao.getToken()
 
     suspend fun getTime() = tokenTimeDao.getTime()
 
-    suspend fun getToken(body: TokenBody) = iRetrofit!!.getToken(body)
-
-    suspend fun getInquireBalance(token: String, inquireBalanceRequest: InquireBalanceRequest) = iRetrofit?.getInquireBalance(
-        token,
-        inquireBalanceRequest.CANO,
-        inquireBalanceRequest.ACNT_PRDT_CD,
-        inquireBalanceRequest.AFHR_FLPR_YN,
-        inquireBalanceRequest.OFL_YN,
-        inquireBalanceRequest.INQR_DVSN,
-        inquireBalanceRequest.UNPR_DVSN,
-        inquireBalanceRequest.FUND_STTL_ICLD_YN,
-        inquireBalanceRequest.FNCG_AMT_AUTO_RDPT_YN,
-        inquireBalanceRequest.PRCS_DVSN,
-        inquireBalanceRequest.CTX_AREA_FK100,
-        inquireBalanceRequest.CTX_AREA_NK100
+    suspend fun getToken() = iRetrofit!!.getToken(
+        TokenBody(
+            "client_credentials",
+            API_KEY,
+            API_KEY_SECRET
+        )
     )
 
-    suspend fun order(token: String,tr_id: String, orderRequest: OrderRequest) = iRetrofit!!.order(
+    suspend fun getInquireBalance(token: String) =
+        iRetrofit?.getInquireBalance(
+            token,
+            CANO,
+            "01",
+            "N",
+            "",
+            "01",
+            "01",
+            "N",
+            "N",
+            "00",
+            "",
+            ""
+        )
+
+    suspend fun order(token: String, tr_id: String,PDNO: String,count :String) = iRetrofit!!.order(
         token,
         tr_id,
-        orderRequest
+        OrderRequest(
+            CANO,
+            "01",
+            PDNO,   //종목번호
+            "01",   //시장가
+            count,     //주문 갯수
+            "0",    //주문단가
+            ""
+        )
     )
 
-    suspend fun getTradingHistory(token: String, tradingHistoryRequest: TradingHistoryRequest) = iRetrofit?.getTradingHistory(
-        token,
-        tradingHistoryRequest.CANO,
-        tradingHistoryRequest.ACNT_PRDT_CD,
-        tradingHistoryRequest.INQR_STRT_DT,
-        tradingHistoryRequest.INQR_END_DT,
-        tradingHistoryRequest.SLL_BUY_DVSN_CD,
-        tradingHistoryRequest.INQR_DVSN,
-        tradingHistoryRequest.PDNO,
-        tradingHistoryRequest.CCLD_DVSN,
-        tradingHistoryRequest.ORD_GNO_BRNO,
-        tradingHistoryRequest.ODNO,
-        tradingHistoryRequest.INQR_DVSN_3,
-        tradingHistoryRequest.INQR_DVSN_1,
-        tradingHistoryRequest.CTX_AREA_FK100,
-        tradingHistoryRequest.CTX_AREA_NK100
-    )
+    suspend fun getTradingHistory(token: String,startDay:String,endDay:String) =
+        iRetrofit?.getTradingHistory(
+            token,
+            CANO,
+            "01",
+            startDay,
+            endDay,
+            "00",
+            "00",
+            "",
+            "00",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+        )
 
-    suspend fun getCash(token: String, cashRequest: CashRequest) = iRetrofit!!.getCash(
+    suspend fun getCash(token: String) = iRetrofit!!.getCash(
         token,
-        cashRequest.CANO,
-        cashRequest.ACNT_PRDT_CD,
-        cashRequest.PDNO,
-        cashRequest.ORD_UNPR,
-        cashRequest.ORD_DVSN,
-        cashRequest.CMA_EVLU_AMT_ICLD_YN,
-        cashRequest.OVRS_ICLD_YN
+        CANO,
+        "01",
+        "005930",
+        "60000",
+        "00",
+        "Y",
+        "N",
     )
 
     suspend fun getDailyPrice(token: String, FID_INPUT_ISCD: String) = iRetrofit!!.getDailyPrice(

@@ -1,15 +1,13 @@
 package com.jo.kisapi.viewmodel
 
 import android.util.Log
-import android.widget.Toast
-import androidx.lifecycle.*
-import com.jo.kisapi.Util
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import com.jo.kisapi.Util.buy
 import com.jo.kisapi.Util.sell
-import com.jo.kisapi.dataModel.OrderRequest
-import com.jo.kisapi.dataModel.TokenBody
 import com.jo.kisapi.dataModel.TokenTime
-import com.jo.kisapi.dataModel.TradingHistoryRequest
 import com.jo.kisapi.repository.Repository
 import kotlinx.coroutines.launch
 
@@ -21,14 +19,15 @@ class MyViewModel(private val repository: Repository) : ViewModel() {
     private fun getToken(){
         viewModelScope.launch{
             try {
-                repository.getToken(
-                    TokenBody(
-                    "client_credentials",
-                    appkey = Util.API_KEY,
-                    Util.API_KEY_SECRET
-                )
-                ).let {
-                    repository.insert(TokenTime("Bearer",it.body()!!.access_token,System.currentTimeMillis().plus(80000000).toString()))
+                repository.getToken()
+                    .let {
+                    repository.insert(
+                        TokenTime(
+                            "Bearer",
+                            it.body()!!.access_token,
+                            System.currentTimeMillis().plus(80000000).toString()
+                        )
+                    )
                 }
             }catch (e:Exception){
 
@@ -54,17 +53,10 @@ class MyViewModel(private val repository: Repository) : ViewModel() {
     fun orderBuy() {
         viewModelScope.launch {
             repository.order(
-                "Bearer " + repository.getToken(),
+                "Bearer " + repository.tokenCheck(),
                 buy,
-                OrderRequest(
-                    "73754150",
-                    "01",
-                    "011690",
-                    "01",
-                    "1",
-                    "0",
-                    ""
-                )
+                "11690",
+                "1"
             ).let {
                 msg.value = it.body()!!.msg1
                 it.body()?.output?.odno.let { odno ->
@@ -77,17 +69,10 @@ class MyViewModel(private val repository: Repository) : ViewModel() {
     fun orderSell() {
         viewModelScope.launch {
             repository.order(
-                "Bearer " + repository.getToken(),
+                "Bearer " + repository.tokenCheck(),
                 sell,
-                OrderRequest(
-                    "73754150",
-                    "01",
-                    "011690",
-                    "06",
-                    "1",
-                    "0",
-                    ""
-                )
+                "11690",
+                "1"
             ).let {
 
             }
@@ -98,23 +83,9 @@ class MyViewModel(private val repository: Repository) : ViewModel() {
     fun getTradingHistory() {
         viewModelScope.launch {
             repository.getTradingHistory(
-                "Bearer " + repository.getToken(),
-                TradingHistoryRequest(
-                    "73754150",
-                    "01",
-                    "20220801",
-                    "20220823",
-                    "00",
-                    "00",
-                    "",
-                    "00",
-                    "",
-                    "",
-                    "",
-                    "",
-                    "",
-                    ""
-                )
+                "Bearer " + repository.tokenCheck(),
+                "20220801" ,
+                "20220828"
             ).let {
                 Log.d("test", it!!.body().toString())
             }
@@ -124,12 +95,15 @@ class MyViewModel(private val repository: Repository) : ViewModel() {
     fun getDailyPrice(){
         viewModelScope.launch {
             repository.getDailyPrice(
-                "Bearer " + repository.getToken(),
+                "Bearer " + repository.tokenCheck(),
                 "005930"
             ).let {
-                Log.d("test" , it.body()!!.DailyPriceList[0].stck_oprc)
-                Log.d("test" , it.body()!!.DailyPriceList[1].stck_hgpr)
-                Log.d("test" , it.body()!!.DailyPriceList[1].stck_lwpr)
+                Log.d(
+                    "Test", (it.body()!!.DailyPriceList[0].stck_oprc.toInt() +
+                            (it.body()!!.DailyPriceList[1].stck_hgpr.toInt() - it.body()!!.DailyPriceList[1].stck_lwpr.toInt()) * 0.5).toString()
+                )
+
+
             }
         }
     }
@@ -137,10 +111,10 @@ class MyViewModel(private val repository: Repository) : ViewModel() {
     fun getCurrentPrice(){
         viewModelScope.launch {
             repository.getCurrentPrice(
-                "Bearer " + repository.getToken(),
+                "Bearer " + repository.tokenCheck(),
                 "005930"
             ).let {
-               Log.d("test",it.body()!!.prpr.stck_prpr)
+                Log.d("test", it.body()!!.prpr.stck_prpr) //현재가
             }
         }
     }

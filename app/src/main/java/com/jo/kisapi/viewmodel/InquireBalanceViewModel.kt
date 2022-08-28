@@ -1,19 +1,15 @@
 package com.jo.kisapi.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.jo.kisapi.dataModel.CashRequest
-import com.jo.kisapi.dataModel.InquireBalanceRequest
 import com.jo.kisapi.dataModel.output1
 import com.jo.kisapi.dataModel.output2
 import com.jo.kisapi.repository.Repository
 import kotlinx.coroutines.launch
 import java.text.DecimalFormat
 import kotlin.math.round
-import kotlin.math.roundToLong
 
 class InquireBalanceViewModel(private val repository: Repository) : ViewModel() {
     val sumPchsAmt = MutableLiveData<Int>(0)
@@ -31,20 +27,7 @@ class InquireBalanceViewModel(private val repository: Repository) : ViewModel() 
         viewModelScope.launch {
           /*  try {*/
                 repository.getInquireBalance(
-                    "Bearer " + repository.getToken(),
-                    InquireBalanceRequest(
-                        "73754150",
-                        "01",
-                        "N",
-                        "",
-                        "01",
-                        "01",
-                        "N",
-                        "N",
-                        "01",
-                        "",
-                        ""
-                    )
+                    "Bearer " + repository.tokenCheck()
                 ).let {
 
                     output1List.value = it!!.body()!!.output1
@@ -70,16 +53,7 @@ class InquireBalanceViewModel(private val repository: Repository) : ViewModel() 
     fun getCash(){
         viewModelScope.launch {
             repository.getCash(
-                "Bearer " + repository.getToken(),
-                CashRequest(
-                    "73754150",
-                    "01",
-                    "005930",
-                    "60000",
-                    "01",
-                    "Y",
-                    "Y",
-                    )
+                "Bearer " + repository.tokenCheck()
             ).let {
                 cashes.value = it.body()!!.cashOutput.max_buy_amt
             }
