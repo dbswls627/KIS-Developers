@@ -94,21 +94,16 @@
             android:text="주식 매수 테스트 " />
 
         <Button
-            android:id="@+id/test5"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="매수 후 자동 매도 테스트" />
-
-        <Button
             android:id="@+id/test3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="주식 체결 조회 " />
+
         <Button
-            android:id="@+id/test6"
+            android:id="@+id/test4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="현재가 조회 " />
+            android:text="자동 매매 테스트" />
 
 
     </LinearLayout>

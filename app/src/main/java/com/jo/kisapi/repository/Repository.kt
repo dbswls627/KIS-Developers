@@ -55,7 +55,7 @@ class Repository(private val tokenTimeDao: TokenTimeDao) {
             CANO,
             "01",
             PDNO,   //종목번호
-            "01",   //시장가
+            "01",   //지정가 : 00 시장가 : 01
             count,     //주문 갯수
             "0",    //주문단가
             ""

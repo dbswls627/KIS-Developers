@@ -10,7 +10,13 @@ import android.graphics.Color
 import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import androidx.lifecycle.viewModelScope
 import com.jo.kisapi.activity.MainActivity
+import com.jo.kisapi.repository.Repository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.supervisorScope
 
 class AlarmReceiver : BroadcastReceiver() {
 
@@ -21,11 +27,20 @@ class AlarmReceiver : BroadcastReceiver() {
     }
 
     lateinit var notificationManager: NotificationManager
-
     override fun onReceive(context: Context, intent: Intent) {
         Log.d(TAG, "Received intent : $intent")
         notificationManager = context.getSystemService(
             Context.NOTIFICATION_SERVICE) as NotificationManager
+        val database by lazy { AppDatabase.getInstance(context) }
+        val repository by lazy { Repository(database!!.TokenTimeDao()) }
+        CoroutineScope(Dispatchers.IO).launch {
+            repository.order(
+                "Bearer " + repository.tokenCheck(),
+                Util.sell,
+                "11690",
+                "1"
+            )
+        }
 
         createNotificationChannel()
         deliverNotification(context)

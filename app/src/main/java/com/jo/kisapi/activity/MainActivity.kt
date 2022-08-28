@@ -11,7 +11,8 @@ import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import com.jo.kisapi.*
+import com.jo.kisapi.AlarmReceiver
+import com.jo.kisapi.R
 import com.jo.kisapi.application.KISApplication
 import com.jo.kisapi.databinding.ActivityMainBinding
 import com.jo.kisapi.viewmodel.MyViewModel
@@ -66,19 +67,40 @@ class MainActivity : AppCompatActivity() {
         binding.test3.setOnClickListener {  //주식 체결 내역
             viewModel.getTradingHistory()
         }
-        binding.test5.setOnClickListener {  //매수후 자동 매도 테스트
+
+
+        binding.test4.setOnClickListener {
             viewModel.orderBuy()
-            viewModel.orderSell()
+            val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
+            val intent = Intent(this, AlarmReceiver::class.java)
+
+            val pendingIntent = PendingIntent.getBroadcast(
+                this, AlarmReceiver.NOTIFICATION_ID, intent,
+                PendingIntent.FLAG_IMMUTABLE
+            )
+
+            val calendar: Calendar = Calendar.getInstance().apply {
+                timeInMillis = System.currentTimeMillis()
+                set(Calendar.HOUR_OF_DAY, 15)
+                set(Calendar.MINUTE, 10)
+            }
+
+            alarmManager.set(
+                AlarmManager.RTC_WAKEUP,
+                calendar.timeInMillis,
+                pendingIntent
+            )
+            Log.d("TAG", "toastMessage")
 
         }
-        binding.test6.setOnClickListener {  //현재가 가져오기
-           // viewModel.getDailyPrice()
-            viewModel.getCurrentPrice()
 
-        }
-       viewModel.msg.observe(this,  {
-           Toast.makeText(this,it,Toast.LENGTH_SHORT).show()
-       })
+
+
+        viewModel.msg.observe(this, {
+            Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+        })
     }
+
+
 
 }

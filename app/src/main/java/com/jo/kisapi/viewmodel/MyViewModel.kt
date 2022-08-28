@@ -65,7 +65,6 @@ class MyViewModel(private val repository: Repository) : ViewModel() {
             }
         }
     }
-
     fun orderSell() {
         viewModelScope.launch {
             repository.order(
@@ -92,18 +91,16 @@ class MyViewModel(private val repository: Repository) : ViewModel() {
         }
     }
 
-    fun getDailyPrice(){
+    fun getTargetPrice(){
         viewModelScope.launch {
             repository.getDailyPrice(
                 "Bearer " + repository.tokenCheck(),
-                "005930"
+                "11690"
             ).let {
                 Log.d(
                     "Test", (it.body()!!.DailyPriceList[0].stck_oprc.toInt() +
                             (it.body()!!.DailyPriceList[1].stck_hgpr.toInt() - it.body()!!.DailyPriceList[1].stck_lwpr.toInt()) * 0.5).toString()
                 )
-
-
             }
         }
     }
@@ -112,7 +109,7 @@ class MyViewModel(private val repository: Repository) : ViewModel() {
         viewModelScope.launch {
             repository.getCurrentPrice(
                 "Bearer " + repository.tokenCheck(),
-                "005930"
+                "11690"
             ).let {
                 Log.d("test", it.body()!!.prpr.stck_prpr) //현재가
             }
