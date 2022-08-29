@@ -16,6 +16,7 @@
             app:cardCornerRadius="15dp">
 
             <LinearLayout
+                android:id="@+id/autoTrading"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:orientation="vertical">
@@ -58,25 +59,11 @@
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="60dp"
+                    android:layout_height="100dp"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:text="자동 매매 2"
-                    android:textSize="30dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:paddingRight="10dp"
-                    android:text="누적 손익 " />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:paddingRight="10dp"
-                    android:text="누적 수익률" />
+                    android:text="준비 중"
+                    android:textSize="40dp" />
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>

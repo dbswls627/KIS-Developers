@@ -43,6 +43,11 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        binding.autoTrading!!.setOnClickListener {
+            val intent = Intent(this, OrderActivity::class.java)
+            startActivity(intent)
+        }
+
 /*        //해쉬
         binding.button!!.setOnClickListener {
             lifecycleScope.launch(Dispatchers.IO) {

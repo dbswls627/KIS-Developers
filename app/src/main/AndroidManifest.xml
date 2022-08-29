@@ -15,13 +15,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.KISapi"
         android:usesCleartextTraffic="true">
-        <receiver android:name=".AlarmReceiver"
-            android:exported="false"/>
+        <activity
+            android:name=".activity.OrderActivity"
+            android:exported="true" />
+
+        <receiver
+            android:name=".AlarmReceiver"
+            android:exported="false" />
 
         <activity
             android:name=".activity.InquireBalanceActivity"
             android:exported="true" />
-
         <activity
             android:name=".activity.MainActivity"
             android:exported="true">
