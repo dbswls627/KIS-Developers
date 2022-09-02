@@ -53,7 +53,7 @@ class MyViewModel(private val repository: Repository) : ViewModel() {
     fun orderBuy() {
         viewModelScope.launch {
             repository.order(
-                "Bearer " + repository.tokenCheck(),
+                "Bearer " + repository.dbToken(),
                 buy,
                 "11690",
                 "1"
@@ -68,7 +68,7 @@ class MyViewModel(private val repository: Repository) : ViewModel() {
     fun orderSell() {
         viewModelScope.launch {
             repository.order(
-                "Bearer " + repository.tokenCheck(),
+                "Bearer " + repository.dbToken(),
                 sell,
                 "11690",
                 "1"
@@ -82,7 +82,7 @@ class MyViewModel(private val repository: Repository) : ViewModel() {
     fun getTradingHistory() {
         viewModelScope.launch {
             repository.getTradingHistory(
-                "Bearer " + repository.tokenCheck(),
+                "Bearer " + repository.dbToken(),
                 "20220801" ,
                 "20220828"
             ).let {
@@ -91,30 +91,7 @@ class MyViewModel(private val repository: Repository) : ViewModel() {
         }
     }
 
-    fun getTargetPrice(){
-        viewModelScope.launch {
-            repository.getDailyPrice(
-                "Bearer " + repository.tokenCheck(),
-                "11690"
-            ).let {
-                Log.d(
-                    "Test", (it.body()!!.DailyPriceList[0].stck_oprc.toInt() +
-                            (it.body()!!.DailyPriceList[1].stck_hgpr.toInt() - it.body()!!.DailyPriceList[1].stck_lwpr.toInt()) * 0.5).toString()
-                )
-            }
-        }
-    }
 
-    fun getCurrentPrice(){
-        viewModelScope.launch {
-            repository.getCurrentPrice(
-                "Bearer " + repository.tokenCheck(),
-                "11690"
-            ).let {
-                Log.d("test", it.body()!!.prpr.stck_prpr) //현재가
-            }
-        }
-    }
 
 
     class Factory(private val repository: Repository) : ViewModelProvider.Factory {

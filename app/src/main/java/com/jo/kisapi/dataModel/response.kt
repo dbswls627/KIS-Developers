@@ -68,8 +68,10 @@ data class Dailyprpr(
 data class CurrentPrice(
     @SerializedName("output")
     val prpr:prpr
+
 )
 
 data class prpr(
-    val stck_prpr: String
+    val stck_prpr: Int,
+    val prdy_ctrt: String
 )

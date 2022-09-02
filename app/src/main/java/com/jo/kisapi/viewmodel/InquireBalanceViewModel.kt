@@ -27,7 +27,7 @@ class InquireBalanceViewModel(private val repository: Repository) : ViewModel() 
         viewModelScope.launch {
           /*  try {*/
                 repository.getInquireBalance(
-                    "Bearer " + repository.tokenCheck()
+                    "Bearer " + repository.dbToken()
                 ).let {
 
                     output1List.value = it!!.body()!!.output1
@@ -53,7 +53,7 @@ class InquireBalanceViewModel(private val repository: Repository) : ViewModel() 
     fun getCash(){
         viewModelScope.launch {
             repository.getCash(
-                "Bearer " + repository.tokenCheck()
+                "Bearer " + repository.dbToken()
             ).let {
                 cashes.value = it.body()!!.cashOutput.max_buy_amt
             }

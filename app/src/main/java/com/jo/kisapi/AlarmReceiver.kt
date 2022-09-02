@@ -10,13 +10,11 @@ import android.graphics.Color
 import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
-import androidx.lifecycle.viewModelScope
 import com.jo.kisapi.activity.MainActivity
 import com.jo.kisapi.repository.Repository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.supervisorScope
 
 class AlarmReceiver : BroadcastReceiver() {
 
@@ -35,7 +33,7 @@ class AlarmReceiver : BroadcastReceiver() {
         val repository by lazy { Repository(database!!.TokenTimeDao()) }
         CoroutineScope(Dispatchers.IO).launch {
             repository.order(
-                "Bearer " + repository.tokenCheck(),
+                "Bearer " + repository.dbToken(),
                 Util.sell,
                 "11690",
                 "1"

@@ -20,7 +20,7 @@ class Repository(private val tokenTimeDao: TokenTimeDao) {
         tokenTimeDao.insert(token)
     }
 
-    suspend fun tokenCheck() = tokenTimeDao.getToken()
+    suspend fun dbToken() = tokenTimeDao.getToken()
 
     suspend fun getTime() = tokenTimeDao.getTime()
 

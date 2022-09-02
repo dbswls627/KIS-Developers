@@ -31,10 +31,10 @@ class InquireBalanceActivity : AppCompatActivity() {
         binding.re!!.layoutManager = LinearLayoutManager(this)
 
         lifecycleScope.launch {
-            async {
-                viewModel.getCash()
-                viewModel.getInquireBalance()
-            }
+
+            viewModel.getInquireBalance()
+            viewModel.getCash()
+
         }
             lifecycleScope.launch {
                 while(true) {
