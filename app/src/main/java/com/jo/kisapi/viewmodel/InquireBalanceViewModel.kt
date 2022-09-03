@@ -17,7 +17,7 @@ class InquireBalanceViewModel(private val repository: Repository) : ViewModel() 
     val sumAmt = MutableLiveData<Int>(0)
     val cashes = MutableLiveData<Int>(0)
     val sumEvluPflsAmt = MutableLiveData<Int>(0)
-    val rt = MutableLiveData<Float>(0.0f)
+    val rt = MutableLiveData<Double>(0.0)
     var output1List = MutableLiveData<List<output1>>()
     var output2 = MutableLiveData<output2>()
     val dec = DecimalFormat("#,###원")
@@ -42,7 +42,7 @@ class InquireBalanceViewModel(private val repository: Repository) : ViewModel() 
                         sumEvluPflsAmt.value = sumEvluPflsAmt.value?.plus(it.evlu_pfls_amt.toInt())
                         sumAmt.value = sumEvluAmt.value?.plus(cashes.value!!)
                     }
-                    rt.value = round((sumEvluPflsAmt.value!!.toFloat() * 1000).div(sumPchsAmt.value!!)).div(10)
+                    rt.value = round((sumEvluPflsAmt.value!!.toDouble() * 1000).div(sumPchsAmt.value!!)).div(10)
                 }
 
             /*} catch (e: Exception) {

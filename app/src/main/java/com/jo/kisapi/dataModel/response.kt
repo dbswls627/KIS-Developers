@@ -32,6 +32,8 @@ data class output2(
 data class OrderResponse(
     @SerializedName("msg1")
     val msg1: String,
+    @SerializedName("rt_cd")
+    val rt_cd: String,
     val output: output
 )
 
@@ -62,7 +64,8 @@ data class DailyPrice(
 data class Dailyprpr(
     val stck_oprc: String,
     val stck_hgpr: String,
-    val stck_lwpr: String
+    val stck_lwpr: String,
+    val stck_clpr: String,
 )
 
 data class CurrentPrice(
@@ -73,5 +76,6 @@ data class CurrentPrice(
 
 data class prpr(
     val stck_prpr: Int,
-    val prdy_ctrt: String
+    val prdy_vrss: Int,
+    val prdy_ctrt: Double
 )

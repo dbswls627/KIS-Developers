@@ -26,17 +26,21 @@ class AlarmReceiver : BroadcastReceiver() {
 
     lateinit var notificationManager: NotificationManager
     override fun onReceive(context: Context, intent: Intent) {
-        Log.d(TAG, "Received intent : $intent")
+        val pdno = intent.getStringExtra("pdno")
+        val count = intent.getStringExtra("count")
+        Log.d(TAG, pdno!!)
+        Log.d(TAG, count!!)
         notificationManager = context.getSystemService(
             Context.NOTIFICATION_SERVICE) as NotificationManager
         val database by lazy { AppDatabase.getInstance(context) }
         val repository by lazy { Repository(database!!.TokenTimeDao()) }
+
         CoroutineScope(Dispatchers.IO).launch {
             repository.order(
                 "Bearer " + repository.dbToken(),
                 Util.sell,
-                "11690",
-                "1"
+                pdno!!,
+                count!!
             )
         }
 

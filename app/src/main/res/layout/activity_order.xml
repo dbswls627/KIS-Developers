@@ -7,6 +7,7 @@
             type="com.jo.kisapi.viewmodel.OrderViewModel" />
     </data>
     <LinearLayout
+        android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -33,59 +34,91 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                amt="@{viewModel.currentPrice}"
+                change="@{viewModel.change}"
+                android:layout_width="150dp"
+                android:layout_height="match_parent"
                 android:padding="10dp"
-                android:text="현재가: "
                 android:textColor="@color/black"
-                android:textSize="25dp" />
+                android:textSize="30dp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="@{viewModel.currentPrice.toString()}"
-                android:textColor="@color/black"
-                android:textSize="25dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    setTextColor1="@{viewModel.change}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="15dp" />
+
+                <TextView
+                    setTextColor2="@{viewModel.percent}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="15dp" />
+
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="wrap_content"
+                setTextColor1="@{viewModel.targetPrice}"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:text="타겟 가격: "
-                android:textColor="@color/black"
-                android:textSize="25dp" />
+                android:layout_width="150dp"
+                android:textSize="30dp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="@{viewModel.targetPrice.toString()}"
-                android:textColor="@color/black"
-                android:textSize="25dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    target="@{viewModel.targetPrice}"
+                    ydPrice="@{viewModel.ydPrice}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15dp" />
+
+                <TextView
+                    target1="@{viewModel.targetPrice}"
+                    ydPrice="@{viewModel.ydPrice}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15dp" />
+            </LinearLayout>
         </LinearLayout>
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
             <Button
+                android:onClick="@{()->viewModel.countMinus()}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="-" />
 
             <EditText
+                android:ems="5"
+                android:gravity="center"
+                android:inputType="date"
+                android:maxLength="5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="주문 수량"
-                android:text="" />
+                android:text="@={viewModel.count}" />
 
             <Button
+                android:onClick="@{()->viewModel.countPlus()}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="+" />
@@ -96,9 +129,49 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="주문 금액: "
+                android:textSize="15dp" />
+
+            <TextView
+                count="@{viewModel.count}"
+                target="@{viewModel.targetPrice}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="15dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="주문 금액: "
+                android:textSize="15dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.cashes.toString()}"
+                android:textSize="15dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:padding="10dp">
 
             <Button
+                android:id="@+id/test4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="주문" />

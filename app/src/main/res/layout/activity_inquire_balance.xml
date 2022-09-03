@@ -32,8 +32,8 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    sumEvluPflsAmt="@{InquireBalanceViewModel.sumEvluPflsAmt}"
-                    sumAmt="@{InquireBalanceViewModel.sumAmt}"
+                    amt="@{InquireBalanceViewModel.sumAmt}"
+                    change="@{InquireBalanceViewModel.sumEvluPflsAmt}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="left"
