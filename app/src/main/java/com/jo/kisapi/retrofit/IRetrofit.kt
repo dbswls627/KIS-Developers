@@ -87,7 +87,7 @@ interface IRetrofit {
         @Query("INQR_DVSN_1") INQR_DVSN_1: String,
         @Query("CTX_AREA_FK100") CTX_AREA_FK100: String,
         @Query("CTX_AREA_NK100") CTX_AREA_NK100: String,
-    ): Response<JsonElement>
+    ): Response<TradingHistoryList>
 
     //매수가능금액 조회
     @GET("/uapi/domestic-stock/v1/trading/inquire-psbl-order")

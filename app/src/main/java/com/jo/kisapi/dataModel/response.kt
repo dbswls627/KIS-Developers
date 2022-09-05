@@ -79,3 +79,14 @@ data class prpr(
     val prdy_vrss: Int,
     val prdy_ctrt: Double
 )
+
+data class TradingHistoryList(
+    @SerializedName("output1")
+    val tradingHistoryList:List<TradingHistory>
+)
+data class TradingHistory(
+    @SerializedName("odno")
+    val odno: String,
+    @SerializedName("tot_ccld_amt")
+    val tot_ccld_amt:String
+)

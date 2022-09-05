@@ -10,3 +10,10 @@ data class TokenTime(
     var token:String,
     var time:String
 )
+@Entity
+data class AutoTrading(
+    var type:String,
+    var division:String,
+    @PrimaryKey
+    var odno:String
+)

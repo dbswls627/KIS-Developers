@@ -99,16 +99,19 @@
             </LinearLayout>
         </LinearLayout>
         <LinearLayout
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
             <Button
+                android:id="@+id/minus"
                 android:onClick="@{()->viewModel.countMinus()}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="-" />
 
             <EditText
+                android:id="@+id/edit"
                 android:ems="5"
                 android:gravity="center"
                 android:inputType="date"
@@ -118,6 +121,7 @@
                 android:text="@={viewModel.count}" />
 
             <Button
+                android:id="@+id/plus"
                 android:onClick="@{()->viewModel.countPlus()}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -167,8 +171,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp">
+            android:layout_height="wrap_content">
 
             <Button
                 android:id="@+id/test4"

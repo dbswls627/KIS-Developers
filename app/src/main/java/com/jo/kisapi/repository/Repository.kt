@@ -5,6 +5,7 @@ import com.jo.kisapi.Util
 import com.jo.kisapi.Util.API_KEY
 import com.jo.kisapi.Util.API_KEY_SECRET
 import com.jo.kisapi.Util.CANO
+import com.jo.kisapi.dataModel.AutoTrading
 import com.jo.kisapi.dataModel.OrderRequest
 import com.jo.kisapi.dataModel.TokenBody
 import com.jo.kisapi.dataModel.TokenTime
@@ -18,6 +19,10 @@ class Repository(private val tokenTimeDao: TokenTimeDao) {
 
     suspend fun insert(token: TokenTime) {
         tokenTimeDao.insert(token)
+    }
+
+    suspend fun insert(autoTrading: AutoTrading) {
+        tokenTimeDao.insertOrderHistory(autoTrading)
     }
 
     suspend fun dbToken() = tokenTimeDao.getToken()
@@ -62,17 +67,17 @@ class Repository(private val tokenTimeDao: TokenTimeDao) {
         )
     )
 
-    suspend fun getTradingHistory(token: String,startDay:String,endDay:String) =
+    suspend fun getTradingHistory(token: String,startDay:String,endDay:String,division:String) =
         iRetrofit?.getTradingHistory(
             token,
             CANO,
             "01",
             startDay,
             endDay,
-            "00",
-            "00",
+            division,           //전체:00 매도:01 매수:02
+            "00",    //정렬
             "",
-            "00",
+            "01",   //전체:00 체결:01 미체결:02
             "",
             "",
             "",

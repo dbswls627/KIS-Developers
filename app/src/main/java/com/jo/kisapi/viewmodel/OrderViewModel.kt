@@ -6,7 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.jo.kisapi.Util
+import com.jo.kisapi.dataModel.AutoTrading
 import com.jo.kisapi.repository.Repository
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class OrderViewModel(private val repository: Repository) : ViewModel() {
@@ -19,6 +21,7 @@ class OrderViewModel(private val repository: Repository) : ViewModel() {
     val cashes = MutableLiveData<Int>(0)
     val msg = MutableLiveData<String>()
     val rt_cd = MutableLiveData<String>()
+    val auto = MutableLiveData(false)
 
     fun getCurrentPrice(no: String) {
         viewModelScope.launch {
@@ -49,11 +52,19 @@ class OrderViewModel(private val repository: Repository) : ViewModel() {
     }
 
     fun countPlus() {
-        count.value = (count.value!!.toInt() + 1).toString()
+        if (count.value.isNullOrEmpty()) {
+            count.value = "1"
+        } else {
+            count.value = (count.value!!.toInt() + 1).toString()
+        }
     }
 
     fun countMinus() {
-        count.value = (count.value!!.toInt() - 1).toString()
+        if (count.value.isNullOrEmpty()) {
+            count.value = "1"
+        } else if (count.value!!.toInt() > 1) {
+            count.value = (count.value!!.toInt() - 1).toString()
+        }
     }
 
     fun getCash(){
@@ -95,6 +106,31 @@ class OrderViewModel(private val repository: Repository) : ViewModel() {
         }
 
     }
+
+    fun auto(no: String) {
+        viewModelScope.launch {
+            while (auto.value!!) {
+                getCurrentPrice(no)
+                Log.d("test",currentPrice.value.toString())
+                Log.d("test",targetPrice.value.toString())
+                if (targetPrice.value!! <= currentPrice.value!!.toInt()) {
+                    repository.order(
+                        "Bearer " + repository.dbToken(),
+                        Util.buy,
+                        no,
+                        count!!.toString()
+                    ).let {
+                        msg.value = it.body()!!.msg1
+                        auto.value = false
+                        repository.insert(AutoTrading("A","01",it.body()!!.output.odno))
+                    }
+                }
+                delay(1000)
+            }
+        }
+    }
+
+
     class Factory(private val repository: Repository) : ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(OrderViewModel::class.java)) {

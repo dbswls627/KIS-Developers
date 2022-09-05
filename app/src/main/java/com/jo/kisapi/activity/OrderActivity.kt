@@ -22,7 +22,7 @@ import java.util.*
 class OrderActivity : AppCompatActivity() {
     private lateinit var binding: ActivityOrderBinding
     var pdno: String = ""
-
+    var auto = false
     private val viewModel: OrderViewModel by viewModels {
         OrderViewModel.Factory((application as KISApplication).repository)
     }
@@ -33,7 +33,7 @@ class OrderActivity : AppCompatActivity() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
-        val items = arrayOf("삼성전자","카카오","기아","HMM","아아윈플러스")
+        val items = arrayOf("두산에니빌리티","카카오","기아","HMM","아아윈플러스","KT")
         val myAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, items)
         viewModel.getCash()
 
@@ -43,7 +43,7 @@ class OrderActivity : AppCompatActivity() {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 when (position) {
                     0 -> {
-                        pdno = "005930"
+                        pdno = "034020"
                         viewModel.getCurrentPrice(pdno)
                         viewModel.getTargetPrice(pdno)
                     }
@@ -67,6 +67,11 @@ class OrderActivity : AppCompatActivity() {
                         viewModel.getCurrentPrice(pdno)
                         viewModel.getTargetPrice(pdno)
                     }
+                    5 -> {
+                        pdno = "030200"
+                        viewModel.getCurrentPrice(pdno)
+                        viewModel.getTargetPrice(pdno)
+                    }
                 }
             }
 
@@ -75,38 +80,65 @@ class OrderActivity : AppCompatActivity() {
             }
         }
         binding.test4.setOnClickListener {
+            if (viewModel.count.value!!.toInt() * viewModel.targetPrice.value!!.toInt() <= viewModel.cashes.value!!) {
 
-            viewModel.orderBuy(pdno, viewModel.count.value.toString())
-            if (viewModel.rt_cd.value == "0") {
-                val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
-                val intent = Intent(this, AlarmReceiver::class.java)
-                intent.putExtra("pdno", pdno)
-                intent.putExtra("count", viewModel.count.value.toString())
-                val pendingIntent = PendingIntent.getBroadcast(
-                    this, AlarmReceiver.NOTIFICATION_ID, intent,
-                    PendingIntent.FLAG_IMMUTABLE
-                )
+                if (!viewModel.auto.value!!) {
 
-                val calendar: Calendar = Calendar.getInstance().apply {
-                    timeInMillis = System.currentTimeMillis()
-                    set(Calendar.HOUR_OF_DAY, 15)
-                    set(Calendar.MINUTE, 10)
+                    binding.test4.text = "취소"
+                    viewModel.auto.value = true
+                    viewModel.auto(pdno)
+                    if (viewModel.rt_cd.value == "0")
+                    {
+                        val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
+                        val intent = Intent(this, AlarmReceiver::class.java)
+                        intent.putExtra("pdno", pdno)
+                        intent.putExtra("count", viewModel.count.value.toString())
+                        val pendingIntent = PendingIntent.getBroadcast(
+                            this, AlarmReceiver.NOTIFICATION_ID, intent,
+                            PendingIntent.FLAG_IMMUTABLE
+                        )
+
+                        val calendar: Calendar = Calendar.getInstance().apply {
+                            timeInMillis = System.currentTimeMillis()
+                            set(Calendar.HOUR_OF_DAY, 15)
+                            set(Calendar.MINUTE, 10)
+                        }
+
+                        alarmManager.set(
+                            AlarmManager.RTC_WAKEUP,
+                            calendar.timeInMillis,
+                            pendingIntent
+                        )
+                        Log.d("TAG", "toastMessage")
+
+                    }
+                } else {
+
+                    viewModel.auto.value = true
+                    binding.test4.text = "주문"
                 }
+            }else{
 
-                alarmManager.set(
-                    AlarmManager.RTC_WAKEUP,
-                    calendar.timeInMillis,
-                    pendingIntent
-                )
-                Log.d("TAG", "toastMessage")
-
+                Toast.makeText(this,"보유금액이 부족합니다",Toast.LENGTH_SHORT).show()
             }
         }
+
+        viewModel.auto.observe(this, {
+            setEnable(!auto)
+        })
 
         viewModel.msg.observe(this, {
             Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
 
         })
+
+    }
+
+    private fun setEnable(b: Boolean) {
+        binding.spinner.isEnabled = b
+        binding.minus.isEnabled = b
+        binding.plus.isEnabled = b
+        binding.edit.isEnabled = b
 
     }
 }

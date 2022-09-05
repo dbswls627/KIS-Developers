@@ -1,8 +1,8 @@
 package com.jo.kisapi
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 import androidx.room.OnConflictStrategy.REPLACE
+import com.jo.kisapi.dataModel.AutoTrading
 import com.jo.kisapi.dataModel.TokenTime
 
 @Dao
@@ -21,5 +21,8 @@ interface TokenTimeDao {
 
  @Update
  suspend fun upadte(tokenTime: TokenTime)
+
+ @Insert(onConflict = REPLACE)
+ suspend fun insertOrderHistory(autoTrading: AutoTrading)
 }
     

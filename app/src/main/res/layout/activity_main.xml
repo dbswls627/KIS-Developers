@@ -83,22 +83,12 @@
             android:layout_width="match_parent" />
 
         <Button
-            android:id="@+id/test"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="주식 매수 테스트 " />
-
-        <Button
             android:id="@+id/test3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="주식 체결 조회 " />
 
-        <Button
-            android:id="@+id/test4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="자동 매매 테스트" />
+
 
 
     </LinearLayout>

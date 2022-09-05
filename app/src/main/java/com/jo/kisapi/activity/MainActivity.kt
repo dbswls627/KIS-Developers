@@ -65,39 +65,11 @@ class MainActivity : AppCompatActivity() {
                 Log.d("테스트", a)
             }
         }*/
-        binding.test!!.setOnClickListener { //주식 매수
-            viewModel.orderBuy()
-        }
 
         binding.test3.setOnClickListener {  //주식 체결 내역
             viewModel.getTradingHistory()
         }
 
-
-        binding.test4.setOnClickListener {
-            viewModel.orderBuy()
-            val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
-            val intent = Intent(this, AlarmReceiver::class.java)
-
-            val pendingIntent = PendingIntent.getBroadcast(
-                this, AlarmReceiver.NOTIFICATION_ID, intent,
-                PendingIntent.FLAG_IMMUTABLE
-            )
-
-            val calendar: Calendar = Calendar.getInstance().apply {
-                timeInMillis = System.currentTimeMillis()
-                set(Calendar.HOUR_OF_DAY, 15)
-                set(Calendar.MINUTE, 10)
-            }
-
-            alarmManager.set(
-                AlarmManager.RTC_WAKEUP,
-                calendar.timeInMillis,
-                pendingIntent
-            )
-            Log.d("TAG", "toastMessage")
-
-        }
 
 
 

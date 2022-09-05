@@ -4,10 +4,11 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.jo.kisapi.dataModel.AutoTrading
 import com.jo.kisapi.dataModel.TokenTime
 import kotlinx.coroutines.CoroutineScope
 
-@Database(entities = [TokenTime::class], version = 1)
+@Database(entities = [TokenTime::class, AutoTrading::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun TokenTimeDao(): TokenTimeDao
     companion object {

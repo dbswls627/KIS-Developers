@@ -11,6 +11,7 @@ import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.jo.kisapi.activity.MainActivity
+import com.jo.kisapi.dataModel.AutoTrading
 import com.jo.kisapi.repository.Repository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -41,7 +42,9 @@ class AlarmReceiver : BroadcastReceiver() {
                 Util.sell,
                 pdno!!,
                 count!!
-            )
+            ).let {
+                repository.insert(AutoTrading("A","02",it.body()!!.output.odno))
+            }
         }
 
         createNotificationChannel()

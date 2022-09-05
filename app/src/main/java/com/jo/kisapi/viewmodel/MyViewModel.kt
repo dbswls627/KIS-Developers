@@ -84,7 +84,8 @@ class MyViewModel(private val repository: Repository) : ViewModel() {
             repository.getTradingHistory(
                 "Bearer " + repository.dbToken(),
                 "20220801" ,
-                "20220828"
+                "20220828",
+                "00"
             ).let {
                 Log.d("test", it!!.body().toString())
             }
