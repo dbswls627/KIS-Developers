@@ -36,16 +36,19 @@ class AlarmReceiver : BroadcastReceiver() {
         val database by lazy { AppDatabase.getInstance(context) }
         val repository by lazy { Repository(database!!.TokenTimeDao()) }
 
-        CoroutineScope(Dispatchers.IO).launch {
+       /* CoroutineScope(Dispatchers.IO).launch {
             repository.order(
                 "Bearer " + repository.dbToken(),
                 Util.sell,
                 pdno!!,
-                count!!
+                "0",
+                count!!,
+                "0"
+
             ).let {
-                repository.insert(AutoTrading("A","02",it.body()!!.output.odno))
+               repository.insert(AutoTrading("A","02",it.body()!!.output.ODNO))
             }
-        }
+        }*/
 
         createNotificationChannel()
         deliverNotification(context)

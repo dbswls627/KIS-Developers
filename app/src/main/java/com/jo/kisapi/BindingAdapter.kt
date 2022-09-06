@@ -66,7 +66,7 @@ object BindingAdapter {
     @BindingAdapter("ydPrice", "target")
     fun setTextColor4(textView: TextView, ydPrice: Int, target: Int) {
         textView.setTextColor(Color.RED)
-        textView.text = DecimalFormat("+#,###").format(target - ydPrice)
+        textView.text = DecimalFormat("#,###").format(target - ydPrice)
     }
 
     @JvmStatic
@@ -74,14 +74,14 @@ object BindingAdapter {
     @BindingAdapter( "target1", "ydPrice")
     fun setTextColor5(textView: TextView,  target1: Int, ydPrice :Int) {
         textView.setTextColor(Color.RED)
-        textView.text = "+"+DecimalFormat("##.##").format(((target1 - ydPrice)* 100 / ydPrice.toDouble()))+"%"
+        textView.text = DecimalFormat("##.##").format(((target1 - ydPrice)* 100 / ydPrice.toDouble()))+"%"
     }
 
     @JvmStatic
     @BindingAdapter( "count", "target")
     fun setOrderAmount(textView: TextView, count :String,target: Int) {
         if (count.isNotEmpty()){
-            textView.text = (target * count.toInt()).toString()
+            textView.text = DecimalFormat("#,###원").format((target * count.toInt()))
         }
     }
 }

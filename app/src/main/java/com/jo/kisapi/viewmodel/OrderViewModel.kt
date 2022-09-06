@@ -10,6 +10,7 @@ import com.jo.kisapi.dataModel.AutoTrading
 import com.jo.kisapi.repository.Repository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.text.DecimalFormat
 
 class OrderViewModel(private val repository: Repository) : ViewModel() {
     val count = MutableLiveData<String>("1")
@@ -22,6 +23,7 @@ class OrderViewModel(private val repository: Repository) : ViewModel() {
     val msg = MutableLiveData<String>()
     val rt_cd = MutableLiveData<String>()
     val auto = MutableLiveData(false)
+    val dec = DecimalFormat("#,###원")
 
     fun getCurrentPrice(no: String) {
         viewModelScope.launch {
@@ -77,7 +79,7 @@ class OrderViewModel(private val repository: Repository) : ViewModel() {
         }
     }
 
-    fun orderBuy(pdno:String, count :String) {
+   /* fun orderBuy(pdno:String, count :String) {
         viewModelScope.launch {
             repository.order(
                 "Bearer " + repository.dbToken(),
@@ -92,14 +94,16 @@ class OrderViewModel(private val repository: Repository) : ViewModel() {
                 }
             }
         }
-    }
+    }*/
     fun orderSell(pdno:String, count :String) {
         viewModelScope.launch {
             repository.order(
                 "Bearer " + repository.dbToken(),
                 Util.sell,
                 pdno,
-                count
+                "02",
+                count,
+                (targetPrice.value!! * 1.20).toString()
             ).let {
 
             }
@@ -110,7 +114,6 @@ class OrderViewModel(private val repository: Repository) : ViewModel() {
     fun auto(no: String) {
         viewModelScope.launch {
             while (auto.value!!) {
-                getCurrentPrice(no)
                 Log.d("test",currentPrice.value.toString())
                 Log.d("test",targetPrice.value.toString())
                 if (targetPrice.value!! <= currentPrice.value!!.toInt()) {
@@ -118,11 +121,15 @@ class OrderViewModel(private val repository: Repository) : ViewModel() {
                         "Bearer " + repository.dbToken(),
                         Util.buy,
                         no,
-                        count!!.toString()
+                        "01",
+                        count!!.value.toString()
+                            ,"0"
                     ).let {
+                        Log.d("test",it.body()!!.toString())
                         msg.value = it.body()!!.msg1
                         auto.value = false
-                        repository.insert(AutoTrading("A","01",it.body()!!.output.odno))
+                        repository.insert(AutoTrading("A","01",it.body()!!.output.ODNO))
+                        orderSell(no,count.value.toString())
                     }
                 }
                 delay(1000)

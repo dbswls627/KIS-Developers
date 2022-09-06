@@ -24,9 +24,10 @@ data class output1(
 )
 
 data class output2(
-    val dnca_tot_amt: Int,   //예수금 총액
-    val tot_evlu_amt: Int,   //총평가 금액
-    val nass_amt: Int        //순자산 금액
+    val pchs_amt_smtl_amt: Int,//매입금액 합계
+    val evlu_amt_smtl_amt: Int,//평가금액 합계
+    val evlu_pfls_smtl_amt: Int,//평가 손익금액 합계
+    val asst_icdc_amt: Int        //자산 증감액
 )
 
 data class OrderResponse(
@@ -34,11 +35,13 @@ data class OrderResponse(
     val msg1: String,
     @SerializedName("rt_cd")
     val rt_cd: String,
+    @SerializedName("output")
     val output: output
 )
 
 data class output(
-    val odno: String
+    @SerializedName("ODNO")
+    val ODNO: String
 )
 
 data class Hash(

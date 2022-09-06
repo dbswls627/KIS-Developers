@@ -38,7 +38,7 @@ class InquireBalanceActivity : AppCompatActivity() {
         }
             lifecycleScope.launch {
                 while(true) {
-                    delay(1000)
+                    delay(500)
                     viewModel.getInquireBalance()
                 }
             }

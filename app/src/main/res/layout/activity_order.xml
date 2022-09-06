@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
     <data>
+
         <variable
             name="viewModel"
             type="com.jo.kisapi.viewmodel.OrderViewModel" />
     </data>
+
     <LinearLayout
-        android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="10dp"
         android:orientation="vertical"
         tools:context=".activity.OrderActivity">
 
@@ -22,82 +26,119 @@
             android:textSize="25dp" />
 
         <Spinner
-            android:spinnerMode="dialog"
             android:id="@+id/spinner"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:spinnerMode="dialog" />
 
-        <LinearLayout
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                amt="@{viewModel.currentPrice}"
-                change="@{viewModel.change}"
-                android:layout_width="150dp"
-                android:layout_height="match_parent"
-                android:padding="10dp"
-                android:textColor="@color/black"
-                android:textSize="30dp" />
+            android:layout_marginTop="20dp"
+            app:cardCornerRadius="15dp"
+            app:strokeColor="@color/green"
+            app:strokeWidth="1dp">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
-                android:orientation="vertical">
-
-                <TextView
-                    setTextColor1="@{viewModel.change}"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/black"
-                    android:textSize="15dp" />
-
-                <TextView
-                    setTextColor2="@{viewModel.percent}"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/black"
-                    android:textSize="15dp" />
-
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                setTextColor1="@{viewModel.targetPrice}"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:layout_width="150dp"
-                android:textSize="30dp" />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="현재가  :"
+                    android:textColor="@color/black"
+                    android:textSize="15dp" />
+
+                <TextView
+                    amt="@{viewModel.currentPrice}"
+                    change="@{viewModel.change}"
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:padding="10dp"
+                    android:textColor="@color/black"
+                    android:textSize="30dp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        setTextColor1="@{viewModel.change}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:textSize="15dp" />
+
+                    <TextView
+                        setTextColor2="@{viewModel.percent}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:textSize="15dp" />
+
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:cardCornerRadius="15dp"
+            app:strokeColor="@color/green"
+            app:strokeWidth="1dp">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
-                android:orientation="vertical">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
                 <TextView
-                    target="@{viewModel.targetPrice}"
-                    ydPrice="@{viewModel.ydPrice}"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="타겟가   :"
+                    android:textColor="@color/black"
                     android:textSize="15dp" />
 
                 <TextView
-                    target1="@{viewModel.targetPrice}"
-                    ydPrice="@{viewModel.ydPrice}"
-                    android:layout_width="wrap_content"
+                    setTextColor1="@{viewModel.targetPrice}"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:textSize="15dp" />
+                    android:padding="10dp"
+                    android:textSize="30dp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        target="@{viewModel.targetPrice}"
+                        ydPrice="@{viewModel.ydPrice}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="15dp" />
+
+                    <TextView
+                        target1="@{viewModel.targetPrice}"
+                        ydPrice="@{viewModel.ydPrice}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="15dp" />
+                </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
         <LinearLayout
 
             android:layout_width="wrap_content"
@@ -105,26 +146,26 @@
 
             <Button
                 android:id="@+id/minus"
-                android:onClick="@{()->viewModel.countMinus()}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="@{()->viewModel.countMinus()}"
                 android:text="-" />
 
             <EditText
                 android:id="@+id/edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:ems="5"
                 android:gravity="center"
                 android:inputType="date"
                 android:maxLength="5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:text="@={viewModel.count}" />
 
             <Button
                 android:id="@+id/plus"
-                android:onClick="@{()->viewModel.countPlus()}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="@{()->viewModel.countPlus()}"
                 android:text="+" />
 
 
@@ -139,7 +180,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="주문 금액: "
+                android:text="주문 가능 금액 : "
+                android:textColor="@color/black"
                 android:textSize="15dp" />
 
             <TextView
@@ -147,6 +189,7 @@
                 target="@{viewModel.targetPrice}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/black"
                 android:textSize="15dp" />
         </LinearLayout>
 
@@ -159,13 +202,15 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="주문 금액: "
+                android:text="주문 금액 : "
+                android:textColor="@color/black"
                 android:textSize="15dp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{viewModel.cashes.toString()}"
+                android:text="@{viewModel.dec.format(viewModel.cashes)}"
+                android:textColor="@color/black"
                 android:textSize="15dp" />
         </LinearLayout>
 

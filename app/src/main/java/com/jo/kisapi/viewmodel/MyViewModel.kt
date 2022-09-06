@@ -50,34 +50,6 @@ class MyViewModel(private val repository: Repository) : ViewModel() {
 
     }
 
-    fun orderBuy() {
-        viewModelScope.launch {
-            repository.order(
-                "Bearer " + repository.dbToken(),
-                buy,
-                "11690",
-                "1"
-            ).let {
-                msg.value = it.body()!!.msg1
-                it.body()?.output?.odno.let { odno ->
-                    Log.d("test",odno.toString())
-                }
-            }
-        }
-    }
-    fun orderSell() {
-        viewModelScope.launch {
-            repository.order(
-                "Bearer " + repository.dbToken(),
-                sell,
-                "11690",
-                "1"
-            ).let {
-
-            }
-        }
-
-    }
 
     fun getTradingHistory() {
         viewModelScope.launch {

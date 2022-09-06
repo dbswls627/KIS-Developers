@@ -1,5 +1,6 @@
 package com.jo.kisapi.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -19,7 +20,7 @@ class InquireBalanceViewModel(private val repository: Repository) : ViewModel() 
     val sumEvluPflsAmt = MutableLiveData<Int>(0)
     val rt = MutableLiveData<Double>(0.0)
     var output1List = MutableLiveData<List<output1>>()
-    var output2 = MutableLiveData<output2>()
+    var list = ArrayList<output1>()
     val dec = DecimalFormat("#,###원")
 
     fun getInquireBalance() {
@@ -29,20 +30,20 @@ class InquireBalanceViewModel(private val repository: Repository) : ViewModel() 
                 repository.getInquireBalance(
                     "Bearer " + repository.dbToken()
                 ).let {
+                    list.clear()
 
-                    output1List.value = it!!.body()!!.output1
-                    output2.value = it!!.body()!!.output2[0]
-
-                    sumEvluAmt.value = 0        //평가금액
-                    sumPchsAmt.value = 0        //매입금액
-                    sumEvluPflsAmt.value = 0    //평가 손익금액
-                    (it.body()!!.output1).forEach {
-                        sumPchsAmt.value = sumPchsAmt.value?.plus(it.pchs_amt.toInt())
-                        sumEvluAmt.value = sumEvluAmt.value?.plus(it.evlu_amt.toInt())
-                        sumEvluPflsAmt.value = sumEvluPflsAmt.value?.plus(it.evlu_pfls_amt.toInt())
-                        sumAmt.value = sumEvluAmt.value?.plus(cashes.value!!)
-                    }
+                    sumPchsAmt.value =it!!.body()!!.output2[0].pchs_amt_smtl_amt
+                    sumEvluAmt.value= it!!.body()!!.output2[0].evlu_amt_smtl_amt
+                    sumEvluPflsAmt.value = it!!.body()!!.output2[0].evlu_pfls_smtl_amt
                     rt.value = round((sumEvluPflsAmt.value!!.toDouble() * 1000).div(sumPchsAmt.value!!)).div(10)
+                    sumAmt.value = sumEvluAmt.value?.plus(cashes.value!!)
+                    (it!!.body()!!.output1).forEach {
+                        if(it.hldg_qty !=0){
+                            list.add(it)
+                        }
+                    }
+                    output1List.value = list
+
                 }
 
             /*} catch (e: Exception) {

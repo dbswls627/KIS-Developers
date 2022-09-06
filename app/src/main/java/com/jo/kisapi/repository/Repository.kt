@@ -53,18 +53,19 @@ class Repository(private val tokenTimeDao: TokenTimeDao) {
             ""
         )
 
-    suspend fun order(token: String, tr_id: String,PDNO: String,count :String) = iRetrofit!!.order(
-        token,
-        tr_id,
-        OrderRequest(
-            CANO,
-            "01",
-            PDNO,   //종목번호
-            "01",   //지정가 : 00 시장가 : 01
-            count,     //주문 갯수
-            "0",    //주문단가
-            ""
-        )
+    suspend fun order(token: String, tr_id: String, PDNO: String, division: String, count: String,amt:String) =
+        iRetrofit!!.order(
+            token,
+            tr_id,
+            OrderRequest(
+                CANO,
+                "01",
+                PDNO,   //종목번호
+                division,   //지정가 : 00      시장가 : 01     조건부지정가 : 02
+                count,     //주문 갯수
+                amt,    //주문단가
+                ""
+            )
     )
 
     suspend fun getTradingHistory(token: String,startDay:String,endDay:String,division:String) =

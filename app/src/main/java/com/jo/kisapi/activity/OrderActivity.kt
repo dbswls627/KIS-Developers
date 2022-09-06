@@ -12,11 +12,14 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.lifecycleScope
 import com.jo.kisapi.AlarmReceiver
 import com.jo.kisapi.R
 import com.jo.kisapi.application.KISApplication
 import com.jo.kisapi.databinding.ActivityOrderBinding
 import com.jo.kisapi.viewmodel.OrderViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.util.*
 
 class OrderActivity : AppCompatActivity() {
@@ -33,10 +36,16 @@ class OrderActivity : AppCompatActivity() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
-        val items = arrayOf("두산에니빌리티","카카오","기아","HMM","아아윈플러스","KT")
+        val items = arrayOf("두산에너빌리티","카카오","기아","HMM","아아윈플러스","KT")
         val myAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, items)
         viewModel.getCash()
 
+        lifecycleScope.launch {
+            while (true) {
+                delay(500)
+                viewModel.getCurrentPrice(pdno)
+            }
+        }
         binding.spinner.adapter = myAdapter
         binding.spinner.setSelection(0)
         binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -86,35 +95,12 @@ class OrderActivity : AppCompatActivity() {
 
                     binding.test4.text = "취소"
                     viewModel.auto.value = true
+                    setEnable(false)
                     viewModel.auto(pdno)
-                    if (viewModel.rt_cd.value == "0")
-                    {
-                        val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
-                        val intent = Intent(this, AlarmReceiver::class.java)
-                        intent.putExtra("pdno", pdno)
-                        intent.putExtra("count", viewModel.count.value.toString())
-                        val pendingIntent = PendingIntent.getBroadcast(
-                            this, AlarmReceiver.NOTIFICATION_ID, intent,
-                            PendingIntent.FLAG_IMMUTABLE
-                        )
 
-                        val calendar: Calendar = Calendar.getInstance().apply {
-                            timeInMillis = System.currentTimeMillis()
-                            set(Calendar.HOUR_OF_DAY, 15)
-                            set(Calendar.MINUTE, 10)
-                        }
-
-                        alarmManager.set(
-                            AlarmManager.RTC_WAKEUP,
-                            calendar.timeInMillis,
-                            pendingIntent
-                        )
-                        Log.d("TAG", "toastMessage")
-
-                    }
                 } else {
-
-                    viewModel.auto.value = true
+                    setEnable(true)
+                    viewModel.auto.value = false
                     binding.test4.text = "주문"
                 }
             }else{
