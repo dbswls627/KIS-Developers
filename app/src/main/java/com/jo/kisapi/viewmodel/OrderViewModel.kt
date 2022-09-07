@@ -10,64 +10,122 @@ import com.jo.kisapi.dataModel.AutoTrading
 import com.jo.kisapi.repository.Repository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.lang.Exception
 import java.text.DecimalFormat
 
 class OrderViewModel(private val repository: Repository) : ViewModel() {
-    val count = MutableLiveData<String>("1")
-    val currentPrice = MutableLiveData<Int>()
-    val targetPrice = MutableLiveData<Int>()
-    val change = MutableLiveData<Int>()
-    val percent = MutableLiveData<Double>()
-    val ydPrice = MutableLiveData<Int>()
+    val longCount = MutableLiveData<String>("1")
+    val shortCount = MutableLiveData<String>("1")
+
+    val longCurrentPrice = MutableLiveData<Int>()
+    val shortCurrentPrice = MutableLiveData<Int>()
+
+    val longTargetPrice = MutableLiveData<Int>()
+    val shortTargetPrice = MutableLiveData<Int>()
+
+    val longChange = MutableLiveData<Int>()
+    val shortChange = MutableLiveData<Int>()
+
+    val longPercent = MutableLiveData<Double>()
+    val shortPercent = MutableLiveData<Double>()
+
+    val longYDdPrice = MutableLiveData<Int>()
+    val shortYDPrice = MutableLiveData<Int>()
+
     val cashes = MutableLiveData<Int>(0)
     val msg = MutableLiveData<String>()
     val rt_cd = MutableLiveData<String>()
     val auto = MutableLiveData(false)
     val dec = DecimalFormat("#,###원")
 
-    fun getCurrentPrice(no: String) {
+    fun getLongCurrentPrice(no: String) {
         viewModelScope.launch {
             repository.getCurrentPrice(
                 "Bearer " + repository.dbToken(),
                 no
             ).let {
-                currentPrice.value = it.body()!!.prpr.stck_prpr
-                change.value = it.body()!!.prpr.prdy_vrss
-                percent.value = it.body()!!.prpr.prdy_ctrt
+                longCurrentPrice.value = it.body()!!.prpr.stck_prpr
+                longChange.value = it.body()!!.prpr.prdy_vrss
+                longPercent.value = it.body()!!.prpr.prdy_ctrt
             }
 
         }
     }
 
-    fun getTargetPrice(no: String) {
+    fun getShortCurrentPrice(no: String) {
+        viewModelScope.launch {
+            repository.getCurrentPrice(
+                "Bearer " + repository.dbToken(),
+                no
+            ).let {
+                shortCurrentPrice.value = it.body()!!.prpr.stck_prpr
+                shortChange.value = it.body()!!.prpr.prdy_vrss
+                shortPercent.value = it.body()!!.prpr.prdy_ctrt
+            }
+
+        }
+    }
+
+    fun getLongTargetPrice(no: String) {
         viewModelScope.launch {
             repository.getDailyPrice(
                 "Bearer " + repository.dbToken(),
                 no
             ).let {
-                targetPrice.value = (it.body()!!.DailyPriceList[0].stck_oprc.toInt() +
+                longTargetPrice.value = (it.body()!!.DailyPriceList[0].stck_oprc.toInt() +
                         (it.body()!!.DailyPriceList[1].stck_hgpr.toInt() - it.body()!!.DailyPriceList[1].stck_lwpr.toInt()) * 0.4).toInt()
-                ydPrice.value = it.body()!!.DailyPriceList[1].stck_clpr.toInt()
-                Log.d("test", (targetPrice.value!! / ydPrice.value!!.toDouble()).toString())
+                longYDdPrice.value = it.body()!!.DailyPriceList[1].stck_clpr.toInt()
+                Log.d("test", (longTargetPrice.value!! / longYDdPrice.value!!.toDouble()).toString())
             }
         }
     }
 
-    fun countPlus() {
-        if (count.value.isNullOrEmpty()) {
-            count.value = "1"
-        } else {
-            count.value = (count.value!!.toInt() + 1).toString()
+    fun getShortTargetPrice(no: String) {
+        viewModelScope.launch {
+            repository.getDailyPrice(
+                "Bearer " + repository.dbToken(),
+                no
+            ).let {
+                shortTargetPrice.value = (it.body()!!.DailyPriceList[0].stck_oprc.toInt() +
+                        (it.body()!!.DailyPriceList[1].stck_hgpr.toInt() - it.body()!!.DailyPriceList[1].stck_lwpr.toInt()) * 0.4).toInt()
+                shortYDPrice.value = it.body()!!.DailyPriceList[1].stck_clpr.toInt()
+                Log.d("test", (shortTargetPrice.value!! / shortYDPrice.value!!.toDouble()).toString())
+            }
         }
     }
 
-    fun countMinus() {
-        if (count.value.isNullOrEmpty()) {
-            count.value = "1"
-        } else if (count.value!!.toInt() > 1) {
-            count.value = (count.value!!.toInt() - 1).toString()
+    fun longCountPlus() {
+        if (longCount.value.isNullOrEmpty()) {
+            longCount.value = "1"
+        } else {
+            longCount.value = (longCount.value!!.toInt() + 1).toString()
         }
     }
+
+    fun longCountMinus() {
+        if (longCount.value.isNullOrEmpty()) {
+            longCount.value = "1"
+        } else if (longCount.value!!.toInt() > 1) {
+            longCount.value = (longCount.value!!.toInt() - 1).toString()
+        }
+    }
+
+    fun shortCountPlus() {
+        if (shortCount.value.isNullOrEmpty()) {
+            shortCount.value = "1"
+        } else {
+            shortCount.value = (shortCount.value!!.toInt() + 1).toString()
+        }
+    }
+
+    fun shortCountMinus() {
+        if (shortCount.value.isNullOrEmpty()) {
+            shortCount.value = "1"
+        } else if (shortCount.value!!.toInt() > 1) {
+            shortCount.value = (shortCount.value!!.toInt() - 1).toString()
+        }
+    }
+
 
     fun getCash(){
         viewModelScope.launch {
@@ -103,7 +161,7 @@ class OrderViewModel(private val repository: Repository) : ViewModel() {
                 pdno,
                 "02",
                 count,
-                (targetPrice.value!! * 1.20).toString()
+                (longTargetPrice.value!! * 1.20).toString()
             ).let {
 
             }
@@ -111,31 +169,66 @@ class OrderViewModel(private val repository: Repository) : ViewModel() {
 
     }
 
-    fun auto(no: String) {
+    fun longAuto(no: String) {
+
+            viewModelScope.launch {
+                while (auto.value!!) {
+
+                    if (longTargetPrice.value!! <= longCurrentPrice.value!!.toInt()) {
+                        repository.order(
+                            "Bearer " + repository.dbToken(),
+                            Util.buy,
+                            no,
+                            "01",
+                            longCount!!.value.toString(), "0"
+                        ).let {
+                            try {
+                                Log.d("test", it.body()!!.toString())
+                                msg.value = it.body()!!.msg1
+                                auto.value = false
+                                repository.insert(AutoTrading("A", "01", it.body()!!.output.ODNO))
+                                orderSell(no, longCount.value.toString())
+                            }catch (e:Exception){}
+                            auto.value = false
+                            Log.d("TEst","ted")
+                        }
+                    }
+                    delay(1000)
+                }
+            }
+
+    }
+
+    fun shortAuto(no: String) {
+
         viewModelScope.launch {
             while (auto.value!!) {
-                Log.d("test",currentPrice.value.toString())
-                Log.d("test",targetPrice.value.toString())
-                if (targetPrice.value!! <= currentPrice.value!!.toInt()) {
+
+                if (shortTargetPrice.value!! <= shortCurrentPrice.value!!.toInt()) {
                     repository.order(
                         "Bearer " + repository.dbToken(),
                         Util.buy,
                         no,
                         "01",
-                        count!!.value.toString()
-                            ,"0"
+                        shortCount!!.value.toString(), "0"
                     ).let {
-                        Log.d("test",it.body()!!.toString())
-                        msg.value = it.body()!!.msg1
-                        auto.value = false
-                        repository.insert(AutoTrading("A","01",it.body()!!.output.ODNO))
-                        orderSell(no,count.value.toString())
+                        try {
+                            Log.d("test", it.body()!!.toString())
+                            auto.value = false
+                            repository.insert(AutoTrading("A", "01", it.body()!!.output.ODNO))
+                            msg.value = it.body()!!.msg1
+                            orderSell(no, shortCount.value.toString())
+                        }catch (e:Exception){}
+                        auto.value = true
                     }
                 }
                 delay(1000)
             }
         }
+
     }
+
+
 
 
     class Factory(private val repository: Repository) : ViewModelProvider.Factory {

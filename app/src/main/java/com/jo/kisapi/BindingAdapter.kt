@@ -2,7 +2,6 @@ package com.jo.kisapi
 
 import android.annotation.SuppressLint
 import android.graphics.Color
-import android.util.Log
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.MutableLiveData
@@ -65,24 +64,56 @@ object BindingAdapter {
     @SuppressLint("ResourceAsColor")
     @BindingAdapter("ydPrice", "target")
     fun setTextColor4(textView: TextView, ydPrice: Int, target: Int) {
-        textView.setTextColor(Color.RED)
-        textView.text = DecimalFormat("#,###").format(target - ydPrice)
+        if (target - ydPrice > 0) {
+            textView.setTextColor(Color.RED)
+            textView.text = DecimalFormat("+#,###").format(target - ydPrice)
+
+        } else {
+            textView.setTextColor(Color.BLUE)
+            textView.text = DecimalFormat("#,###").format(target - ydPrice)
+
+        }
     }
 
     @JvmStatic
     @SuppressLint("ResourceAsColor")
     @BindingAdapter( "target1", "ydPrice")
     fun setTextColor5(textView: TextView,  target1: Int, ydPrice :Int) {
-        textView.setTextColor(Color.RED)
-        textView.text = DecimalFormat("##.##").format(((target1 - ydPrice)* 100 / ydPrice.toDouble()))+"%"
+        if (target1 - ydPrice > 0) {
+            textView.setTextColor(Color.RED)
+            textView.text =
+                DecimalFormat("+##.##").format(((target1 - ydPrice) * 100 / ydPrice.toDouble())) + "%"
+        } else {
+            textView.setTextColor(Color.BLUE)
+            textView.text =
+                DecimalFormat("##.##").format(((target1 - ydPrice) * 100 / ydPrice.toDouble())) + "%"
+        }
+
+    }
+
+
+    @JvmStatic
+    @SuppressLint("ResourceAsColor")
+    @BindingAdapter("target2", "ydPrice")
+    fun setTextColor6(textView: TextView, target2: Int, ydPrice: Int) {
+        if (target2 - ydPrice > 0) {
+            textView.setTextColor(Color.RED)
+            textView.text = DecimalFormat("#,###").format(target2)
+        } else {
+            textView.setTextColor(Color.BLUE)
+            textView.text = DecimalFormat("#,###").format(target2)
+        }
+
     }
 
     @JvmStatic
-    @BindingAdapter( "count", "target")
-    fun setOrderAmount(textView: TextView, count :String,target: Int) {
-        if (count.isNotEmpty()){
+    @BindingAdapter("count", "target")
+    fun setOrderAmount(textView: TextView, count: String, target: Int) {
+        if (count.isNotEmpty()) {
             textView.text = DecimalFormat("#,###원").format((target * count.toInt()))
         }
     }
+
+
 }
 
