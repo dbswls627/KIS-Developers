@@ -80,6 +80,7 @@ data class CurrentPrice(
 data class prpr(
     val stck_prpr: Int,
     val prdy_vrss: Int,
+    val stck_mxpr: Int,
     val prdy_ctrt: Double
 )
 

@@ -10,7 +10,6 @@ import com.jo.kisapi.dataModel.AutoTrading
 import com.jo.kisapi.repository.Repository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.lang.Exception
 import java.text.DecimalFormat
 
 class OrderViewModel(private val repository: Repository) : ViewModel() {
@@ -19,6 +18,9 @@ class OrderViewModel(private val repository: Repository) : ViewModel() {
 
     val longCurrentPrice = MutableLiveData<Int>()
     val shortCurrentPrice = MutableLiveData<Int>()
+
+    private var longMax = 0
+    private var shortMax = 0
 
     val longTargetPrice = MutableLiveData<Int>()
     val shortTargetPrice = MutableLiveData<Int>()
@@ -47,6 +49,7 @@ class OrderViewModel(private val repository: Repository) : ViewModel() {
                 longCurrentPrice.value = it.body()!!.prpr.stck_prpr
                 longChange.value = it.body()!!.prpr.prdy_vrss
                 longPercent.value = it.body()!!.prpr.prdy_ctrt
+                longMax = it.body()!!.prpr.stck_mxpr
             }
 
         }
@@ -61,6 +64,7 @@ class OrderViewModel(private val repository: Repository) : ViewModel() {
                 shortCurrentPrice.value = it.body()!!.prpr.stck_prpr
                 shortChange.value = it.body()!!.prpr.prdy_vrss
                 shortPercent.value = it.body()!!.prpr.prdy_ctrt
+                shortMax = it.body()!!.prpr.stck_mxpr
             }
 
         }
@@ -75,7 +79,6 @@ class OrderViewModel(private val repository: Repository) : ViewModel() {
                 longTargetPrice.value = (it.body()!!.DailyPriceList[0].stck_oprc.toInt() +
                         (it.body()!!.DailyPriceList[1].stck_hgpr.toInt() - it.body()!!.DailyPriceList[1].stck_lwpr.toInt()) * 0.4).toInt()
                 longYDdPrice.value = it.body()!!.DailyPriceList[1].stck_clpr.toInt()
-                Log.d("test", (longTargetPrice.value!! / longYDdPrice.value!!.toDouble()).toString())
             }
         }
     }
@@ -89,7 +92,6 @@ class OrderViewModel(private val repository: Repository) : ViewModel() {
                 shortTargetPrice.value = (it.body()!!.DailyPriceList[0].stck_oprc.toInt() +
                         (it.body()!!.DailyPriceList[1].stck_hgpr.toInt() - it.body()!!.DailyPriceList[1].stck_lwpr.toInt()) * 0.4).toInt()
                 shortYDPrice.value = it.body()!!.DailyPriceList[1].stck_clpr.toInt()
-                Log.d("test", (shortTargetPrice.value!! / shortYDPrice.value!!.toDouble()).toString())
             }
         }
     }
@@ -154,15 +156,23 @@ class OrderViewModel(private val repository: Repository) : ViewModel() {
         }
     }*/
     fun orderSell(pdno:String, count :String) {
+       var amt = ""
         viewModelScope.launch {
+            if (pdno == "069500") {
+                amt = longMax.toString()
+            }else{
+                amt = shortMax.toString()
+            }
             repository.order(
                 "Bearer " + repository.dbToken(),
                 Util.sell,
                 pdno,
                 "02",
                 count,
-                (longTargetPrice.value!! * 1.20).toString()
+                amt
             ).let {
+                Log.d("test",it.body().toString())
+                repository.insert(AutoTrading("A", "02", it.body()!!.output.ODNO))
 
             }
         }
@@ -175,6 +185,7 @@ class OrderViewModel(private val repository: Repository) : ViewModel() {
                 while (auto.value!!) {
 
                     if (longTargetPrice.value!! <= longCurrentPrice.value!!.toInt()) {
+
                         repository.order(
                             "Bearer " + repository.dbToken(),
                             Util.buy,
@@ -183,14 +194,16 @@ class OrderViewModel(private val repository: Repository) : ViewModel() {
                             longCount!!.value.toString(), "0"
                         ).let {
                             try {
-                                Log.d("test", it.body()!!.toString())
+
                                 msg.value = it.body()!!.msg1
-                                auto.value = false
                                 repository.insert(AutoTrading("A", "01", it.body()!!.output.ODNO))
+                                auto.value = false
                                 orderSell(no, longCount.value.toString())
-                            }catch (e:Exception){}
-                            auto.value = false
-                            Log.d("TEst","ted")
+
+                            } catch (e: Exception) {
+                                auto.value = true
+                            }
+
                         }
                     }
                     delay(1000)
@@ -203,7 +216,6 @@ class OrderViewModel(private val repository: Repository) : ViewModel() {
 
         viewModelScope.launch {
             while (auto.value!!) {
-
                 if (shortTargetPrice.value!! <= shortCurrentPrice.value!!.toInt()) {
                     repository.order(
                         "Bearer " + repository.dbToken(),
@@ -213,13 +225,15 @@ class OrderViewModel(private val repository: Repository) : ViewModel() {
                         shortCount!!.value.toString(), "0"
                     ).let {
                         try {
-                            Log.d("test", it.body()!!.toString())
+
                             auto.value = false
                             repository.insert(AutoTrading("A", "01", it.body()!!.output.ODNO))
                             msg.value = it.body()!!.msg1
                             orderSell(no, shortCount.value.toString())
-                        }catch (e:Exception){}
-                        auto.value = true
+                        } catch (e: Exception) {
+                            auto.value = true
+                        }
+
                     }
                 }
                 delay(1000)

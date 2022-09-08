@@ -34,42 +34,50 @@ class OrderActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             while (true) {
-                delay(500)
                 viewModel.getLongCurrentPrice(longPosition)
                 viewModel.getShortCurrentPrice(shortPosition)
+                delay(500)
             }
         }
 
 
         binding.test4.setOnClickListener {
             //주문가능금액이 더 많을 시
-            if (viewModel.longCount.value!!.toInt() * viewModel.longTargetPrice.value!!.toInt() <= viewModel.cashes.value!!) {
-                //주문 시작
-                if (!viewModel.auto.value!!) {
+            try {
+                if ((viewModel.longCount.value!!.toInt() * viewModel.longTargetPrice.value!!.toInt() <= viewModel.cashes.value!!) &&
+                    (viewModel.shortCount.value!!.toInt() * viewModel.shortTargetPrice.value!!.toInt() <= viewModel.cashes.value!!)
+                ) {
+                    //주문 시작
+                    if (!viewModel.auto.value!!) {
 
-                    viewModel.auto.value = true
-                    setEnable(false)
+                        viewModel.auto.value = true
+                        setEnable(false)
 
-                    viewModel.longAuto(longPosition)
-                    viewModel.shortAuto(shortPosition)
+                        viewModel.longAuto(longPosition)
+                        viewModel.shortAuto(shortPosition)
 
-                    //주문 취소
+                        //주문 취소
+                    } else {
+                        viewModel.auto.value = false
+                        setEnable(true)
+
+                    }
                 } else {
-                    viewModel.auto.value = false
-                    setEnable(true)
-
+                    Toast.makeText(this, "보유금액이 부족합니다", Toast.LENGTH_SHORT).show()
                 }
-            }else{
-                Toast.makeText(this,"보유금액이 부족합니다",Toast.LENGTH_SHORT).show()
+            }catch (e:Exception){
+                //count = 0
+
             }
         }
-
         viewModel.auto.observe(this, {
-            setEnable(!auto)
+
             if (it) {
                 binding.test4.text = "취소"
+                setEnable(false)
             } else {
                 binding.test4.text = "주문"
+                setEnable(true)
             }
         })
 

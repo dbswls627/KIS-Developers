@@ -397,7 +397,7 @@
                             android:gravity="center"
                             android:inputType="date"
                             android:maxLength="5"
-                            android:text="@={viewModel.longCount}" />
+                            android:text="@={viewModel.shortCount}" />
 
                         <TextView
                             android:id="@+id/plus2"
