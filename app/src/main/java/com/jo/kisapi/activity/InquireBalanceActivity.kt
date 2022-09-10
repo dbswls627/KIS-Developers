@@ -11,17 +11,17 @@ import com.jo.kisapi.R
 import com.jo.kisapi.application.KISApplication
 import com.jo.kisapi.databinding.ActivityInquireBalanceBinding
 import com.jo.kisapi.viewmodel.InquireBalanceViewModel
+import com.jo.kisapi.viewmodel.OrderViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-
+@AndroidEntryPoint
 class InquireBalanceActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityInquireBalanceBinding
 
-    private val viewModel: InquireBalanceViewModel by viewModels {
-        InquireBalanceViewModel.Factory((application as KISApplication).repository)
-    }
+    private val viewModel: InquireBalanceViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

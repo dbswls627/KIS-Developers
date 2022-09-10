@@ -8,11 +8,14 @@ import androidx.lifecycle.viewModelScope
 import com.jo.kisapi.dataModel.output1
 import com.jo.kisapi.dataModel.output2
 import com.jo.kisapi.repository.Repository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.text.DecimalFormat
+import javax.inject.Inject
 import kotlin.math.round
+@HiltViewModel
+class InquireBalanceViewModel @Inject constructor(private val repository: Repository) : ViewModel() {
 
-class InquireBalanceViewModel(private val repository: Repository) : ViewModel() {
     val sumPchsAmt = MutableLiveData<Int>(0)
     val sumEvluAmt = MutableLiveData<Int>(0)
     val sumAmt = MutableLiveData<Int>(0)
@@ -61,12 +64,5 @@ class InquireBalanceViewModel(private val repository: Repository) : ViewModel() 
         }
     }
 
-    class Factory(private val repository: Repository) : ViewModelProvider.Factory {
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(InquireBalanceViewModel::class.java)) {
-                return InquireBalanceViewModel(repository) as T
-            }
-            throw IllegalArgumentException("Unknown ViewModel Class")
-        }
-    }
+
 }

@@ -16,16 +16,16 @@ import com.jo.kisapi.R
 import com.jo.kisapi.application.KISApplication
 import com.jo.kisapi.databinding.ActivityMainBinding
 import com.jo.kisapi.viewmodel.MyViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
+import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-
     private lateinit var binding: ActivityMainBinding
-    private val viewModel: MyViewModel by viewModels {
-        MyViewModel.Factory((application as KISApplication).repository)
-    }
+
+    private val viewModel: MyViewModel by viewModels()
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {

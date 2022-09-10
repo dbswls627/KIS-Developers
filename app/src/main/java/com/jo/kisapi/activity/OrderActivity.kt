@@ -7,20 +7,19 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import com.jo.kisapi.R
-import com.jo.kisapi.application.KISApplication
 import com.jo.kisapi.databinding.ActivityOrderBinding
 import com.jo.kisapi.viewmodel.OrderViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class OrderActivity : AppCompatActivity() {
     private lateinit var binding: ActivityOrderBinding
     var longPosition: String = "069500"
     var shortPosition: String = "114800"
     var auto = false
-    private val viewModel: OrderViewModel by viewModels {
-        OrderViewModel.Factory((application as KISApplication).repository)
-    }
+    private val viewModel: OrderViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

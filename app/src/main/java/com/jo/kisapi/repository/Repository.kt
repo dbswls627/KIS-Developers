@@ -10,12 +10,9 @@ import com.jo.kisapi.dataModel.OrderRequest
 import com.jo.kisapi.dataModel.TokenBody
 import com.jo.kisapi.dataModel.TokenTime
 import com.jo.kisapi.retrofit.IRetrofit
-import com.jo.kisapi.retrofit.RetrofitClient
+import javax.inject.Inject
 
-class Repository(private val tokenTimeDao: TokenTimeDao) {
-
-    private val iRetrofit: IRetrofit? =
-        RetrofitClient.getClient(Util.BASE_URL)?.create(IRetrofit::class.java)
+class Repository @Inject constructor(private val tokenTimeDao: TokenTimeDao, private val iRetrofit: IRetrofit) {
 
     suspend fun insert(token: TokenTime) {
         tokenTimeDao.insert(token)

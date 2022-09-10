@@ -9,10 +9,12 @@ import com.jo.kisapi.Util.buy
 import com.jo.kisapi.Util.sell
 import com.jo.kisapi.dataModel.TokenTime
 import com.jo.kisapi.repository.Repository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-
-class MyViewModel(private val repository: Repository) : ViewModel() {
+@HiltViewModel
+class MyViewModel @Inject constructor(private val repository: Repository) : ViewModel() {
 
     val msg = MutableLiveData<String>()
 
@@ -67,12 +69,4 @@ class MyViewModel(private val repository: Repository) : ViewModel() {
 
 
 
-    class Factory(private val repository: Repository) : ViewModelProvider.Factory {
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(MyViewModel::class.java)) {
-                return MyViewModel(repository) as T
-            }
-            throw IllegalArgumentException("Unknown ViewModel Class")
-        }
-    }
 }

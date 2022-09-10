@@ -33,8 +33,8 @@ class AlarmReceiver : BroadcastReceiver() {
         Log.d(TAG, count!!)
         notificationManager = context.getSystemService(
             Context.NOTIFICATION_SERVICE) as NotificationManager
-        val database by lazy { AppDatabase.getInstance(context) }
-        val repository by lazy { Repository(database!!.TokenTimeDao()) }
+      //  val database by lazy { AppDatabase.getInstance(context) }
+      //  val repository by lazy { Repository(database!!.TokenTimeDao()) }
 
        /* CoroutineScope(Dispatchers.IO).launch {
             repository.order(

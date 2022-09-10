@@ -3,16 +3,18 @@ package com.jo.kisapi.viewmodel
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.jo.kisapi.Util
 import com.jo.kisapi.dataModel.AutoTrading
 import com.jo.kisapi.repository.Repository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.text.DecimalFormat
+import javax.inject.Inject
+@HiltViewModel
+class OrderViewModel @Inject constructor(private val repository: Repository) : ViewModel() {
 
-class OrderViewModel(private val repository: Repository) : ViewModel() {
     val longCount = MutableLiveData<String>("1")
     val shortCount = MutableLiveData<String>("1")
 
@@ -240,17 +242,5 @@ class OrderViewModel(private val repository: Repository) : ViewModel() {
             }
         }
 
-    }
-
-
-
-
-    class Factory(private val repository: Repository) : ViewModelProvider.Factory {
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(OrderViewModel::class.java)) {
-                return OrderViewModel(repository) as T
-            }
-            throw IllegalArgumentException("Unknown ViewModel Class")
-        }
     }
 }
