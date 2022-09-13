@@ -44,10 +44,7 @@ class OrderViewModel @Inject constructor(private val repository: Repository) : V
 
     fun getLongCurrentPrice(no: String) {
         viewModelScope.launch {
-            repository.getCurrentPrice(
-                "Bearer " + repository.dbToken(),
-                no
-            ).let {
+            repository.getCurrentPrice(no).let {
                 longCurrentPrice.value = it.body()!!.prpr.stck_prpr
                 longChange.value = it.body()!!.prpr.prdy_vrss
                 longPercent.value = it.body()!!.prpr.prdy_ctrt
@@ -59,10 +56,7 @@ class OrderViewModel @Inject constructor(private val repository: Repository) : V
 
     fun getShortCurrentPrice(no: String) {
         viewModelScope.launch {
-            repository.getCurrentPrice(
-                "Bearer " + repository.dbToken(),
-                no
-            ).let {
+            repository.getCurrentPrice(no).let {
                 shortCurrentPrice.value = it.body()!!.prpr.stck_prpr
                 shortChange.value = it.body()!!.prpr.prdy_vrss
                 shortPercent.value = it.body()!!.prpr.prdy_ctrt
@@ -74,10 +68,7 @@ class OrderViewModel @Inject constructor(private val repository: Repository) : V
 
     fun getLongTargetPrice(no: String) {
         viewModelScope.launch {
-            repository.getDailyPrice(
-                "Bearer " + repository.dbToken(),
-                no
-            ).let {
+            repository.getDailyPrice(no).let {
                 longTargetPrice.value = (it.body()!!.DailyPriceList[0].stck_oprc.toInt() +
                         (it.body()!!.DailyPriceList[1].stck_hgpr.toInt() - it.body()!!.DailyPriceList[1].stck_lwpr.toInt()) * 0.4).toInt()
                 longYDdPrice.value = it.body()!!.DailyPriceList[1].stck_clpr.toInt()
@@ -87,10 +78,7 @@ class OrderViewModel @Inject constructor(private val repository: Repository) : V
 
     fun getShortTargetPrice(no: String) {
         viewModelScope.launch {
-            repository.getDailyPrice(
-                "Bearer " + repository.dbToken(),
-                no
-            ).let {
+            repository.getDailyPrice(no).let {
                 shortTargetPrice.value = (it.body()!!.DailyPriceList[0].stck_oprc.toInt() +
                         (it.body()!!.DailyPriceList[1].stck_hgpr.toInt() - it.body()!!.DailyPriceList[1].stck_lwpr.toInt()) * 0.4).toInt()
                 shortYDPrice.value = it.body()!!.DailyPriceList[1].stck_clpr.toInt()
@@ -133,9 +121,7 @@ class OrderViewModel @Inject constructor(private val repository: Repository) : V
 
     fun getCash(){
         viewModelScope.launch {
-            repository.getCash(
-                "Bearer " + repository.dbToken()
-            ).let {
+            repository.getCash().let {
                 cashes.value = it.body()!!.cashOutput.max_buy_amt
             }
         }
@@ -166,7 +152,6 @@ class OrderViewModel @Inject constructor(private val repository: Repository) : V
                 amt = shortMax.toString()
             }
             repository.order(
-                "Bearer " + repository.dbToken(),
                 Util.sell,
                 pdno,
                 "02",
@@ -189,11 +174,11 @@ class OrderViewModel @Inject constructor(private val repository: Repository) : V
                     if (longTargetPrice.value!! <= longCurrentPrice.value!!.toInt()) {
 
                         repository.order(
-                            "Bearer " + repository.dbToken(),
                             Util.buy,
                             no,
-                            "01",
-                            longCount!!.value.toString(), "0"
+                            "00",
+                            longCount!!.value.toString(),
+                            longCurrentPrice.value.toString()
                         ).let {
                             try {
 
@@ -220,11 +205,12 @@ class OrderViewModel @Inject constructor(private val repository: Repository) : V
             while (auto.value!!) {
                 if (shortTargetPrice.value!! <= shortCurrentPrice.value!!.toInt()) {
                     repository.order(
-                        "Bearer " + repository.dbToken(),
                         Util.buy,
                         no,
-                        "01",
-                        shortCount!!.value.toString(), "0"
+                        "00",
+                        shortCount!!.value.toString(),
+                        shortCurrentPrice.value.toString()
+
                     ).let {
                         try {
 

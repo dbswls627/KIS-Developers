@@ -26,7 +26,7 @@ class MyViewModel @Inject constructor(private val repository: Repository) : View
                     repository.insert(
                         TokenTime(
                             "Bearer",
-                            it.body()!!.access_token,
+                            "Bearer "+it.body()!!.access_token,
                             System.currentTimeMillis().plus(80000000).toString()
                         )
                     )
@@ -56,7 +56,6 @@ class MyViewModel @Inject constructor(private val repository: Repository) : View
     fun getTradingHistory() {
         viewModelScope.launch {
             repository.getTradingHistory(
-                "Bearer " + repository.dbToken(),
                 "20220908" ,
                 "20220908",
                 "00"

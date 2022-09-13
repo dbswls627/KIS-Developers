@@ -143,5 +143,22 @@ interface IRetrofit {
         @Query("FID_INPUT_ISCD") FID_INPUT_ISCD: String,
     ): Response<CurrentPrice>
 
+    //분봉 조회
+    @GET("/uapi/domestic-stock/v1/quotations/inquire-time-itemchartprice")
+    @Headers(
+        "content-type: application/json",
+        "appkey: ${Util.API_KEY}",
+        "appsecret: ${Util.API_KEY_SECRET}",
+        "tr_id: FHKST03010200",
+        "custtype: P"
+    )
+    suspend fun getTimePrice(
+        @Header("Authorization") token: String,
+        @Query("FID_ETC_CLS_CODE") FID_ETC_CLS_CODE: String,
+        @Query("FID_COND_MRKT_DIV_CODE") FID_COND_MRKT_DIV_CODE: String,
+        @Query("FID_INPUT_ISCD") FID_INPUT_ISCD: String,
+        @Query("FID_INPUT_HOUR_1") FID_INPUT_HOUR_1: String,
+        @Query("FID_PW_DATA_INCU_YN") FID_PW_DATA_INCU_YN: String
+    ): Response<TimePrice>
 
 }

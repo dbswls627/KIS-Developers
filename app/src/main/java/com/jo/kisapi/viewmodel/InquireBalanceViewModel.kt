@@ -31,7 +31,6 @@ class InquireBalanceViewModel @Inject constructor(private val repository: Reposi
         viewModelScope.launch {
           /*  try {*/
                 repository.getInquireBalance(
-                    "Bearer " + repository.dbToken()
                 ).let {
                     list.clear()
 
@@ -56,9 +55,7 @@ class InquireBalanceViewModel @Inject constructor(private val repository: Reposi
 
     fun getCash(){
         viewModelScope.launch {
-            repository.getCash(
-                "Bearer " + repository.dbToken()
-            ).let {
+            repository.getCash().let {
                 cashes.value = it.body()!!.cashOutput.max_buy_amt
             }
         }

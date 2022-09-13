@@ -16,6 +16,9 @@
         android:theme="@style/Theme.KISapi"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".activity.AutoTradingActivity"
+            android:exported="true" />
+        <activity
             android:name=".activity.OrderActivity"
             android:exported="true" />
 

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
-        android:layout_margin="5dp"
+        android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -87,6 +87,7 @@
             app:cardCornerRadius="15dp">
 
             <LinearLayout
+                android:id="@+id/autoTrading2"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:orientation="vertical">
@@ -94,11 +95,27 @@
                 <TextView
                     android:textColor="@color/black"
                     android:layout_width="wrap_content"
-                    android:layout_height="150dp"
+                    android:layout_height="90dp"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:text="준비 중"
-                    android:textSize="40dp" />
+                    android:text="일중 모멘텀 전략"
+                    android:textSize="30dp" />
+
+                <TextView
+                    android:textColor="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:paddingRight="10dp"
+                    android:text="누적 손익 " />
+
+                <TextView
+                    android:textColor="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:paddingRight="10dp"
+                    android:text="누적 수익률" />
 
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>

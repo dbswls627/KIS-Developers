@@ -16,10 +16,11 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class OrderActivity : AppCompatActivity() {
     private lateinit var binding: ActivityOrderBinding
+    private val viewModel: OrderViewModel by viewModels()
+
     var longPosition: String = "069500"
     var shortPosition: String = "114800"
     var auto = false
-    private val viewModel: OrderViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

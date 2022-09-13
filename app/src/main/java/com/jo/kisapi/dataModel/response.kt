@@ -81,16 +81,27 @@ data class prpr(
     val stck_prpr: Int,
     val prdy_vrss: Int,
     val stck_mxpr: Int,
-    val prdy_ctrt: Double
+    val prdy_ctrt: Double,
+    val stck_oprc: Int
 )
 
 data class TradingHistoryList(
     @SerializedName("output1")
     val tradingHistoryList:List<TradingHistory>
 )
+
 data class TradingHistory(
     @SerializedName("odno")
     val odno: String,
     @SerializedName("tot_ccld_amt")
     val tot_ccld_amt:String
+)
+
+data class TimePrice(
+    @SerializedName("output2")
+    val chartPrice: List<ChartPrice>
+)
+
+data class ChartPrice(
+    val stck_prpr: Int
 )

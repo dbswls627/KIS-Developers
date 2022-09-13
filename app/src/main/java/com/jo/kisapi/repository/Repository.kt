@@ -1,7 +1,6 @@
 package com.jo.kisapi.repository
 
 import com.jo.kisapi.TokenTimeDao
-import com.jo.kisapi.Util
 import com.jo.kisapi.Util.API_KEY
 import com.jo.kisapi.Util.API_KEY_SECRET
 import com.jo.kisapi.Util.CANO
@@ -22,8 +21,6 @@ class Repository @Inject constructor(private val tokenTimeDao: TokenTimeDao, pri
         tokenTimeDao.insertOrderHistory(autoTrading)
     }
 
-    suspend fun dbToken() = tokenTimeDao.getToken()
-
     suspend fun getTime() = tokenTimeDao.getTime()
 
     suspend fun getToken() = iRetrofit!!.getToken(
@@ -34,9 +31,9 @@ class Repository @Inject constructor(private val tokenTimeDao: TokenTimeDao, pri
         )
     )
 
-    suspend fun getInquireBalance(token: String) =
+    suspend fun getInquireBalance() =
         iRetrofit?.getInquireBalance(
-            token,
+            tokenTimeDao.getToken(),
             CANO,
             "01",
             "N",
@@ -50,9 +47,9 @@ class Repository @Inject constructor(private val tokenTimeDao: TokenTimeDao, pri
             ""
         )
 
-    suspend fun order(token: String, tr_id: String, PDNO: String, division: String, count: String,amt:String) =
+    suspend fun order(tr_id: String, PDNO: String, division: String, count: String,amt:String) =
         iRetrofit!!.order(
-            token,
+            tokenTimeDao.getToken(),
             tr_id,
             OrderRequest(
                 CANO,
@@ -65,9 +62,9 @@ class Repository @Inject constructor(private val tokenTimeDao: TokenTimeDao, pri
             )
     )
 
-    suspend fun getTradingHistory(token: String,startDay:String,endDay:String,division:String) =
+    suspend fun getTradingHistory(startDay:String,endDay:String,division:String) =
         iRetrofit?.getTradingHistory(
-            token,
+            tokenTimeDao.getToken(),
             CANO,
             "01",
             startDay,
@@ -84,8 +81,8 @@ class Repository @Inject constructor(private val tokenTimeDao: TokenTimeDao, pri
             ""
         )
 
-    suspend fun getCash(token: String) = iRetrofit!!.getCash(
-        token,
+    suspend fun getCash() = iRetrofit!!.getCash(
+        tokenTimeDao.getToken(),
         CANO,
         "01",
         "005930",
@@ -95,17 +92,27 @@ class Repository @Inject constructor(private val tokenTimeDao: TokenTimeDao, pri
         "N",
     )
 
-    suspend fun getDailyPrice(token: String, FID_INPUT_ISCD: String) = iRetrofit!!.getDailyPrice(
-        token,
+    suspend fun getDailyPrice( FID_INPUT_ISCD: String) = iRetrofit!!.getDailyPrice(
+        tokenTimeDao.getToken(),
         "J",
         FID_INPUT_ISCD,
         "D",
         "0"
+    )
+
+    suspend fun getCurrentPrice( FID_INPUT_ISCD: String) =
+        iRetrofit!!.getCurrentPrice(
+            tokenTimeDao.getToken(),
+            "J",
+            FID_INPUT_ISCD,
         )
 
-    suspend fun getCurrentPrice(token: String, FID_INPUT_ISCD: String) = iRetrofit!!.getCurrentPrice(
-        token,
+    suspend fun getTimePrice(FID_INPUT_ISCD: String) = iRetrofit!!.getTimePrice(
+        tokenTimeDao.getToken(),
+        "",
         "J",
         FID_INPUT_ISCD,
+        "093000",
+        "N"
     )
 }
