@@ -123,7 +123,7 @@
                             android:gravity="center"
                             android:paddingLeft="10dp"
 
-                            android:text="타겟가   :"
+                            android:text="타겟가  :"
                             android:textColor="@color/black"
                             android:textSize="15dp" />
 
@@ -218,7 +218,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="주문 금액 : "
+                        android:text="주문 금액 ≒ "
                         android:textColor="@color/black"
                         android:textSize="15dp" />
 
@@ -328,7 +328,7 @@
                             android:gravity="center"
                             android:paddingLeft="10dp"
 
-                            android:text="타겟가   :"
+                            android:text="타겟가  :"
                             android:textColor="@color/black"
                             android:textSize="15dp" />
 
@@ -422,7 +422,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="주문 금액 : "
+                        android:text="주문 금액 ≒ "
                         android:textColor="@color/black"
                         android:textSize="15dp" />
 
@@ -470,10 +470,10 @@
             android:layout_height="wrap_content">
 
             <Button
-                android:id="@+id/test4"
+                android:id="@+id/order"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="주문" />
+                android:text="주문" />
         </LinearLayout>
 
     </LinearLayout>

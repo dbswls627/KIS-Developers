@@ -12,17 +12,21 @@ import com.jo.kisapi.retrofit.IRetrofit
 import javax.inject.Inject
 
 class Repository @Inject constructor(private val tokenTimeDao: TokenTimeDao, private val iRetrofit: IRetrofit) {
+    /** DB **/
+    suspend fun insert(token: TokenTime) = tokenTimeDao.insert(token)
 
-    suspend fun insert(token: TokenTime) {
-        tokenTimeDao.insert(token)
-    }
 
-    suspend fun insert(autoTrading: AutoTrading) {
-        tokenTimeDao.insertOrderHistory(autoTrading)
-    }
+    suspend fun insert(autoTrading: AutoTrading) = tokenTimeDao.insertOrderHistory(autoTrading)
+
 
     suspend fun getTime() = tokenTimeDao.getTime()
 
+    suspend fun getTradingHistory(type: String, division: String) =
+        tokenTimeDao.getTradingHistory(type, division)
+
+    suspend fun getChange(type: String, division: String) = tokenTimeDao.getChange(type, division)
+
+    /** Rest API **/
     suspend fun getToken() = iRetrofit!!.getToken(
         TokenBody(
             "client_credentials",
@@ -115,4 +119,6 @@ class Repository @Inject constructor(private val tokenTimeDao: TokenTimeDao, pri
         "093000",
         "N"
     )
+
+
 }

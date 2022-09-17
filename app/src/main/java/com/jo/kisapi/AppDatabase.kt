@@ -8,7 +8,7 @@ import com.jo.kisapi.dataModel.AutoTrading
 import com.jo.kisapi.dataModel.TokenTime
 import kotlinx.coroutines.CoroutineScope
 
-@Database(entities = [TokenTime::class, AutoTrading::class], version = 1)
+@Database(entities = [TokenTime::class, AutoTrading::class], version = 2)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun TokenTimeDao(): TokenTimeDao
     companion object {

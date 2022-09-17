@@ -26,7 +26,7 @@ object BindingAdapter {
         recyclerView.adapter?.notifyDataSetChanged()
     }
 
-
+    //Int 부호의 따른 color
     @JvmStatic
     @SuppressLint("ResourceAsColor")
     @BindingAdapter("setTextColor1")
@@ -37,6 +37,7 @@ object BindingAdapter {
 
     }
 
+    // double 부호의 따른 color
     @JvmStatic
     @SuppressLint("ResourceAsColor")
     @BindingAdapter("setTextColor2")
@@ -47,6 +48,7 @@ object BindingAdapter {
 
     }
 
+    //change(Int)의 부호에 따른 color
     @JvmStatic
     @SuppressLint("ResourceAsColor")
     @BindingAdapter("amt", "change")
@@ -60,6 +62,7 @@ object BindingAdapter {
 
     }
 
+    //전일가격과 타겟가격의 대비값
     @JvmStatic
     @SuppressLint("ResourceAsColor")
     @BindingAdapter("ydPrice", "target")
@@ -75,6 +78,7 @@ object BindingAdapter {
         }
     }
 
+    //전일가격과 타겟가격의 대비 %
     @JvmStatic
     @SuppressLint("ResourceAsColor")
     @BindingAdapter( "target1", "ydPrice")
@@ -91,7 +95,7 @@ object BindingAdapter {
 
     }
 
-
+    //전일가격과 타겟가격의 차이 따른 color
     @JvmStatic
     @SuppressLint("ResourceAsColor")
     @BindingAdapter("target2", "ydPrice")

@@ -67,12 +67,13 @@
                             android:layout_height="match_parent"
                             android:gravity="center"
                             android:paddingLeft="10dp"
-                            android:text="시가  :"
+                            android:text="9:00  :"
                             android:textColor="@color/black"
                             android:textSize="15dp" />
 
                         <TextView
-                            android:text="@{viewModel.startPrice.toString()}"
+                            ydPrice="@{viewModel.longYDdPrice}"
+                            target2="@{viewModel.longStartPrice}"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:padding="10dp"
@@ -86,12 +87,16 @@
                             android:orientation="vertical">
 
                             <TextView
+                                ydPrice="@{viewModel.longYDdPrice}"
+                                target="@{viewModel.longStartPrice}"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/black"
                                 android:textSize="15dp" />
 
                             <TextView
+                                ydPrice="@{viewModel.longYDdPrice}"
+                                target1="@{viewModel.longStartPrice}"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/black"
@@ -119,12 +124,13 @@
                             android:layout_height="match_parent"
                             android:gravity="center"
                             android:paddingLeft="10dp"
-                            android:text="모멘텀   :"
+                            android:text="9:30  :"
                             android:textColor="@color/black"
                             android:textSize="15dp" />
 
                         <TextView
-                            android:text="@{viewModel.timePrice.toString()}"
+                            ydPrice="@{viewModel.longYDdPrice}"
+                            target2="@{viewModel.longTimePrice}"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="10dp"
@@ -137,11 +143,15 @@
                             android:orientation="vertical">
 
                             <TextView
+                                ydPrice="@{viewModel.longYDdPrice}"
+                                target="@{viewModel.longTimePrice}"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textSize="15dp" />
 
                             <TextView
+                                ydPrice="@{viewModel.longYDdPrice}"
+                                target1="@{viewModel.longTimePrice}"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textSize="15dp" />
@@ -209,11 +219,13 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="주문 금액 : "
+                        android:text="주문 금액 ≒ "
                         android:textColor="@color/black"
                         android:textSize="15dp" />
 
                     <TextView
+                        count="@{viewModel.longCount}"
+                        target="@{viewModel.longStartPrice}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColor="@color/black"
@@ -260,12 +272,13 @@
                             android:layout_height="match_parent"
                             android:gravity="center"
                             android:paddingLeft="10dp"
-
-                            android:text="현재가  :"
+                            android:text="9:00  :"
                             android:textColor="@color/black"
                             android:textSize="15dp" />
 
                         <TextView
+                            ydPrice="@{viewModel.shortYDPrice}"
+                            target2="@{viewModel.shortStartPrice}"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:padding="10dp"
@@ -279,12 +292,16 @@
                             android:orientation="vertical">
 
                             <TextView
+                                ydPrice="@{viewModel.shortYDPrice}"
+                                target="@{viewModel.shortStartPrice}"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/black"
                                 android:textSize="15dp" />
 
                             <TextView
+                                ydPrice="@{viewModel.shortYDPrice}"
+                                target1="@{viewModel.shortStartPrice}"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/black"
@@ -313,11 +330,13 @@
                             android:gravity="center"
                             android:paddingLeft="10dp"
 
-                            android:text="타겟가   :"
+                            android:text="9:30  :"
                             android:textColor="@color/black"
                             android:textSize="15dp" />
 
                         <TextView
+                            ydPrice="@{viewModel.shortYDPrice}"
+                            target2="@{viewModel.shortTimePrice}"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="10dp"
@@ -330,11 +349,15 @@
                             android:orientation="vertical">
 
                             <TextView
+                                ydPrice="@{viewModel.shortYDPrice}"
+                                target="@{viewModel.shortTimePrice}"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textSize="15dp" />
 
                             <TextView
+                                ydPrice="@{viewModel.shortYDPrice}"
+                                target1="@{viewModel.shortTimePrice}"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textSize="15dp" />
@@ -401,11 +424,13 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="주문 금액 : "
+                        android:text="주문 금액 ≒ "
                         android:textColor="@color/black"
                         android:textSize="15dp" />
 
                     <TextView
+                        count="@{viewModel.shortCount}"
+                        target="@{viewModel.shortStartPrice}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColor="@color/black"
@@ -447,10 +472,10 @@
             android:layout_height="wrap_content">
 
             <Button
-                android:id="@+id/test4"
+                android:id="@+id/order"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="주문" />
+                android:text="주문" />
         </LinearLayout>
 
     </LinearLayout>

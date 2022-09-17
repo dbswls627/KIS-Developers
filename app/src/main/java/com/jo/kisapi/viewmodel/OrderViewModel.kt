@@ -159,7 +159,7 @@ class OrderViewModel @Inject constructor(private val repository: Repository) : V
                 amt
             ).let {
                 Log.d("test",it.body().toString())
-                repository.insert(AutoTrading("A", "02", it.body()!!.output.ODNO))
+                repository.insert(AutoTrading("A", "02", it.body()!!.output.ODNO,0))
 
             }
         }
@@ -183,7 +183,7 @@ class OrderViewModel @Inject constructor(private val repository: Repository) : V
                             try {
 
                                 msg.value = it.body()!!.msg1
-                                repository.insert(AutoTrading("A", "01", it.body()!!.output.ODNO))
+                                repository.insert(AutoTrading("A", "01", it.body()!!.output.ODNO,0))
                                 auto.value = false
                                 orderSell(no, longCount.value.toString())
 
@@ -215,7 +215,7 @@ class OrderViewModel @Inject constructor(private val repository: Repository) : V
                         try {
 
                             auto.value = false
-                            repository.insert(AutoTrading("A", "01", it.body()!!.output.ODNO))
+                            repository.insert(AutoTrading("A", "01", it.body()!!.output.ODNO,0))
                             msg.value = it.body()!!.msg1
                             orderSell(no, shortCount.value.toString())
                         } catch (e: Exception) {

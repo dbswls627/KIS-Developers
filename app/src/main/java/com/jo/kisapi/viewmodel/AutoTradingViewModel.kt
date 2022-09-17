@@ -13,8 +13,14 @@ import javax.inject.Inject
 @HiltViewModel
 class AutoTradingViewModel @Inject constructor(private val repository: Repository) : ViewModel() {
 
-    val startPrice = MutableLiveData(0)
-    val timePrice = MutableLiveData(0)
+    val longStartPrice = MutableLiveData(0)
+    val shortStartPrice = MutableLiveData(0)
+
+    val longTimePrice = MutableLiveData(0)
+    val shortTimePrice = MutableLiveData(0)
+
+    val longYDdPrice = MutableLiveData<Int>()
+    val shortYDPrice = MutableLiveData<Int>()
 
     val cashes = MutableLiveData<Int>(0)
 
@@ -22,24 +28,42 @@ class AutoTradingViewModel @Inject constructor(private val repository: Repositor
     val shortCount = MutableLiveData<String>("1")
     val dec = DecimalFormat("#,###원")
 
-    fun getTimePrice(no: String) {
+    fun getLongTimePrice(no: String) {
         viewModelScope.launch {
             repository.getTimePrice(
                 no
             ).let {
                 Log.d("test", it.body()!!.chartPrice[0].stck_prpr.toString()) // 930분봉 종가
-                timePrice.value = it.body()!!.chartPrice[0].stck_prpr
+                longTimePrice.value = it.body()!!.chartPrice[0].stck_prpr
             }
         }
     }
 
-    fun getStarPrice(no: String) {
+    fun getShortTimePrice(no: String) {
         viewModelScope.launch {
-            repository.getCurrentPrice(
+            repository.getTimePrice(
                 no
             ).let {
-                Log.d("test", it.body()!!.prpr.stck_oprc.toString())
-                startPrice.value = it.body()!!.prpr.stck_oprc
+                Log.d("test", it.body()!!.chartPrice[0].stck_prpr.toString()) // 930분봉 종가
+                shortTimePrice.value = it.body()!!.chartPrice[0].stck_prpr
+            }
+        }
+    }
+
+    fun getLongStarPrice(no: String) {
+        viewModelScope.launch {
+            repository.getDailyPrice(no).let {
+                longStartPrice.value = it.body()!!.DailyPriceList[0].stck_oprc.toInt()  //당일 시가
+                longYDdPrice.value = it.body()!!.DailyPriceList[1].stck_clpr.toInt()    //전일 종가
+            }
+        }
+    }
+
+    fun getShortStarPrice(no: String) {
+        viewModelScope.launch {
+            repository.getDailyPrice(no).let {
+                shortStartPrice.value = it.body()!!.DailyPriceList[0].stck_oprc.toInt()  //당일 시가
+                shortYDPrice.value = it.body()!!.DailyPriceList[1].stck_clpr.toInt()    //전일 종가
             }
         }
     }

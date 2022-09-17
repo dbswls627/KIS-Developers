@@ -41,7 +41,7 @@ class OrderActivity : AppCompatActivity() {
         }
 
 
-        binding.test4.setOnClickListener {
+        binding.order.setOnClickListener {
             //주문가능금액이 더 많을 시
             try {
                 if ((viewModel.longCount.value!!.toInt() * viewModel.longTargetPrice.value!!.toInt() <= viewModel.cashes.value!!) &&
@@ -73,10 +73,10 @@ class OrderActivity : AppCompatActivity() {
         viewModel.auto.observe(this, {
 
             if (it) {
-                binding.test4.text = "취소"
+                binding.order.text = "취소"
                 setEnable(false)
             } else {
-                binding.test4.text = "주문"
+                binding.order.text = "주문"
                 setEnable(true)
             }
         })

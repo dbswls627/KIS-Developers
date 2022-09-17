@@ -15,5 +15,6 @@ data class AutoTrading(
     var type:String,
     var division:String,
     @PrimaryKey
-    var odno:String
+    var odno:String,
+    var amount:Int
 )
