@@ -1,6 +1,5 @@
 package com.jo.kisapi
 
-import android.app.NotificationManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -24,27 +23,24 @@ class AlarmReceiver : BroadcastReceiver() {
         val count = intent.getStringExtra("count")
         val amt = intent.getStringExtra("amt")
 
-
-
         orderBuy(pdno!!, count!!,amt!!)
 
 
     }
 
     private fun orderBuy(pdno: String, count: String, amt: String) {
+
         CoroutineScope(Dispatchers.IO).launch {
+            Log.d("Test",count)
             repository.order(
                 Util.buy,
                 pdno!!,
-                "01",
+                "00",
                 count!!,
-                "0"
+                getCurrentPrice(pdno)
             ).let {
-                try {
-                    repository.insert(AutoTrading("B", "01", it.body()!!.output.ODNO,0))
+                repository.insert(AutoTrading("B", "01", it.body()!!.output.ODNO, 0))
                     orderSell(pdno, count, amt)
-                } catch (e: Exception) {
-                }
             }
         }
     }
@@ -59,12 +55,12 @@ class AlarmReceiver : BroadcastReceiver() {
                 amt
             ).let {
                 Log.d("test", it.body().toString())
-                repository.insert(AutoTrading("B", "02", it.body()!!.output.ODNO,0))
+                repository.insert(AutoTrading("B", "02", it.body()!!.output.ODNO, 0))
 
             }
         }
 
     }
 
-
+    private suspend fun getCurrentPrice(no: String): String = repository.getCurrentPrice(no).body()!!.prpr.stck_prpr.toString()
 }

@@ -94,7 +94,8 @@ data class TradingHistory(
     @SerializedName("odno")
     val odno: String,
     @SerializedName("tot_ccld_amt")
-    val tot_ccld_amt:String
+    val tot_ccld_amt:String,
+    val ord_dt: String
 )
 
 data class TimePrice(
