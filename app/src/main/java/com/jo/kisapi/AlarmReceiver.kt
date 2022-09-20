@@ -31,16 +31,18 @@ class AlarmReceiver : BroadcastReceiver() {
     private fun orderBuy(pdno: String, count: String, amt: String) {
 
         CoroutineScope(Dispatchers.IO).launch {
-            Log.d("Test",count)
+
             repository.order(
                 Util.buy,
                 pdno!!,
                 "00",
                 count!!,
-                getCurrentPrice(pdno)
+                getCurrentPrice(pdno)   //현재가
             ).let {
-                repository.insert(AutoTrading("B", "01", it.body()!!.output.ODNO, 0))
+                try {
+                    repository.insert(AutoTrading("B", "01", it.body()!!.output.ODNO, 0))
                     orderSell(pdno, count, amt)
+                }catch (e:Exception){}
             }
         }
     }

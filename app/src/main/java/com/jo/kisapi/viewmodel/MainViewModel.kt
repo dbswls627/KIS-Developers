@@ -113,14 +113,32 @@ class MainViewModel @Inject constructor(private val repository: Repository) : Vi
                 repository.insert(AutoTrading("A", "02", it.odno, it.tot_ccld_amt.toInt()))
                 repository.getTradingHistory(it.ord_dt, it.ord_dt, "02")!!//매도날짜 당일 매수기록
                     .body()!!.tradingHistoryList.forEach {
-                        repository.insert(AutoTrading("A", "01", it.odno, it.tot_ccld_amt.toInt()))
+                        if (aBuyList.contains(it.odno)) {
+                            repository.insert(
+                                AutoTrading(
+                                    "A",
+                                    "01",
+                                    it.odno,
+                                    it.tot_ccld_amt.toInt()
+                                )
+                            )
+                        }
                     }
             }
             if (bSellList.contains(it.odno)) {
                 repository.insert(AutoTrading("B", "02", it.odno, it.tot_ccld_amt.toInt()))
                 repository.getTradingHistory(it.ord_dt, it.ord_dt, "02")!!
                     .body()!!.tradingHistoryList.forEach {
-                        repository.insert(AutoTrading("B", "01", it.odno, it.tot_ccld_amt.toInt()))
+                        if (bBuyList.contains(it.odno)) {
+                            repository.insert(
+                                AutoTrading(
+                                    "B",
+                                    "01",
+                                    it.odno,
+                                    it.tot_ccld_amt.toInt()
+                                )
+                            )
+                        }
                     }
             }
 
