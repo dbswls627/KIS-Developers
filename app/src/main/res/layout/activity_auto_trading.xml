@@ -225,7 +225,7 @@
 
                     <TextView
                         count="@{viewModel.longCount}"
-                        target="@{viewModel.longStartPrice}"
+                        target="@{viewModel.longMax}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColor="@color/black"
@@ -430,7 +430,7 @@
 
                     <TextView
                         count="@{viewModel.shortCount}"
-                        target="@{viewModel.shortStartPrice}"
+                        target="@{viewModel.shortMax}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColor="@color/black"

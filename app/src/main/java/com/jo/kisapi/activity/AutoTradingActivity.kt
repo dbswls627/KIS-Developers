@@ -28,27 +28,34 @@ class AutoTradingActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_auto_trading)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
+
         viewModel.getCash()
 
         viewModel.getLongTimePrice("069500")
         viewModel.getLongStarPrice("069500")
+        viewModel.getLongMaxPrice("069500")
 
         viewModel.getShortTimePrice("114800")
         viewModel.getShortStarPrice("114800")
+        viewModel.getShortMaxPrice("114800")
 
         binding.order.setOnClickListener {
+
             if (viewModel.longStartPrice.value!! < viewModel.longTimePrice.value!!) {
                 pdno = "069500"
                 count = viewModel.longCount.value!!
-                amt = (viewModel.longStartPrice.value!! + 1000).toString()
+                amt = viewModel.longMax.value.toString()
 
             } else if (viewModel.shortStartPrice.value!! < viewModel.shortTimePrice.value!!) {
                 pdno = "114800"
                 count = viewModel.shortCount.value!!
-                amt = (viewModel.shortStartPrice.value!! + 1000).toString()
+                amt = viewModel.shortMax.value.toString()
 
             }
-            if (pdno != "") {
+            if (pdno != "" && (viewModel.longMax.value!! * viewModel.longCount.value!!.toInt() <= viewModel.cashes.value!!) &&
+                (viewModel.shortMax.value!! * viewModel.shortCount.value!!.toInt() <= viewModel.cashes.value!!)
+            ) {
+
                 Toast.makeText(this, "주문전송 완료", Toast.LENGTH_SHORT).show()
                 val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
                 val intent = Intent(this, AlarmReceiver::class.java)
@@ -71,6 +78,8 @@ class AutoTradingActivity : AppCompatActivity() {
                     calendar.timeInMillis,
                     pendingIntent
                 )
+            }else{
+                Toast.makeText(this, "보유금액이 부족합니다", Toast.LENGTH_SHORT).show()
             }
         }
     }

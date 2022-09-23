@@ -109,6 +109,7 @@ class MainViewModel @Inject constructor(private val repository: Repository) : Vi
             endDay.toString().replace("-", ""),
             "01"//매도
         )!!.body()!!.tradingHistoryList.forEach {
+
             if (aSellList.contains(it.odno)) {//등록이 되지않은 매도기록
                 repository.insert(AutoTrading("A", "02", it.odno, it.tot_ccld_amt.toInt()))
                 repository.getTradingHistory(it.ord_dt, it.ord_dt, "02")!!//매도날짜 당일 매수기록
@@ -125,6 +126,7 @@ class MainViewModel @Inject constructor(private val repository: Repository) : Vi
                         }
                     }
             }
+
             if (bSellList.contains(it.odno)) {
                 repository.insert(AutoTrading("B", "02", it.odno, it.tot_ccld_amt.toInt()))
                 repository.getTradingHistory(it.ord_dt, it.ord_dt, "02")!!

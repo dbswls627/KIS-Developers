@@ -35,9 +35,9 @@ class AlarmReceiver : BroadcastReceiver() {
             repository.order(
                 Util.buy,
                 pdno!!,
-                "00",
+                "01",
                 count!!,
-                getCurrentPrice(pdno)   //현재가
+              "0"
             ).let {
                 try {
                     repository.insert(AutoTrading("B", "01", it.body()!!.output.ODNO, 0))
@@ -64,5 +64,4 @@ class AlarmReceiver : BroadcastReceiver() {
 
     }
 
-    private suspend fun getCurrentPrice(no: String): String = repository.getCurrentPrice(no).body()!!.prpr.stck_prpr.toString()
 }

@@ -19,6 +19,9 @@ class AutoTradingViewModel @Inject constructor(private val repository: Repositor
     val longTimePrice = MutableLiveData(0)
     val shortTimePrice = MutableLiveData(0)
 
+    var longMax = MutableLiveData<Int>()
+    var shortMax = MutableLiveData<Int>()
+
     val longYDdPrice = MutableLiveData<Int>()
     val shortYDPrice = MutableLiveData<Int>()
 
@@ -27,6 +30,23 @@ class AutoTradingViewModel @Inject constructor(private val repository: Repositor
     val longCount = MutableLiveData<String>("1")
     val shortCount = MutableLiveData<String>("1")
     val dec = DecimalFormat("#,###원")
+
+    fun getLongMaxPrice(no: String) {
+        viewModelScope.launch {
+            repository.getCurrentPrice(no).let {
+                longMax.value = it.body()!!.prpr.stck_mxpr
+            }
+
+        }
+    }
+    fun getShortMaxPrice(no: String) {
+        viewModelScope.launch {
+            repository.getCurrentPrice(no).let {
+                shortMax.value = it.body()!!.prpr.stck_mxpr
+            }
+
+        }
+    }
 
     fun getLongTimePrice(no: String) {
         viewModelScope.launch {

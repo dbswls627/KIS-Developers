@@ -21,8 +21,8 @@ class OrderViewModel @Inject constructor(private val repository: Repository) : V
     val longCurrentPrice = MutableLiveData<Int>()
     val shortCurrentPrice = MutableLiveData<Int>()
 
-    private var longMax = 0
-    private var shortMax = 0
+    var longMax = MutableLiveData<Int>()
+    var shortMax = MutableLiveData<Int>()
 
     val longTargetPrice = MutableLiveData<Int>()
     val shortTargetPrice = MutableLiveData<Int>()
@@ -38,7 +38,7 @@ class OrderViewModel @Inject constructor(private val repository: Repository) : V
 
     val cashes = MutableLiveData<Int>(0)
     val msg = MutableLiveData<String>()
-    val rt_cd = MutableLiveData<String>()
+
     val auto = MutableLiveData(false)
     val dec = DecimalFormat("#,###원")
 
@@ -48,7 +48,7 @@ class OrderViewModel @Inject constructor(private val repository: Repository) : V
                 longCurrentPrice.value = it.body()!!.prpr.stck_prpr
                 longChange.value = it.body()!!.prpr.prdy_vrss
                 longPercent.value = it.body()!!.prpr.prdy_ctrt
-                longMax = it.body()!!.prpr.stck_mxpr
+                longMax.value = it.body()!!.prpr.stck_mxpr
             }
 
         }
@@ -60,7 +60,7 @@ class OrderViewModel @Inject constructor(private val repository: Repository) : V
                 shortCurrentPrice.value = it.body()!!.prpr.stck_prpr
                 shortChange.value = it.body()!!.prpr.prdy_vrss
                 shortPercent.value = it.body()!!.prpr.prdy_ctrt
-                shortMax = it.body()!!.prpr.stck_mxpr
+                shortMax.value = it.body()!!.prpr.stck_mxpr
             }
 
         }
@@ -70,7 +70,7 @@ class OrderViewModel @Inject constructor(private val repository: Repository) : V
         viewModelScope.launch {
             repository.getDailyPrice(no).let {
                 longTargetPrice.value = (it.body()!!.DailyPriceList[0].stck_oprc.toInt() +
-                        (it.body()!!.DailyPriceList[1].stck_hgpr.toInt() - it.body()!!.DailyPriceList[1].stck_lwpr.toInt()) * 0.4).toInt()
+                        (it.body()!!.DailyPriceList[1].stck_hgpr.toInt() - it.body()!!.DailyPriceList[1].stck_lwpr.toInt()) * 0.5).toInt()
                 longYDdPrice.value = it.body()!!.DailyPriceList[1].stck_clpr.toInt()
             }
         }
@@ -80,7 +80,7 @@ class OrderViewModel @Inject constructor(private val repository: Repository) : V
         viewModelScope.launch {
             repository.getDailyPrice(no).let {
                 shortTargetPrice.value = (it.body()!!.DailyPriceList[0].stck_oprc.toInt() +
-                        (it.body()!!.DailyPriceList[1].stck_hgpr.toInt() - it.body()!!.DailyPriceList[1].stck_lwpr.toInt()) * 0.4).toInt()
+                        (it.body()!!.DailyPriceList[1].stck_hgpr.toInt() - it.body()!!.DailyPriceList[1].stck_lwpr.toInt()) * 0.5).toInt()
                 shortYDPrice.value = it.body()!!.DailyPriceList[1].stck_clpr.toInt()
             }
         }
@@ -147,9 +147,9 @@ class OrderViewModel @Inject constructor(private val repository: Repository) : V
        var amt = ""
         viewModelScope.launch {
             if (pdno == "069500") {
-                amt = longMax.toString()
+                amt = longMax.value.toString()
             }else{
-                amt = shortMax.toString()
+                amt = shortMax.value.toString()
             }
             repository.order(
                 Util.sell,
@@ -176,9 +176,9 @@ class OrderViewModel @Inject constructor(private val repository: Repository) : V
                         repository.order(
                             Util.buy,
                             no,
-                            "00",
+                            "01",
                             longCount!!.value.toString(),
-                            longCurrentPrice.value.toString()
+                            "0"
                         ).let {
                             try {
 
@@ -207,10 +207,9 @@ class OrderViewModel @Inject constructor(private val repository: Repository) : V
                     repository.order(
                         Util.buy,
                         no,
-                        "00",
+                        "01",
                         shortCount!!.value.toString(),
-                        shortCurrentPrice.value.toString()
-
+                        "0"
                     ).let {
                         try {
 

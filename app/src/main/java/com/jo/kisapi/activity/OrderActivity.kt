@@ -20,7 +20,6 @@ class OrderActivity : AppCompatActivity() {
 
     var longPosition: String = "069500"
     var shortPosition: String = "114800"
-    var auto = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,8 +43,8 @@ class OrderActivity : AppCompatActivity() {
         binding.order.setOnClickListener {
             //주문가능금액이 더 많을 시
             try {
-                if ((viewModel.longCount.value!!.toInt() * viewModel.longTargetPrice.value!!.toInt() <= viewModel.cashes.value!!) &&
-                    (viewModel.shortCount.value!!.toInt() * viewModel.shortTargetPrice.value!!.toInt() <= viewModel.cashes.value!!)
+                if ((viewModel.longMax.value!! * viewModel.longCount.value!!.toInt() <= viewModel.cashes.value!!) &&
+                    (viewModel.shortMax.value!! * viewModel.shortCount.value!!.toInt() <= viewModel.cashes.value!!)
                 ) {
                     //주문 시작
                     if (!viewModel.auto.value!!) {
