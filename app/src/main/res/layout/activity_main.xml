@@ -21,6 +21,7 @@
             android:orientation="horizontal">
 
             <TextView
+                android:layout_weight="3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
@@ -28,15 +29,16 @@
                 android:textColor="@color/black"
                 android:textSize="25dp" />
 
-            <TextView
+            <ImageView
+                android:src="@drawable/ic_baseline_account_balance_wallet_24"
                 android:layout_gravity="center_vertical"
                 android:padding="10dp"
                 android:id="@+id/button3"
                 android:textColor="@color/black"
                 android:gravity="right"
                 android:textSize="15dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:text="잔고"/>
         </LinearLayout>
 

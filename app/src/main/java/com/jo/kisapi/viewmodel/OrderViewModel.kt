@@ -185,6 +185,7 @@ class OrderViewModel @Inject constructor(private val repository: Repository) : V
                                 msg.value = it.body()!!.msg1
                                 repository.insert(AutoTrading("A", "01", it.body()!!.output.ODNO,0))
                                 auto.value = false
+                                getCash()
                                 orderSell(no, longCount.value.toString())
 
                             } catch (e: Exception) {
