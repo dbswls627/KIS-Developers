@@ -26,7 +26,6 @@ class OrderActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_order)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
-
         viewModel.getCash()
         viewModel.getLongTargetPrice(longPosition)
         viewModel.getShortTargetPrice(shortPosition)
@@ -39,9 +38,8 @@ class OrderActivity : AppCompatActivity() {
             }
         }
 
-
         binding.order.setOnClickListener {
-            //주문가능금액이 더 많을 시
+            //주문가능금액이 더 많을 시 시작
             try {
                 if ((viewModel.longMax.value!! * viewModel.longCount.value!!.toInt() <= viewModel.cashes.value!!) &&
                     (viewModel.shortMax.value!! * viewModel.shortCount.value!!.toInt() <= viewModel.cashes.value!!)
@@ -65,16 +63,16 @@ class OrderActivity : AppCompatActivity() {
                     Toast.makeText(this, "보유금액이 부족합니다", Toast.LENGTH_SHORT).show()
                 }
             }catch (e:Exception){
-                //count = 0
-
             }
         }
         viewModel.auto.observe(this, {
 
             if (it) {
+                binding.order.progress = 50
                 binding.order.text = "취소"
                 setEnable(false)
             } else {
+                binding.order.progress = 0
                 binding.order.text = "주문"
                 setEnable(true)
             }

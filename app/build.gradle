@@ -42,6 +42,8 @@ android {
 }
 
 dependencies {
+    //버튼 애니메이션
+    implementation 'com.github.dmytrodanylyk.android-process-button:library:1.0.0'
     //Okhttp3
     implementation 'com.squareup.okhttp3:okhttp:4.8.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:4.8.0'

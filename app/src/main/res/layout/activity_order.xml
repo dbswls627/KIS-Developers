@@ -465,16 +465,15 @@
         </LinearLayout>
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
 
-            <Button
-                android:id="@+id/order"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="주문" />
-        </LinearLayout>
+        <com.dd.processbutton.iml.ActionProcessButton
+            android:id="@+id/order"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            app:pb_colorNormal="@color/green"
+            app:pb_colorPressed="@color/green"
+             />
 
     </LinearLayout>
 </layout>
