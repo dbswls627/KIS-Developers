@@ -44,7 +44,7 @@ interface IRetrofit {
         @Query("PRCS_DVSN") PRCS_DVSN: String,
         @Query("CTX_AREA_FK100") CTX_AREA_FK100: String?,
         @Query("CTX_AREA_NK100") CTX_AREA_NK100: String?
-    ): Response<InquireBalance>
+    ): InquireBalance
 
 
 
@@ -141,7 +141,7 @@ interface IRetrofit {
         @Header("Authorization") token: String,
         @Query("FID_COND_MRKT_DIV_CODE") FID_COND_MRKT_DIV_CODE: String,
         @Query("FID_INPUT_ISCD") FID_INPUT_ISCD: String,
-    ): Response<CurrentPrice>
+    ): CurrentPrice
 
     //분봉 조회
     @GET("/uapi/domestic-stock/v1/quotations/inquire-time-itemchartprice")

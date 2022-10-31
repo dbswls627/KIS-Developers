@@ -9,6 +9,8 @@ import com.jo.kisapi.dataModel.OrderRequest
 import com.jo.kisapi.dataModel.TokenBody
 import com.jo.kisapi.dataModel.TokenTime
 import com.jo.kisapi.retrofit.IRetrofit
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class Repository @Inject constructor(private val tokenTimeDao: TokenTimeDao, private val iRetrofit: IRetrofit) {
@@ -35,23 +37,29 @@ class Repository @Inject constructor(private val tokenTimeDao: TokenTimeDao, pri
         )
     )
 
-    suspend fun getInquireBalance() =
-        iRetrofit?.getInquireBalance(
-            tokenTimeDao.getToken(),
-            CANO,
-            "01",
-            "N",
-            "",
-            "01",
-            "01",
-            "N",
-            "N",
-            "00",
-            "",
-            ""
-        )
+    suspend fun getInquireBalance() = flow {
+        while (true) {
+            emit(
+                iRetrofit!!.getInquireBalance(
+                    tokenTimeDao.getToken(),
+                    CANO,
+                    "01",
+                    "N",
+                    "",
+                    "01",
+                    "01",
+                    "N",
+                    "N",
+                    "00",
+                    "",
+                    ""
+                )
+            )
+            delay(500)
+        }
+    }
 
-    suspend fun order(tr_id: String, PDNO: String, division: String, count: String,amt:String) =
+    suspend fun order(tr_id: String, PDNO: String, division: String, count: String, amt: String) =
         iRetrofit!!.order(
             tokenTimeDao.getToken(),
             tr_id,
@@ -96,7 +104,7 @@ class Repository @Inject constructor(private val tokenTimeDao: TokenTimeDao, pri
         "N",
     )
 
-    suspend fun getDailyPrice( FID_INPUT_ISCD: String) = iRetrofit!!.getDailyPrice(
+    suspend fun getDailyPrice(FID_INPUT_ISCD: String) = iRetrofit!!.getDailyPrice(
         tokenTimeDao.getToken(),
         "J",
         FID_INPUT_ISCD,
@@ -104,12 +112,19 @@ class Repository @Inject constructor(private val tokenTimeDao: TokenTimeDao, pri
         "0"
     )
 
-    suspend fun getCurrentPrice( FID_INPUT_ISCD: String) =
-        iRetrofit!!.getCurrentPrice(
-            tokenTimeDao.getToken(),
-            "J",
-            FID_INPUT_ISCD,
-        )
+    suspend fun getCurrentPrice(FID_INPUT_ISCD: String) = flow {
+        while (true) {
+            emit(
+                iRetrofit!!.getCurrentPrice(
+                    tokenTimeDao.getToken(),
+                    "J",
+                    FID_INPUT_ISCD,
+                )
+            )
+            delay(500)
+        }
+
+    }
 
     suspend fun getTimePrice(FID_INPUT_ISCD: String) = iRetrofit!!.getTimePrice(
         tokenTimeDao.getToken(),

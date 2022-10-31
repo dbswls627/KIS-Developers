@@ -9,6 +9,7 @@ import com.jo.kisapi.dataModel.AutoTrading
 import com.jo.kisapi.repository.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import java.text.DecimalFormat
 import javax.inject.Inject
@@ -18,8 +19,8 @@ class OrderViewModel @Inject constructor(private val repository: Repository) : V
     val longCount = MutableLiveData<String>("1")
     val shortCount = MutableLiveData<String>("1")
 
-    val longCurrentPrice = MutableLiveData<Int>()
-    val shortCurrentPrice = MutableLiveData<Int>()
+    val longCurrentPrice = MutableStateFlow<Int>(0)
+    val shortCurrentPrice = MutableStateFlow<Int>(0)
 
     var longMax = MutableLiveData<Int>()
     var shortMax = MutableLiveData<Int>()
@@ -44,11 +45,11 @@ class OrderViewModel @Inject constructor(private val repository: Repository) : V
 
     fun getLongCurrentPrice(no: String) {
         viewModelScope.launch {
-            repository.getCurrentPrice(no).let {
-                longCurrentPrice.value = it.body()!!.prpr.stck_prpr
-                longChange.value = it.body()!!.prpr.prdy_vrss
-                longPercent.value = it.body()!!.prpr.prdy_ctrt
-                longMax.value = it.body()!!.prpr.stck_mxpr
+            repository.getCurrentPrice(no).collect {
+                longCurrentPrice.value = it.prpr.stck_prpr
+                longChange.value = it.prpr.prdy_vrss
+                longPercent.value = it.prpr.prdy_ctrt
+                longMax.value = it.prpr.stck_mxpr
             }
 
         }
@@ -56,11 +57,11 @@ class OrderViewModel @Inject constructor(private val repository: Repository) : V
 
     fun getShortCurrentPrice(no: String) {
         viewModelScope.launch {
-            repository.getCurrentPrice(no).let {
-                shortCurrentPrice.value = it.body()!!.prpr.stck_prpr
-                shortChange.value = it.body()!!.prpr.prdy_vrss
-                shortPercent.value = it.body()!!.prpr.prdy_ctrt
-                shortMax.value = it.body()!!.prpr.stck_mxpr
+            repository.getCurrentPrice(no).collect {
+                shortCurrentPrice.value = it.prpr.stck_prpr
+                shortChange.value = it.prpr.prdy_vrss
+                shortPercent.value = it.prpr.prdy_ctrt
+                shortMax.value = it.prpr.stck_mxpr
             }
 
         }

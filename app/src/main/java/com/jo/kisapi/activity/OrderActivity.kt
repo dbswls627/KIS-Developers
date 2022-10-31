@@ -29,14 +29,10 @@ class OrderActivity : AppCompatActivity() {
         viewModel.getCash()
         viewModel.getLongTargetPrice(longPosition)
         viewModel.getShortTargetPrice(shortPosition)
+        viewModel.getLongCurrentPrice(longPosition)
+        viewModel.getShortCurrentPrice(shortPosition)
 
-        lifecycleScope.launch {
-            while (true) {
-                viewModel.getLongCurrentPrice(longPosition)
-                viewModel.getShortCurrentPrice(shortPosition)
-                delay(500)
-            }
-        }
+
 
         binding.order.setOnClickListener {
             //주문가능금액이 더 많을 시 시작

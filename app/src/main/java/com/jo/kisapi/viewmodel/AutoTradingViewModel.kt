@@ -33,16 +33,16 @@ class AutoTradingViewModel @Inject constructor(private val repository: Repositor
 
     fun getLongMaxPrice(no: String) {
         viewModelScope.launch {
-            repository.getCurrentPrice(no).let {
-                longMax.value = it.body()!!.prpr.stck_mxpr
+            repository.getCurrentPrice(no).collect {
+                longMax.value = it.prpr.stck_mxpr
             }
 
         }
     }
     fun getShortMaxPrice(no: String) {
         viewModelScope.launch {
-            repository.getCurrentPrice(no).let {
-                shortMax.value = it.body()!!.prpr.stck_mxpr
+            repository.getCurrentPrice(no).collect {
+                shortMax.value = it.prpr.stck_mxpr
             }
 
         }
