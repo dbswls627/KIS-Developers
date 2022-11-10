@@ -8,14 +8,23 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jo.kisapi.dataModel.AutoTrading
 import com.jo.kisapi.dataModel.TokenTime
-import com.jo.kisapi.repository.Repository
+import com.jo.kisapi.usecase.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(private val repository: Repository) : ViewModel() {
+class MainViewModel @Inject constructor(
+    private val getTokenUseCase: GetTokenUseCase,
+    private val getTokenTimeUseCase: GetTokenTimeUseCase,
+    private val getTradingDBHistoryUseCase: GetTradingDBHistoryUseCase,
+    private val getTradingHistoryUseCase: GetTradingHistoryUseCase,
+    private val getBuySumUseCase: GetBuySumUseCase,
+    private val getSellSumUseCase: GetSellSumUseCase,
+    private val insertTokenUseCase: InsertTokenUseCase,
+    private val insertTradingHistoryUseCase: InsertTradingHistoryUseCase,
+) : ViewModel() {
 
     val msg = MutableLiveData<String>()
     val aChange = MutableLiveData<Int>()
@@ -30,12 +39,12 @@ class MainViewModel @Inject constructor(private val repository: Repository) : Vi
     private fun getToken() {
         viewModelScope.launch {
             try {
-                repository.getToken()
+                getTokenUseCase()
                     .let {
-                        repository.insert(
+                        insertTokenUseCase(
                             TokenTime(
                                 "Bearer",
-                                "Bearer " + it.body()!!.access_token,
+                                "Bearer " + it.access_token,
                                 System.currentTimeMillis().plus(80000000).toString()
                             )
                         )
@@ -49,7 +58,7 @@ class MainViewModel @Inject constructor(private val repository: Repository) : Vi
     fun getTokenCheck() {
         viewModelScope.launch {
             try {
-                repository.getTime().let {
+                getTokenTimeUseCase().let {
                     if (it.toLong() < System.currentTimeMillis()) {
                         getToken()
                     }
@@ -79,22 +88,21 @@ class MainViewModel @Inject constructor(private val repository: Repository) : Vi
         }
     }
 
-    //등록이 되지 않은 기록
     private suspend fun getList() {
 
-        aBuyList = repository.getTradingHistory("A", "01") as ArrayList<String>
-        aSellList = repository.getTradingHistory("A", "02") as ArrayList<String>
+        aBuyList = getTradingDBHistoryUseCase("A", "01") as ArrayList<String>
+        aSellList = getTradingDBHistoryUseCase("A", "02") as ArrayList<String>
 
-        bBuyList = repository.getTradingHistory("B", "01") as ArrayList<String>
-        bSellList = repository.getTradingHistory("B", "02") as ArrayList<String>
+        bBuyList = getTradingDBHistoryUseCase("B", "01") as ArrayList<String>
+        bSellList = getTradingDBHistoryUseCase("B", "02") as ArrayList<String>
 
 
     }
 
     // 누적 손익값
     private suspend fun setChange() {
-        aChange.value = repository.getChange("A", "02") - repository.getChange("A", "01")
-        bChange.value = repository.getChange("B", "02") - repository.getChange("B", "01")
+        aChange.value = getSellSumUseCase("A") - getBuySumUseCase("A")
+        bChange.value = getSellSumUseCase("B") - getBuySumUseCase("B")
     }
 
 
@@ -104,18 +112,25 @@ class MainViewModel @Inject constructor(private val repository: Repository) : Vi
         val endDay: LocalDate = LocalDate.now()
         val startDay = endDay.minusMonths(1)
 
-        repository.getTradingHistory(
+        getTradingHistoryUseCase(
             startDay.toString().replace("-", ""),
             endDay.toString().replace("-", ""),
             "01"//매도
-        )!!.body()!!.tradingHistoryList.forEach {
+        ).tradingHistoryList.forEach {
 
             if (aSellList.contains(it.odno)) {//등록이 되지않은 매도기록
-                repository.insert(AutoTrading("A", "02", it.odno, it.tot_ccld_amt.toInt()))
-                repository.getTradingHistory(it.ord_dt, it.ord_dt, "02")!!//매도날짜 당일 매수기록
-                    .body()!!.tradingHistoryList.forEach {
+                insertTradingHistoryUseCase(
+                    AutoTrading(
+                        "A",
+                        "02",
+                        it.odno,
+                        it.tot_ccld_amt.toInt()
+                    )
+                )
+                getTradingHistoryUseCase(it.ord_dt, it.ord_dt, "02")!!//매도날짜 당일 매수기록
+                    .tradingHistoryList.forEach {
                         if (aBuyList.contains(it.odno)) {
-                            repository.insert(
+                            insertTradingHistoryUseCase(
                                 AutoTrading(
                                     "A",
                                     "01",
@@ -128,11 +143,18 @@ class MainViewModel @Inject constructor(private val repository: Repository) : Vi
             }
 
             if (bSellList.contains(it.odno)) {
-                repository.insert(AutoTrading("B", "02", it.odno, it.tot_ccld_amt.toInt()))
-                repository.getTradingHistory(it.ord_dt, it.ord_dt, "02")!!
-                    .body()!!.tradingHistoryList.forEach {
+                insertTradingHistoryUseCase(
+                    AutoTrading(
+                        "B",
+                        "02",
+                        it.odno,
+                        it.tot_ccld_amt.toInt()
+                    )
+                )
+                getTradingHistoryUseCase(it.ord_dt, it.ord_dt, "02")!!
+                    .tradingHistoryList.forEach {
                         if (bBuyList.contains(it.odno)) {
-                            repository.insert(
+                            insertTradingHistoryUseCase(
                                 AutoTrading(
                                     "B",
                                     "01",

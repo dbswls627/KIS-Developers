@@ -29,6 +29,6 @@ interface TokenTimeDao {
  suspend fun getTradingHistory(type: String, division: String): List<String>
 
  @Query("select sum(amount) from AutoTrading group by type,division having type=:type and division= :division")
- suspend fun getChange(type: String, division: String): Int
+ suspend fun getSum(type: String, division: String): Int
 }
     

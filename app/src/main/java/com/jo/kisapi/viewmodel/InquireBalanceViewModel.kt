@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.jo.kisapi.dataModel.output1
 import com.jo.kisapi.dataModel.output2
 import com.jo.kisapi.repository.Repository
+import com.jo.kisapi.usecase.GetBalanceUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -15,7 +16,7 @@ import java.text.DecimalFormat
 import javax.inject.Inject
 import kotlin.math.round
 @HiltViewModel
-class InquireBalanceViewModel @Inject constructor(private val repository: Repository) : ViewModel() {
+class InquireBalanceViewModel @Inject constructor(private val getBalanceUseCase: GetBalanceUseCase) : ViewModel() {
 
     val sumPchsAmt = MutableStateFlow<Int>(0)
     val sumEvluAmt = MutableStateFlow<Int>(0)
@@ -31,7 +32,7 @@ class InquireBalanceViewModel @Inject constructor(private val repository: Reposi
 
         viewModelScope.launch {
           /*  try {*/
-                repository.getInquireBalance(
+                getBalanceUseCase(
                 ).collect {
                     list.clear()
 
@@ -56,9 +57,9 @@ class InquireBalanceViewModel @Inject constructor(private val repository: Reposi
 
     fun getCash(){
         viewModelScope.launch {
-            repository.getCash().let {
+          /*  repository.getCash().let {
                 cashes.value = it.body()!!.cashOutput.max_buy_amt
-            }
+            }*/
         }
     }
 

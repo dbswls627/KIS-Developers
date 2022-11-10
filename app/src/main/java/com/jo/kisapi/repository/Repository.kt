@@ -26,7 +26,9 @@ class Repository @Inject constructor(private val tokenTimeDao: TokenTimeDao, pri
     suspend fun getTradingHistory(type: String, division: String) =
         tokenTimeDao.getTradingHistory(type, division)
 
-    suspend fun getChange(type: String, division: String) = tokenTimeDao.getChange(type, division)
+    suspend fun getBuySum(type: String) = tokenTimeDao.getSum(type,"01")
+
+    suspend fun getSellSum(type: String) = tokenTimeDao.getSum(type,"02")
 
     /** Rest API **/
     suspend fun getToken() = iRetrofit!!.getToken(
@@ -75,7 +77,7 @@ class Repository @Inject constructor(private val tokenTimeDao: TokenTimeDao, pri
     )
 
     suspend fun getTradingHistory(startDay:String,endDay:String,division:String) =
-        iRetrofit?.getTradingHistory(
+        iRetrofit.getTradingHistory(
             tokenTimeDao.getToken(),
             CANO,
             "01",

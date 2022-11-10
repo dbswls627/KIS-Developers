@@ -19,7 +19,7 @@ interface IRetrofit {
 
     //토큰 갱신
     @POST("/oauth2/tokenP")
-    suspend  fun getToken(@Body body: TokenBody): Response<Token>
+    suspend  fun getToken(@Body body: TokenBody): Token
 
 
     //주식잔고 조회
@@ -87,7 +87,7 @@ interface IRetrofit {
         @Query("INQR_DVSN_1") INQR_DVSN_1: String,
         @Query("CTX_AREA_FK100") CTX_AREA_FK100: String,
         @Query("CTX_AREA_NK100") CTX_AREA_NK100: String,
-    ): Response<TradingHistoryList>
+    ): TradingHistoryList
 
     //매수가능금액 조회
     @GET("/uapi/domestic-stock/v1/trading/inquire-psbl-order")
