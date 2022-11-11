@@ -60,7 +60,7 @@ interface IRetrofit {
         @Header("Authorization") token: String,
         @Header("tr_id") tr_id: String,
         @Body orderRequest: OrderRequest
-    ): Response<OrderResponse>
+    ): OrderResponse
 
     //주식 체결 조회
     @GET("/uapi/domestic-stock/v1/trading/inquire-daily-ccld")
@@ -107,7 +107,7 @@ interface IRetrofit {
         @Query("ORD_DVSN") ORD_DVSN: String,
         @Query("CMA_EVLU_AMT_ICLD_YN") CMA_EVLU_AMT_ICLD_YN: String,
         @Query("OVRS_ICLD_YN") OVRS_ICLD_YN: String
-    ): Response<Cash>
+    ): Cash
 
 
     //일자별 현재가 조회
@@ -125,7 +125,7 @@ interface IRetrofit {
         @Query("FID_INPUT_ISCD") FID_INPUT_ISCD: String,
         @Query("FID_PERIOD_DIV_CODE") FID_PERIOD_DIV_CODE: String,
         @Query("FID_ORG_ADJ_PRC") FID_ORG_ADJ_PRC: String,
-    ): Response<DailyPrice>
+    ): DailyPrice
 
 
     // 현재가 조회
@@ -159,6 +159,6 @@ interface IRetrofit {
         @Query("FID_INPUT_ISCD") FID_INPUT_ISCD: String,
         @Query("FID_INPUT_HOUR_1") FID_INPUT_HOUR_1: String,
         @Query("FID_PW_DATA_INCU_YN") FID_PW_DATA_INCU_YN: String
-    ): Response<TimePrice>
+    ): TimePrice
 
 }

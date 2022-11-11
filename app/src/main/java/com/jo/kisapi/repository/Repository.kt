@@ -1,6 +1,7 @@
 package com.jo.kisapi.repository
 
 import com.jo.kisapi.TokenTimeDao
+import com.jo.kisapi.Util
 import com.jo.kisapi.Util.API_KEY
 import com.jo.kisapi.Util.API_KEY_SECRET
 import com.jo.kisapi.Util.CANO
@@ -61,10 +62,10 @@ class Repository @Inject constructor(private val tokenTimeDao: TokenTimeDao, pri
         }
     }
 
-    suspend fun order(tr_id: String, PDNO: String, division: String, count: String, amt: String) =
+    suspend fun orderBuy(PDNO: String, division: String, count: String, amt: String) =
         iRetrofit!!.order(
             tokenTimeDao.getToken(),
-            tr_id,
+            Util.buy,
             OrderRequest(
                 CANO,
                 "01",
@@ -74,9 +75,24 @@ class Repository @Inject constructor(private val tokenTimeDao: TokenTimeDao, pri
                 amt,    //주문단가
                 ""
             )
-    )
+        )
 
-    suspend fun getTradingHistory(startDay:String,endDay:String,division:String) =
+    suspend fun orderSell(PDNO: String, division: String, count: String, amt: String) =
+        iRetrofit!!.order(
+            tokenTimeDao.getToken(),
+            Util.sell,
+            OrderRequest(
+                CANO,
+                "01",
+                PDNO,   //종목번호
+                division,   //지정가 : 00      시장가 : 01     조건부지정가 : 02
+                count,     //주문 갯수
+                amt,    //주문단가
+                ""
+            )
+        )
+
+    suspend fun getTradingHistory(startDay: String, endDay: String, division: String) =
         iRetrofit.getTradingHistory(
             tokenTimeDao.getToken(),
             CANO,
