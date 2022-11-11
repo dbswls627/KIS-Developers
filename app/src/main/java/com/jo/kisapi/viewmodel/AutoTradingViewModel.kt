@@ -4,14 +4,23 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.jo.kisapi.repository.Repository
+import com.jo.kisapi.usecase.GetCurrentPriceUseCase
+import com.jo.kisapi.usecase.GetDailyPriceUseCase
+import com.jo.kisapi.usecase.GetMyCashUseCase
+import com.jo.kisapi.usecase.GetTimePriceUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.text.DecimalFormat
 import javax.inject.Inject
 
 @HiltViewModel
-class AutoTradingViewModel @Inject constructor(private val repository: Repository) : ViewModel() {
+class AutoTradingViewModel @Inject constructor(
+    private val getCurrentPriceUseCase: GetCurrentPriceUseCase,
+    private val getTimePriceUseCase: GetTimePriceUseCase,
+    private val getDailyPriceUseCase: GetDailyPriceUseCase,
+    private val getMyCashUseCase: GetMyCashUseCase
+) :
+    ViewModel() {
 
     val longStartPrice = MutableLiveData(0)
     val shortStartPrice = MutableLiveData(0)
@@ -33,7 +42,7 @@ class AutoTradingViewModel @Inject constructor(private val repository: Repositor
 
     fun getLongMaxPrice(no: String) {
         viewModelScope.launch {
-            repository.getCurrentPrice(no).collect {
+            getCurrentPriceUseCase(no).collect {
                 longMax.value = it.prpr.stck_mxpr
             }
 
@@ -41,7 +50,7 @@ class AutoTradingViewModel @Inject constructor(private val repository: Repositor
     }
     fun getShortMaxPrice(no: String) {
         viewModelScope.launch {
-            repository.getCurrentPrice(no).collect {
+            getCurrentPriceUseCase(no).collect {
                 shortMax.value = it.prpr.stck_mxpr
             }
 
@@ -50,48 +59,48 @@ class AutoTradingViewModel @Inject constructor(private val repository: Repositor
 
     fun getLongTimePrice(no: String) {
         viewModelScope.launch {
-            repository.getTimePrice(
+            getTimePriceUseCase(
                 no
             ).let {
-                Log.d("test", it.body()!!.chartPrice[0].stck_prpr.toString()) // 930분봉 종가
-                longTimePrice.value = it.body()!!.chartPrice[0].stck_prpr
+                Log.d("test", it.chartPrice[0].stck_prpr.toString()) // 930분봉 종가
+                longTimePrice.value = it.chartPrice[0].stck_prpr
             }
         }
     }
 
     fun getShortTimePrice(no: String) {
         viewModelScope.launch {
-            repository.getTimePrice(
+            getTimePriceUseCase(
                 no
             ).let {
-                Log.d("test", it.body()!!.chartPrice[0].stck_prpr.toString()) // 930분봉 종가
-                shortTimePrice.value = it.body()!!.chartPrice[0].stck_prpr
+                Log.d("test", it.chartPrice[0].stck_prpr.toString()) // 930분봉 종가
+                shortTimePrice.value = it.chartPrice[0].stck_prpr
             }
         }
     }
 
     fun getLongStarPrice(no: String) {
         viewModelScope.launch {
-            repository.getDailyPrice(no).let {
-                longStartPrice.value = it.body()!!.DailyPriceList[0].stck_oprc.toInt()  //당일 시가
-                longYDdPrice.value = it.body()!!.DailyPriceList[1].stck_clpr.toInt()    //전일 종가
+            getDailyPriceUseCase(no).let {
+                longStartPrice.value = it.DailyPriceList[0].stck_oprc.toInt()  //당일 시가
+                longYDdPrice.value = it.DailyPriceList[1].stck_clpr.toInt()    //전일 종가
             }
         }
     }
 
     fun getShortStarPrice(no: String) {
         viewModelScope.launch {
-            repository.getDailyPrice(no).let {
-                shortStartPrice.value = it.body()!!.DailyPriceList[0].stck_oprc.toInt()  //당일 시가
-                shortYDPrice.value = it.body()!!.DailyPriceList[1].stck_clpr.toInt()    //전일 종가
+            getDailyPriceUseCase(no).let {
+                shortStartPrice.value = it.DailyPriceList[0].stck_oprc.toInt()  //당일 시가
+                shortYDPrice.value = it.DailyPriceList[1].stck_clpr.toInt()    //전일 종가
             }
         }
     }
 
     fun getCash(){
         viewModelScope.launch {
-            repository.getCash().let {
-                cashes.value = it.body()!!.cashOutput.max_buy_amt
+            getMyCashUseCase().let {
+                cashes.value = it.cashOutput.max_buy_amt
             }
         }
     }

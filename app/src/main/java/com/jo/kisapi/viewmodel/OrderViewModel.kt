@@ -6,15 +6,23 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jo.kisapi.Util
 import com.jo.kisapi.dataModel.AutoTrading
-import com.jo.kisapi.repository.Repository
+import com.jo.kisapi.usecase.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import java.text.DecimalFormat
 import javax.inject.Inject
+
 @HiltViewModel
-class OrderViewModel @Inject constructor(private val repository: Repository) : ViewModel() {
+class OrderViewModel @Inject constructor(
+    private val getCurrentPriceUseCase: GetCurrentPriceUseCase,
+    private val getDailyPriceUseCase: GetDailyPriceUseCase,
+    private val getMyCashUseCase: GetMyCashUseCase,
+    private val insertTradingHistoryUseCase: InsertTradingHistoryUseCase,
+    private val postOrderBuyUseCase: PostOrderBuyUseCase,
+    private val postOrderSellUseCase: PostOrderSellUseCase,
+) : ViewModel() {
 
     val longCount = MutableLiveData<String>("1")
     val shortCount = MutableLiveData<String>("1")
@@ -45,7 +53,7 @@ class OrderViewModel @Inject constructor(private val repository: Repository) : V
 
     fun getLongCurrentPrice(no: String) {
         viewModelScope.launch {
-            repository.getCurrentPrice(no).collect {
+            getCurrentPriceUseCase(no).collect {
                 longCurrentPrice.value = it.prpr.stck_prpr
                 longChange.value = it.prpr.prdy_vrss
                 longPercent.value = it.prpr.prdy_ctrt
@@ -57,7 +65,7 @@ class OrderViewModel @Inject constructor(private val repository: Repository) : V
 
     fun getShortCurrentPrice(no: String) {
         viewModelScope.launch {
-            repository.getCurrentPrice(no).collect {
+            getCurrentPriceUseCase(no).collect {
                 shortCurrentPrice.value = it.prpr.stck_prpr
                 shortChange.value = it.prpr.prdy_vrss
                 shortPercent.value = it.prpr.prdy_ctrt
@@ -69,20 +77,20 @@ class OrderViewModel @Inject constructor(private val repository: Repository) : V
 
     fun getLongTargetPrice(no: String) {
         viewModelScope.launch {
-            repository.getDailyPrice(no).let {
-                longTargetPrice.value = (it.body()!!.DailyPriceList[0].stck_oprc.toInt() +
-                        (it.body()!!.DailyPriceList[1].stck_hgpr.toInt() - it.body()!!.DailyPriceList[1].stck_lwpr.toInt()) * 0.5).toInt()
-                longYDdPrice.value = it.body()!!.DailyPriceList[1].stck_clpr.toInt()
+            getDailyPriceUseCase(no).let {
+                longTargetPrice.value = (it.DailyPriceList[0].stck_oprc.toInt() +
+                        (it.DailyPriceList[1].stck_hgpr.toInt() - it.DailyPriceList[1].stck_lwpr.toInt()) * 0.5).toInt()
+                longYDdPrice.value = it.DailyPriceList[1].stck_clpr.toInt()
             }
         }
     }
 
     fun getShortTargetPrice(no: String) {
         viewModelScope.launch {
-            repository.getDailyPrice(no).let {
-                shortTargetPrice.value = (it.body()!!.DailyPriceList[0].stck_oprc.toInt() +
-                        (it.body()!!.DailyPriceList[1].stck_hgpr.toInt() - it.body()!!.DailyPriceList[1].stck_lwpr.toInt()) * 0.5).toInt()
-                shortYDPrice.value = it.body()!!.DailyPriceList[1].stck_clpr.toInt()
+            getDailyPriceUseCase(no).let {
+                shortTargetPrice.value = (it.DailyPriceList[0].stck_oprc.toInt() +
+                        (it.DailyPriceList[1].stck_hgpr.toInt() - it.DailyPriceList[1].stck_lwpr.toInt()) * 0.5).toInt()
+                shortYDPrice.value = it.DailyPriceList[1].stck_clpr.toInt()
             }
         }
     }
@@ -122,28 +130,12 @@ class OrderViewModel @Inject constructor(private val repository: Repository) : V
 
     fun getCash(){
         viewModelScope.launch {
-            repository.getCash().let {
-                cashes.value = it.body()!!.cashOutput.max_buy_amt
+            getMyCashUseCase().let {
+                cashes.value = it.cashOutput.max_buy_amt
             }
         }
     }
 
-   /* fun orderBuy(pdno:String, count :String) {
-        viewModelScope.launch {
-            repository.order(
-                "Bearer " + repository.dbToken(),
-                Util.buy,
-                pdno,
-                count
-            ).let {
-                msg.value = it.body()!!.msg1
-                rt_cd.value = it.body()!!.rt_cd
-                it.body()?.output?.odno.let { odno ->
-
-                }
-            }
-        }
-    }*/
     fun orderSell(pdno:String, count :String) {
        var amt = ""
         viewModelScope.launch {
@@ -152,20 +144,20 @@ class OrderViewModel @Inject constructor(private val repository: Repository) : V
             }else{
                 amt = shortMax.value.toString()
             }
-            repository.order(
-                Util.sell,
+            postOrderSellUseCase(
                 pdno,
                 "02",
                 count,
                 amt
             ).let {
-                Log.d("test",it.body().toString())
-                repository.insert(AutoTrading("A", "02", it.body()!!.output.ODNO,0))
+                insertTradingHistoryUseCase(AutoTrading("A", "02", it.output.ODNO,0))
 
             }
         }
 
     }
+
+
 
     fun longAuto(no: String) {
 
@@ -174,8 +166,7 @@ class OrderViewModel @Inject constructor(private val repository: Repository) : V
 
                     if (longTargetPrice.value!! <= longCurrentPrice.value!!.toInt()) {
 
-                        repository.order(
-                            Util.buy,
+                        postOrderBuyUseCase(
                             no,
                             "01",
                             longCount!!.value.toString(),
@@ -183,8 +174,8 @@ class OrderViewModel @Inject constructor(private val repository: Repository) : V
                         ).let {
                             try {
 
-                                msg.value = it.body()!!.msg1
-                                repository.insert(AutoTrading("A", "01", it.body()!!.output.ODNO,0))
+                                msg.value = it.msg1
+                                insertTradingHistoryUseCase(AutoTrading("A", "01", it.output.ODNO,0))
                                 auto.value = false
                                 getCash()
                                 orderSell(no, longCount.value.toString())
@@ -206,8 +197,7 @@ class OrderViewModel @Inject constructor(private val repository: Repository) : V
         viewModelScope.launch {
             while (auto.value!!) {
                 if (shortTargetPrice.value!! <= shortCurrentPrice.value!!.toInt()) {
-                    repository.order(
-                        Util.buy,
+                    postOrderBuyUseCase(
                         no,
                         "01",
                         shortCount!!.value.toString(),
@@ -216,8 +206,8 @@ class OrderViewModel @Inject constructor(private val repository: Repository) : V
                         try {
 
                             auto.value = false
-                            repository.insert(AutoTrading("A", "01", it.body()!!.output.ODNO,0))
-                            msg.value = it.body()!!.msg1
+                            insertTradingHistoryUseCase(AutoTrading("A", "01", it.output.ODNO,0))
+                            msg.value = it.msg1
                             orderSell(no, shortCount.value.toString())
                         } catch (e: Exception) {
                             auto.value = true
