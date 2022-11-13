@@ -16,6 +16,15 @@
         android:theme="@style/Theme.KISapi"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".composetest.MainActivity"
+            android:exported="false"
+            android:label="@string/title_activity_main"
+            android:theme="@style/Theme.KISapi">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".activity.AutoTradingActivity"
             android:exported="true" />
         <activity
