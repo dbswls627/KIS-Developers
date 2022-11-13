@@ -16,10 +16,34 @@
         android:theme="@style/Theme.KISapi"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".composetest.MainActivity"
+            android:name=".composetest.AutoTrading2"
             android:exported="false"
-            android:label="@string/title_activity_main"
+            android:label="@string/title_activity_auto_trading2"
             android:theme="@style/Theme.KISapi">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".composetest.AutoTrading1"
+            android:exported="false"
+            android:label="@string/title_activity_auto_trading1"
+            android:theme="@style/Theme.KISapi">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".composetest.MainActivity"
+            android:exported="true"
+            android:label=""
+            android:theme="@style/Theme.KISapi">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />

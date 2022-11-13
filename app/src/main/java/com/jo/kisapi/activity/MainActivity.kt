@@ -48,9 +48,9 @@ class MainActivity : AppCompatActivity() {
 
 
 
-        viewModel.msg.observe(this, {
+        viewModel.msg.observe(this) {
             Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
-        })
+        }
     }
 
 
