@@ -2,7 +2,6 @@ package com.jo.kisapi.composetest
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -11,8 +10,9 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
-import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,50 +35,62 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        viewModel.getTokenCheck()
+        viewModel.changeRefresh()
+
         val inquireBalanceActivityIntent = Intent(this, InquireBalanceActivity::class.java)
         val autoTrading1Intent = Intent(this, AutoTrading1::class.java)
         val autoTrading2Intent = Intent(this, AutoTrading2::class.java)
 
         setContent() {
             KISapiTheme {
-                Column(
-                    Modifier
-                        .padding(all = 10.dp)
-                        .fillMaxWidth()
-                ) {
-                    Top() { startActivity(inquireBalanceActivityIntent) }
-                    TradingView(name = "변동성 돌파 전략", -445){ startActivity(autoTrading1Intent) }
-                    TradingView(name = "일중 모멘텀 전략", 370) { startActivity(autoTrading2Intent) }
-                    TradingView(name = "준비중", 0) {}
+                Scaffold(topBar = {
+                    TopAppBar(title = {
+                        Text("Auto Trading")
+                    },
+                        backgroundColor = Color(0xFFFFFFFF),
+                        actions = {
+                            Image(
+                                modifier = Modifier
+                                    .clickable {
+                                        startActivity(
+                                            inquireBalanceActivityIntent
+                                        )
+                                    }
+                                    .padding(10.dp),
+
+                                painter = painterResource(id = R.drawable.ic_baseline_account_balance_wallet_24),
+                                contentDescription = ""
+                            )
+                        })
+                }) {
+                    Column(
+                        Modifier
+                            .padding(all = 10.dp)
+                            .fillMaxWidth()
+                    ) {
+                        TradingView(name = "변동성 돌파 전략", viewModel.aChange.value) {
+                            startActivity(
+                                autoTrading1Intent
+                            )
+                        }
+                        TradingView(name = "일중 모멘텀 전략", viewModel.bChange.value) {
+                            startActivity(
+                                autoTrading2Intent
+                            )
+                        }
+                        TradingView(name = "준비중", 0) {}
+                    }
                 }
+
             }
         }
     }
 
 }
 
-@Composable
-fun Top(onClick: () -> Unit) {
-    KISapiTheme {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(),
-            Arrangement.SpaceBetween
-        ) {
-            Text(
-                fontSize = 30.sp,
-                text = "AutoTrading",
-            )
-            Image(
-                modifier = Modifier.clickable(onClick = onClick),
-                painter = painterResource(id = R.drawable.ic_baseline_account_balance_wallet_24),
-                contentDescription = ""
-            )
-        }
-    }
-}
 
-@OptIn(ExperimentalMaterialApi::class)
+
 @Composable
 fun TradingView(name: String, amount: Int, onClick: () -> Unit) {
     KISapiTheme {
@@ -90,7 +102,7 @@ fun TradingView(name: String, amount: Int, onClick: () -> Unit) {
                 .padding(10.dp)
                 .fillMaxWidth()
                 .height(150.dp)
-                .clickable( onClick = onClick),
+                .clickable(onClick = onClick),
         ) {
             Column(
                 verticalArrangement = Arrangement.Center,
@@ -129,17 +141,42 @@ fun TradingView(name: String, amount: Int, onClick: () -> Unit) {
 fun DefaultPreview() {
 
     KISapiTheme() {
-        Column(
-            Modifier
-                .padding(all = 10.dp)
-                .fillMaxWidth()
-        ) {
-            Top() {}
-            TradingView(name = "변동성 돌파 전략", -445) { Log.d("test", "Test") }
-            TradingView(name = "일중 모멘텀 전략", 370) { Log.d("test", "Test") }
-            TradingView(name = "준비중", 0) { Log.d("test", "Test") }
+        KISapiTheme {
+            Scaffold(topBar = {
+                TopAppBar(title = {
+                    Text("Auto Trading")
+                },
+                    backgroundColor = Color(0xFFFFFFFF),
+                    actions = {
+                        Image(
+                            modifier = Modifier
+                                .clickable {
+
+                                }
+                                .padding(10.dp),
+
+                            painter = painterResource(id = R.drawable.ic_baseline_account_balance_wallet_24),
+                            contentDescription = ""
+                        )
+                    })
+            }) {
+                Column(
+                    Modifier
+                        .padding(all = 10.dp)
+                        .fillMaxWidth()
+                ) {
+                    TradingView(name = "변동성 돌파 전략", 100) {
+
+                    }
+                    TradingView(name = "일중 모멘텀 전략", -100) {
+
+                    }
+                    TradingView(name = "준비중", 0) {}
+                }
+            }
 
         }
     }
+
 }
 

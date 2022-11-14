@@ -3,6 +3,7 @@ package com.jo.kisapi.viewmodel
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
+import androidx.compose.runtime.MutableState
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,6 +12,9 @@ import com.jo.kisapi.dataModel.TokenTime
 import com.jo.kisapi.usecase.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import java.time.LocalDate
 import javax.inject.Inject
 
@@ -26,9 +30,9 @@ class MainViewModel @Inject constructor(
     private val insertTradingHistoryUseCase: InsertTradingHistoryUseCase,
 ) : ViewModel() {
 
-    val msg = MutableLiveData<String>()
-    val aChange = MutableLiveData<Int>()
-    val bChange = MutableLiveData<Int>()
+    val msg = mutableStateOf<String>("")
+    val aChange = mutableStateOf<Int>(0)
+    val bChange = mutableStateOf<Int>(0)
 
     private lateinit var aBuyList: ArrayList<String>
     private lateinit var bBuyList: ArrayList<String>

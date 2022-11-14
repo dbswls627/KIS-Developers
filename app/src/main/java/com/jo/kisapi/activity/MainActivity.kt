@@ -45,12 +45,7 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, AutoTradingActivity::class.java)
             startActivity(intent)
         }
-
-
-
-        viewModel.msg.observe(this) {
-            Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
-        }
+        
     }
 
 

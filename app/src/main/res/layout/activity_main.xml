@@ -82,7 +82,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingRight="10dp"
-                        setTextColor1="@{viewModel.aChange}"
                         android:textColor="@color/black" />
                 </LinearLayout>
 
@@ -129,7 +128,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingRight="10dp"
-                        setTextColor1="@{viewModel.bChange}"
                         android:textColor="@color/black" />
                 </LinearLayout>
 
