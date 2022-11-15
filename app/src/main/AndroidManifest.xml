@@ -18,7 +18,7 @@
         <activity
             android:name=".composetest.AutoTrading2"
             android:exported="false"
-            android:label="@string/title_activity_auto_trading2"
+            android:label=""
             android:theme="@style/Theme.KISapi">
             <meta-data
                 android:name="android.app.lib_name"
@@ -27,7 +27,7 @@
         <activity
             android:name=".composetest.AutoTrading1"
             android:exported="false"
-            android:label="@string/title_activity_auto_trading1"
+            android:label=""
             android:theme="@style/Theme.KISapi">
             <meta-data
                 android:name="android.app.lib_name"

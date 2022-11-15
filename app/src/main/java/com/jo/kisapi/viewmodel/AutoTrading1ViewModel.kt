@@ -1,21 +1,18 @@
 package com.jo.kisapi.viewmodel
 
-import android.util.Log
-import androidx.lifecycle.MutableLiveData
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.jo.kisapi.Util
 import com.jo.kisapi.dataModel.AutoTrading
 import com.jo.kisapi.usecase.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
-import java.text.DecimalFormat
 import javax.inject.Inject
 
 @HiltViewModel
-class OrderViewModel @Inject constructor(
+class AutoTrading1ViewModel @Inject constructor(
     private val getCurrentPriceUseCase: GetCurrentPriceUseCase,
     private val getDailyPriceUseCase: GetDailyPriceUseCase,
     private val getMyCashUseCase: GetMyCashUseCase,
@@ -24,39 +21,31 @@ class OrderViewModel @Inject constructor(
     private val postOrderSellUseCase: PostOrderSellUseCase,
 ) : ViewModel() {
 
-    val longCount = MutableLiveData<String>("1")
-    val shortCount = MutableLiveData<String>("1")
+    val longCount = mutableStateOf<String>("1")
+    val shortCount = mutableStateOf<String>("1")
 
     val longCurrentPrice = MutableStateFlow<Int>(0)
     val shortCurrentPrice = MutableStateFlow<Int>(0)
 
-    var longMax = MutableLiveData<Int>()
-    var shortMax = MutableLiveData<Int>()
+    var longMax = mutableStateOf<Int>(0)
+    var shortMax = mutableStateOf<Int>(0)
 
-    val longTargetPrice = MutableLiveData<Int>()
-    val shortTargetPrice = MutableLiveData<Int>()
+    val longTargetPrice = mutableStateOf<Int>(0)
+    val shortTargetPrice = mutableStateOf<Int>(0)
 
-    val longChange = MutableLiveData<Int>()
-    val shortChange = MutableLiveData<Int>()
+    val longYDPrice = mutableStateOf<Int>(0)
+    val shortYDPrice = mutableStateOf<Int>(0)
 
-    val longPercent = MutableLiveData<Double>()
-    val shortPercent = MutableLiveData<Double>()
+    val cashes = mutableStateOf<Int>(0)
+    val msg = mutableStateOf<String>("")
 
-    val longYDdPrice = MutableLiveData<Int>()
-    val shortYDPrice = MutableLiveData<Int>()
-
-    val cashes = MutableLiveData<Int>(0)
-    val msg = MutableLiveData<String>()
-
-    val auto = MutableLiveData(false)
-    val dec = DecimalFormat("#,###원")
+    val auto = mutableStateOf(false)
+    val dec = mutableStateOf("#,###원")
 
     fun getLongCurrentPrice(no: String) {
         viewModelScope.launch {
             getCurrentPriceUseCase(no).collect {
                 longCurrentPrice.value = it.prpr.stck_prpr
-                longChange.value = it.prpr.prdy_vrss
-                longPercent.value = it.prpr.prdy_ctrt
                 longMax.value = it.prpr.stck_mxpr
             }
 
@@ -67,8 +56,6 @@ class OrderViewModel @Inject constructor(
         viewModelScope.launch {
             getCurrentPriceUseCase(no).collect {
                 shortCurrentPrice.value = it.prpr.stck_prpr
-                shortChange.value = it.prpr.prdy_vrss
-                shortPercent.value = it.prpr.prdy_ctrt
                 shortMax.value = it.prpr.stck_mxpr
             }
 
@@ -80,7 +67,7 @@ class OrderViewModel @Inject constructor(
             getDailyPriceUseCase(no).let {
                 longTargetPrice.value = (it.DailyPriceList[0].stck_oprc.toInt() +
                         (it.DailyPriceList[1].stck_hgpr.toInt() - it.DailyPriceList[1].stck_lwpr.toInt()) * 0.5).toInt()
-                longYDdPrice.value = it.DailyPriceList[1].stck_clpr.toInt()
+                longYDPrice.value = it.DailyPriceList[1].stck_clpr.toInt()
             }
         }
     }

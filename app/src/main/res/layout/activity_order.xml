@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.jo.kisapi.viewmodel.OrderViewModel" />
+            type="com.jo.kisapi.viewmodel.AutoTrading1ViewModel" />
     </data>
 
     <LinearLayout
@@ -72,8 +72,6 @@
                             android:textSize="15dp" />
 
                         <TextView
-                            amt="@{viewModel.longCurrentPrice}"
-                            change="@{viewModel.longChange}"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:padding="10dp"
@@ -87,14 +85,12 @@
                             android:orientation="vertical">
 
                             <TextView
-                                setTextColor1="@{viewModel.longChange}"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/black"
                                 android:textSize="15dp" />
 
                             <TextView
-                                setTextColor2="@{viewModel.longPercent}"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/black"
@@ -128,8 +124,6 @@
                             android:textSize="15dp" />
 
                         <TextView
-                            target2="@{viewModel.longTargetPrice}"
-                            ydPrice="@{viewModel.longYDdPrice}"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="10dp"
@@ -142,15 +136,11 @@
                             android:orientation="vertical">
 
                             <TextView
-                                target="@{viewModel.longTargetPrice}"
-                                ydPrice="@{viewModel.longYDdPrice}"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textSize="15dp" />
 
                             <TextView
-                                target1="@{viewModel.longTargetPrice}"
-                                ydPrice="@{viewModel.longYDdPrice}"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textSize="15dp" />
@@ -177,7 +167,6 @@
                             android:layout_width="40dp"
                             android:layout_height="wrap_content"
                             android:gravity="left"
-                            android:onClick="@{()->viewModel.longCountMinus()}"
                             android:text="-"
                             android:textColor="@color/green"
                             android:textSize="30dp" />
@@ -191,8 +180,7 @@
                             android:ems="5"
                             android:gravity="center"
                             android:inputType="date"
-                            android:maxLength="5"
-                            android:text="@={viewModel.longCount}" />
+                            android:maxLength="5"/>
 
                         <TextView
                             android:id="@+id/plus"
@@ -200,7 +188,6 @@
                             android:layout_height="wrap_content"
                             android:background="@null"
                             android:gravity="right"
-                            android:onClick="@{()->viewModel.longCountPlus()}"
                             android:text="+"
                             android:textColor="@color/green"
                             android:textSize="30dp" />
@@ -223,8 +210,6 @@
                         android:textSize="15dp" />
 
                     <TextView
-                        count="@{viewModel.longCount}"
-                        target="@{viewModel.longMax}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColor="@color/black"
@@ -277,8 +262,6 @@
                             android:textSize="15dp" />
 
                         <TextView
-                            amt="@{viewModel.shortCurrentPrice}"
-                            change="@{viewModel.shortChange}"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:padding="10dp"
@@ -292,14 +275,12 @@
                             android:orientation="vertical">
 
                             <TextView
-                                setTextColor1="@{viewModel.shortChange}"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/black"
                                 android:textSize="15dp" />
 
                             <TextView
-                                setTextColor2="@{viewModel.shortPercent}"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/black"
@@ -333,8 +314,6 @@
                             android:textSize="15dp" />
 
                         <TextView
-                            target2="@{viewModel.shortTargetPrice}"
-                            ydPrice="@{viewModel.shortYDPrice}"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="10dp"
@@ -347,15 +326,11 @@
                             android:orientation="vertical">
 
                             <TextView
-                                target="@{viewModel.shortTargetPrice}"
-                                ydPrice="@{viewModel.shortYDPrice}"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textSize="15dp" />
 
                             <TextView
-                                target1="@{viewModel.shortTargetPrice}"
-                                ydPrice="@{viewModel.shortYDPrice}"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textSize="15dp" />
@@ -382,7 +357,6 @@
                             android:layout_width="40dp"
                             android:layout_height="wrap_content"
                             android:gravity="left"
-                            android:onClick="@{()->viewModel.shortCountMinus()}"
                             android:text="-"
                             android:textColor="@color/green"
                             android:textSize="30dp" />
@@ -397,15 +371,13 @@
                             android:gravity="center"
                             android:inputType="date"
                             android:maxLength="5"
-                            android:text="@={viewModel.shortCount}" />
-
+/>
                         <TextView
                             android:id="@+id/plus2"
                             android:layout_width="40dp"
                             android:layout_height="wrap_content"
                             android:background="@null"
                             android:gravity="right"
-                            android:onClick="@{()->viewModel.shortCountPlus()}"
                             android:text="+"
                             android:textColor="@color/green"
                             android:textSize="30dp" />
@@ -427,8 +399,6 @@
                         android:textSize="15dp" />
 
                     <TextView
-                        count="@{viewModel.shortCount}"
-                        target="@{viewModel.shortMax}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColor="@color/black"
@@ -459,7 +429,6 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{viewModel.dec.format(viewModel.cashes)}"
                 android:textColor="@color/black"
                 android:textSize="15dp" />
         </LinearLayout>

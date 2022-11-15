@@ -5,18 +5,15 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.lifecycleScope
 import com.jo.kisapi.R
 import com.jo.kisapi.databinding.ActivityOrderBinding
-import com.jo.kisapi.viewmodel.OrderViewModel
+import com.jo.kisapi.viewmodel.AutoTrading1ViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class OrderActivity : AppCompatActivity() {
     private lateinit var binding: ActivityOrderBinding
-    private val viewModel: OrderViewModel by viewModels()
+    private val viewModel: AutoTrading1ViewModel by viewModels()
 
     var longPosition: String = "069500"
     var shortPosition: String = "114800"
@@ -61,23 +58,6 @@ class OrderActivity : AppCompatActivity() {
             }catch (e:Exception){
             }
         }
-        viewModel.auto.observe(this, {
-
-            if (it) {
-                binding.order.progress = 50
-                binding.order.text = "취소"
-                setEnable(false)
-            } else {
-                binding.order.progress = 0
-                binding.order.text = "주문"
-                setEnable(true)
-            }
-        })
-
-        viewModel.msg.observe(this, {
-            Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
-
-        })
 
     }
 
