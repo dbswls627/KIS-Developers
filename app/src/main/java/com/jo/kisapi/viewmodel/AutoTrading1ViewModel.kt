@@ -123,7 +123,7 @@ class AutoTrading1ViewModel @Inject constructor(
         }
     }
 
-    fun orderSell(pdno:String, count :String) {
+    private fun orderSell(pdno:String, count :String) {
        var amt = ""
         viewModelScope.launch {
             if (pdno == "069500") {

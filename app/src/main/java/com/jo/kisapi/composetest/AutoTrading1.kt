@@ -70,8 +70,12 @@ class AutoTrading1 : ComponentActivity() {
                                 viewModel.longTargetPrice.value,
                                 viewModel.longYDPrice.value
                             )
-                            count(viewModel.longCount,{viewModel.longCountPlus()},{viewModel.longCountMinus()})
-                            StockAmount()
+                            count(viewModel.longCount,
+                                viewModel.auto.value,
+                                { viewModel.longCountPlus() },
+                                { viewModel.longCountMinus() })
+                            StockAmount(viewModel.longCount, viewModel.longMax.value)
+
                         }
                         Divider(
                             color = Color.Black,
@@ -95,21 +99,47 @@ class AutoTrading1 : ComponentActivity() {
                                 viewModel.shortTargetPrice.value,
                                 viewModel.shortYDPrice.value
                             )
-                            count(viewModel.shortCount,{viewModel.shortCountPlus()},{viewModel.shortCountMinus()})
-                            StockAmount()
+                            count(viewModel.shortCount,
+                                viewModel.auto.value,
+                                { viewModel.shortCountPlus() },
+                                { viewModel.shortCountMinus() })
+                            StockAmount(viewModel.shortCount, viewModel.shortMax.value)
 
                         }
                     }
                     Divider(
-                        color = Color.Black,
-                        modifier = Modifier
-                            .fillMaxWidth()
+                        color = Color.Black, modifier = Modifier.fillMaxWidth()
                     )
                     Text(
                         modifier = Modifier.padding(10.dp),
-                        text = "주문 가능 금액: ${viewModel.cashes.value.toString()}"
+                        text = "주문 가능 금액: ${DecimalFormat("#,###").format(viewModel.cashes.value)}"
                     )
-                    Button(onClick = { /*TODO*/ }, Modifier.fillMaxWidth()) {
+                    Button(
+                        onClick = {
+                            try {
+                                if ((viewModel.longMax.value!! * viewModel.longCount.value!!.toInt() <= viewModel.cashes.value!!) && (viewModel.shortMax.value!! * viewModel.shortCount.value!!.toInt() <= viewModel.cashes.value!!)) {
+                                    //주문 시작
+                                    if (!viewModel.auto.value!!) {
+                                        viewModel.auto.value = true
+                                        //setEnable(false)
+                                        viewModel.longAuto(longPosition)
+                                        viewModel.shortAuto(shortPosition)
+
+                                        //주문 취소
+                                    } else {
+                                        viewModel.auto.value = false
+                                        //setEnable(true)
+
+                                    }
+                                } else {
+                                    //Toast.makeText(this, "보유금액이 부족합니다", Toast.LENGTH_SHORT).show()
+                                }
+                            } catch (e: Exception) {
+                            }
+                        },
+                        Modifier.fillMaxWidth(),
+                        colors = ButtonDefaults.buttonColors(backgroundColor = Color.Green)
+                    ) {
                         Text(text = "주문")
                     }
                 }
@@ -134,7 +164,7 @@ fun StockName(name: String) {
 
 //주문 개수
 @Composable()
-fun count(count: MutableState<String>, plus: () -> Unit, minus: () -> Unit) {
+fun count(count: MutableState<String>, auto: Boolean, plus: () -> Unit, minus: () -> Unit) {
     Card(
         shape = RoundedCornerShape(15.dp),
         elevation = 10.dp,
@@ -150,10 +180,8 @@ fun count(count: MutableState<String>, plus: () -> Unit, minus: () -> Unit) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                modifier = Modifier.clickable {
-                    minus()
-                },
-                color = Color(0xFF2DB532),
+                modifier = Modifier.clickable(enabled = !auto, onClick = { minus() }),
+                color = Color.Green,
                 fontSize = 30.sp,
                 text = " - "
             )
@@ -170,10 +198,8 @@ fun count(count: MutableState<String>, plus: () -> Unit, minus: () -> Unit) {
                 },
             )
             Text(
-                modifier = Modifier.clickable {
-                    plus()
-                },
-                color = Color(0xFF2DB532),
+                modifier = Modifier.clickable(enabled = !auto, onClick = { plus() }),
+                color = Color.Green,
                 fontSize = 30.sp,
                 text = " + "
             )
@@ -215,7 +241,7 @@ fun CardInfo(name: String, amount: Int, YDPrice: Int) {
                 Text(
                     fontSize = 15.sp,
                     text = if (amount - YDPrice > 0) {
-                        DecimalFormat("+#,###").format((amount - YDPrice))
+                        DecimalFormat("#,###").format((amount - YDPrice))
                     } else {
                         DecimalFormat("#,###").format((amount - YDPrice))
 
@@ -229,7 +255,7 @@ fun CardInfo(name: String, amount: Int, YDPrice: Int) {
                 )
                 Text(
                     fontSize = 15.sp,
-                    text = DecimalFormat("+##.##").format(((amount - YDPrice) * 100 / YDPrice.toDouble())) + "%",
+                    text = DecimalFormat("##.##").format(((amount - YDPrice) * 100 / YDPrice.toDouble())) + "%",
                     color = if (amount - YDPrice > 0) {
                         Color(0XFFFF0000)
                     } else {
@@ -244,16 +270,19 @@ fun CardInfo(name: String, amount: Int, YDPrice: Int) {
 
 //주문 금액
 @Composable
-fun StockAmount() {
+fun StockAmount(count: MutableState<String>, amount: Int) {
     Row(
         Modifier
             .padding(10.dp)
-            .fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween
+            .fillMaxWidth(), horizontalArrangement = Arrangement.Center
     ) {
         Text(
             fontSize = 15.sp,
-            text = " 주문금액 = 200 "
+            text = if (count.value != "") {
+                " 주문금액 ≒ ${DecimalFormat("#,###").format((count.value.toInt() * amount))}"
+            } else {
+                "주문금액 ≒ 0 "
+            }
         )
 
 
@@ -264,6 +293,12 @@ fun StockAmount() {
 @Preview()
 @Composable()
 fun test() {
-    TextField(modifier = Modifier.width(10.dp), value = "", onValueChange = {})
+    Button(
+        onClick = { /*TODO*/ },
+        Modifier.fillMaxWidth(),
+        colors = ButtonDefaults.buttonColors(backgroundColor = Color.Green)
+    ) {
+        Text(text = "주문")
+    }
 }
 
