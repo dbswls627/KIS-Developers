@@ -1,7 +1,6 @@
 package com.jo.kisapi.composetest
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -152,7 +151,7 @@ fun count(count: MutableState<String>, plus: () -> Unit, minus: () -> Unit) {
         ) {
             Text(
                 modifier = Modifier.clickable {
-
+                    minus()
                 },
                 color = Color(0xFF2DB532),
                 fontSize = 30.sp,
@@ -172,7 +171,7 @@ fun count(count: MutableState<String>, plus: () -> Unit, minus: () -> Unit) {
             )
             Text(
                 modifier = Modifier.clickable {
-                 
+                    plus()
                 },
                 color = Color(0xFF2DB532),
                 fontSize = 30.sp,
