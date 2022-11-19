@@ -1,6 +1,7 @@
 package com.jo.kisapi.composetest
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -12,9 +13,12 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -22,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.jo.kisapi.viewmodel.AutoTrading1ViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import java.text.DecimalFormat
 
 @AndroidEntryPoint
@@ -32,6 +37,7 @@ class AutoTrading1 : ComponentActivity() {
     var longPosition: String = "069500"
     var shortPosition: String = "114800"
 
+    @OptIn(ExperimentalComposeUiApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -42,8 +48,11 @@ class AutoTrading1 : ComponentActivity() {
         viewModel.getShortCurrentPrice(shortPosition)
 
         setContent {
+            val scaffoldState = rememberScaffoldState()
+            val scope = rememberCoroutineScope()
+            val keyboardController = LocalSoftwareKeyboardController.current
             Scaffold(
-                scaffoldState = rememberScaffoldState(),
+                scaffoldState = scaffoldState,
                 topBar = {
                     TopAppBar(title = {
                         Text("변동성 돌파 전략")
@@ -117,9 +126,12 @@ class AutoTrading1 : ComponentActivity() {
                     Button(
                         onClick = {
                             try {
-                                if ((viewModel.longMax.value!! * viewModel.longCount.value!!.toInt() <= viewModel.cashes.value!!) && (viewModel.shortMax.value!! * viewModel.shortCount.value!!.toInt() <= viewModel.cashes.value!!)) {
+                                if ((viewModel.longMax.value!! * viewModel.longCount.value!!.toInt() <= viewModel.cashes.value!!) &&
+                                    (viewModel.shortMax.value!! * viewModel.shortCount.value!!.toInt() <= viewModel.cashes.value!!)) {
                                     //주문 시작
                                     if (!viewModel.auto.value!!) {
+                                        Log.d("Test", "a")
+
                                         viewModel.auto.value = true
                                         //setEnable(false)
                                         viewModel.longAuto(longPosition)
@@ -127,24 +139,30 @@ class AutoTrading1 : ComponentActivity() {
 
                                         //주문 취소
                                     } else {
+                                        Log.d("Test", "")
                                         viewModel.auto.value = false
                                         //setEnable(true)
 
                                     }
                                 } else {
+                                    scope.launch {
+                                        scaffoldState.snackbarHostState.showSnackbar("보유금액이 부족합니다.")
+                                    }
+                                    Log.d("Test", "d")
                                     //Toast.makeText(this, "보유금액이 부족합니다", Toast.LENGTH_SHORT).show()
                                 }
+                                keyboardController?.hide()
                             } catch (e: Exception) {
                             }
                         },
                         Modifier.fillMaxWidth(),
-                        colors = ButtonDefaults.buttonColors(backgroundColor = Color.Green)
+                        colors = ButtonDefaults.buttonColors(backgroundColor = if (!viewModel.auto.value) Color.Green else Color.Red)
                     ) {
-                        Text(text = "주문")
+                        Text(text = if (!viewModel.auto.value) "주문" else "취소")
                     }
                 }
-
             }
+
         }
     }
 }
