@@ -1,6 +1,7 @@
 package com.jo.kisapi.viewmodel
 
 import android.util.Log
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -22,22 +23,22 @@ class AutoTradingViewModel @Inject constructor(
 ) :
     ViewModel() {
 
-    val longStartPrice = MutableLiveData(0)
-    val shortStartPrice = MutableLiveData(0)
+    val longStartPrice = mutableStateOf<Int>(0)
+    val shortStartPrice = mutableStateOf<Int>(0)
 
-    val longTimePrice = MutableLiveData(0)
-    val shortTimePrice = MutableLiveData(0)
+    val longTimePrice = mutableStateOf<Int>(0)
+    val shortTimePrice = mutableStateOf<Int>(0)
 
-    var longMax = MutableLiveData<Int>()
-    var shortMax = MutableLiveData<Int>()
+    var longMax = mutableStateOf<Int>(0)
+    var shortMax = mutableStateOf<Int>(0)
 
-    val longYDdPrice = MutableLiveData<Int>()
-    val shortYDPrice = MutableLiveData<Int>()
+    val longYDPrice = mutableStateOf<Int>(0)
+    val shortYDPrice = mutableStateOf<Int>(0)
 
-    val cashes = MutableLiveData<Int>(0)
+    val cashes = mutableStateOf<Int>(0)
 
-    val longCount = MutableLiveData<String>("1")
-    val shortCount = MutableLiveData<String>("1")
+    val longCount = mutableStateOf<String>("1")
+    val shortCount = mutableStateOf<String>("1")
     val dec = DecimalFormat("#,###원")
 
     fun getLongMaxPrice(no: String) {
@@ -83,7 +84,7 @@ class AutoTradingViewModel @Inject constructor(
         viewModelScope.launch {
             getDailyPriceUseCase(no).let {
                 longStartPrice.value = it.DailyPriceList[0].stck_oprc.toInt()  //당일 시가
-                longYDdPrice.value = it.DailyPriceList[1].stck_clpr.toInt()    //전일 종가
+                longYDPrice.value = it.DailyPriceList[1].stck_clpr.toInt()    //전일 종가
             }
         }
     }

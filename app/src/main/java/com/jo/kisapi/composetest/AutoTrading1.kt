@@ -121,16 +121,15 @@ class AutoTrading1 : ComponentActivity() {
                     )
                     Text(
                         modifier = Modifier.padding(10.dp),
-                        text = "주문 가능 금액: ${DecimalFormat("#,###").format(viewModel.cashes.value)}"
+                        text = "주문 가능 금액 : ${DecimalFormat("#,###").format(viewModel.cashes.value)}"
                     )
                     Button(
                         onClick = {
                             try {
-                                if ((viewModel.longMax.value!! * viewModel.longCount.value!!.toInt() <= viewModel.cashes.value!!) &&
-                                    (viewModel.shortMax.value!! * viewModel.shortCount.value!!.toInt() <= viewModel.cashes.value!!)) {
+                                if ((viewModel.longMax.value * viewModel.longCount.value.toInt() <= viewModel.cashes.value) &&
+                                    (viewModel.shortMax.value * viewModel.shortCount.value.toInt() <= viewModel.cashes.value)) {
                                     //주문 시작
-                                    if (!viewModel.auto.value!!) {
-                                        Log.d("Test", "a")
+                                    if (!viewModel.auto.value) {
 
                                         viewModel.auto.value = true
                                         //setEnable(false)
@@ -139,7 +138,6 @@ class AutoTrading1 : ComponentActivity() {
 
                                         //주문 취소
                                     } else {
-                                        Log.d("Test", "")
                                         viewModel.auto.value = false
                                         //setEnable(true)
 
@@ -148,7 +146,6 @@ class AutoTrading1 : ComponentActivity() {
                                     scope.launch {
                                         scaffoldState.snackbarHostState.showSnackbar("보유금액이 부족합니다.")
                                     }
-                                    Log.d("Test", "d")
                                     //Toast.makeText(this, "보유금액이 부족합니다", Toast.LENGTH_SHORT).show()
                                 }
                                 keyboardController?.hide()
@@ -212,7 +209,7 @@ fun count(count: MutableState<String>, auto: Boolean, plus: () -> Unit, minus: (
                 onValueChange = {
                     if (3 >= it.length)
                         count.value = it.replace("([-|.|\n])".toRegex(), "")
-                    if (it == "0") count.value = " 1"
+                    if (it == "0") count.value = "1"
                 },
             )
             Text(
