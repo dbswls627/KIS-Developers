@@ -16,6 +16,15 @@
         android:theme="@style/Theme.KISapi"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".composetest.InquireBalanceActivity"
+            android:exported="false"
+            android:label="@string/title_activity_inquire_balance"
+            android:theme="@style/Theme.KISapi">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".composetest.AutoTrading2"
             android:exported="false"
             android:label=""
@@ -62,7 +71,6 @@
         <activity
             android:name=".activity.InquireBalanceActivity"
             android:exported="true" />
-
     </application>
 
 </manifest>

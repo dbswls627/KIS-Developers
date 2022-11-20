@@ -38,7 +38,7 @@ class MainActivity : ComponentActivity() {
         viewModel.getTokenCheck()
         viewModel.changeRefresh()
 
-        val inquireBalanceActivityIntent = Intent(this, InquireBalanceActivity::class.java)
+        val inquireBalanceActivityIntent = Intent(this, com.jo.kisapi.composetest.InquireBalanceActivity::class.java)
         val autoTrading1Intent = Intent(this, AutoTrading1::class.java)
         val autoTrading2Intent = Intent(this, AutoTrading2::class.java)
 
