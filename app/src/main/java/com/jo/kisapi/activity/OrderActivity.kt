@@ -9,7 +9,7 @@ import com.jo.kisapi.R
 import com.jo.kisapi.databinding.ActivityOrderBinding
 import com.jo.kisapi.viewmodel.AutoTrading1ViewModel
 import dagger.hilt.android.AndroidEntryPoint
-
+//변동성 돌파전략
 @AndroidEntryPoint
 class OrderActivity : AppCompatActivity() {
     private lateinit var binding: ActivityOrderBinding
