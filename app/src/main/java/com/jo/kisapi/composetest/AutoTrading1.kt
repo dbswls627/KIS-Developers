@@ -13,6 +13,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -34,7 +35,7 @@ class AutoTrading1 : ComponentActivity() {
 
     private val viewModel: AutoTrading1ViewModel by viewModels()
 
-    var longPosition: String = "069500"
+    private var longPosition: String = "069500"
     var shortPosition: String = "114800"
 
     @OptIn(ExperimentalComposeUiApi::class)
@@ -71,7 +72,7 @@ class AutoTrading1 : ComponentActivity() {
                             StockName("KODEX 200")
                             CardInfo(
                                 "현재가 : ",
-                                viewModel.longCurrentPrice.value,
+                                viewModel.longCurrentPrice.collectAsState().value,
                                 viewModel.longYDPrice.value
                             )
                             CardInfo(
@@ -100,7 +101,7 @@ class AutoTrading1 : ComponentActivity() {
                             StockName("KODEX 인버스")
                             CardInfo(
                                 "현재가 : ",
-                                viewModel.shortCurrentPrice.value,
+                                viewModel.shortCurrentPrice.collectAsState().value,
                                 viewModel.shortYDPrice.value
                             )
                             CardInfo(
