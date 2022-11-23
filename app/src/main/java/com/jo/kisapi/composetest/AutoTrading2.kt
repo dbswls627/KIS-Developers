@@ -28,7 +28,7 @@ import java.util.*
 
 @AndroidEntryPoint
 class AutoTrading2 : ComponentActivity() {
-
+    //일중 모멘텀 전략
     private val viewModel: AutoTradingViewModel by viewModels()
 
     var longPosition: String = "069500"
@@ -63,7 +63,7 @@ class AutoTrading2 : ComponentActivity() {
                 scaffoldState = scaffoldState,
                 topBar = {
                     TopAppBar(title = {
-                        Text("변동성 돌파 전략")
+                        Text("일중 모멘텀 전략")
                     },
                         backgroundColor = Color(0xFFFFFFFF),
                         actions = {

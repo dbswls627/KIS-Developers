@@ -3,6 +3,7 @@ package com.jo.kisapi.composetest
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -12,6 +13,7 @@ import androidx.compose.material.Card
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
@@ -19,19 +21,28 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.jo.kisapi.dataModel.output1
 import com.jo.kisapi.ui.theme.KISapiTheme
+import com.jo.kisapi.viewmodel.InquireBalanceViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import java.text.DecimalFormat
 
+
+@AndroidEntryPoint
 class InquireBalanceActivity : ComponentActivity() {
+
+    private val viewModel: InquireBalanceViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        viewModel.getCash()
+        viewModel.getInquireBalance()
+
         setContent {
-            val list = listOf<output1>(
-                output1("", "삼성", 1000, 1000f, 1000, 100, 100, 100, 100f),
-                output1("", "삼성", 1000, 1000f, 1000, 100, 100, 100, 100f)
-            )
+
             KISapiTheme {
                 Column() {
-                    Greeting()
-                    MyLazyColumn(list)
+                    Balance(viewModel)
+                    MyLazyColumn(viewModel.output1List)
                 }
 
             }
@@ -40,15 +51,15 @@ class InquireBalanceActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting() {
+fun Balance(viewModel: InquireBalanceViewModel) {
         Column(
             Modifier
-                .background(color = Color.Gray)
+                .background(color = Color(0xFFF1F1F1))
                 .fillMaxWidth()
         ) {
             Spacer(Modifier.size(20.dp))
             Text(text = "총 잔액", Modifier.padding(horizontal = 20.dp))
-            Text(text = "20000", Modifier.padding(horizontal = 20.dp))
+            Text(text = DecimalFormat("#,###원").format(viewModel.sumAmt.collectAsState().value), Modifier.padding(horizontal = 20.dp))
             Card(
                 shape = RoundedCornerShape(15.dp),
                 elevation = 10.dp,
@@ -57,11 +68,11 @@ fun Greeting() {
                     .fillMaxWidth()
             ) {
                 Column(Modifier.padding(10.dp)) {
-                    Text(text = "주문가능 : ")
-                    Text(text = "손익 :")
-                    Text(text = "수익률 ")
-                    Text(text = "매입 금액 ")
-                    Text(text = "평가 금액 ")
+                    Text(text = "주문가능 : ${viewModel.cashes.value}")
+                    Text(text = "손익 : ${viewModel.sumEvluPflsAmt.collectAsState().value}")
+                    Text(text = "수익률 : ${viewModel.rt.collectAsState().value}")
+                    Text(text = "매입 금액 : ${viewModel.sumPchsAmt.collectAsState().value}")
+                    Text(text = "평가 금액 : ${viewModel.sumEvluAmt.collectAsState().value}")
                 }
 
             }
@@ -81,6 +92,12 @@ fun Greeting() {
             )
             DataType(s1 = "", s2 = "평가수익률", s3 = "", s4 = "현재가", s5 = "평가금액")
 
+            Divider(
+                color = Color.Black,
+                modifier = Modifier
+                    .height(1.dp)
+                    .fillMaxWidth()
+            )
 
         }
 }
@@ -100,6 +117,7 @@ fun DataType(s1: String, s2: String, s3: String, s4: String, s5: String) {
             modifier = Modifier
                 .width(1.dp)
                 .fillMaxHeight()
+
         )
         Text(text = s2, Modifier.weight(1f), textAlign = TextAlign.End)
 
@@ -131,15 +149,7 @@ fun DataType(s1: String, s2: String, s3: String, s4: String, s5: String) {
 
     }
 }
-/*val pdno: String,
-val prdt_name: String,
-val hldg_qty: Int,           //보유수량
-val pchs_avg_pric: Float,      //매입평균금액
-val prpr: Int,               //현재가
-val pchs_amt: Int,           //매입금액
-val evlu_amt: Int,           //평가금액
-val evlu_pfls_amt: Int,      //평가손익금액
-val evlu_pfls_rt: Float        //평가손익률*/
+
 @Composable
 fun DataTop(output1: output1) {
     Row(
@@ -265,7 +275,7 @@ fun DefaultPreview2() {
     )
     KISapiTheme {
         Column() {
-            Greeting()
+         //   Balance()
             MyLazyColumn(list)
         }
 

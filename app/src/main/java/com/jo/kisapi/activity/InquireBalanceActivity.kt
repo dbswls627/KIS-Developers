@@ -25,7 +25,6 @@ class InquireBalanceActivity : AppCompatActivity() {
         binding.re!!.layoutManager = LinearLayoutManager(this)
 
 
-        viewModel.getInquireBalance()
         viewModel.getCash()
         viewModel.getInquireBalance()
 
